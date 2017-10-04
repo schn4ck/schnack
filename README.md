@@ -33,3 +33,10 @@ Comments are stored in a SQLite database. For a normal sized blog this should la
 ### Security
 
 Theoretically any website could include the `embed.js` script. So the first thing the script will do is to load the existing comments from the Node app, which will only permit certain, configurable domains using CORS. 
+
+### Node server endpoints
+
+* `GET /embed.js` - return the script to render the comments and the comment entry form
+* `GET /comments/:slug.json` - delivers comments for a given slug as JSON
+* `GET /authenticate/(twitter/facebook/...)` - authenticate on third-party website (opens in a popup window or something)
+* `POST /comment/:slug` - submits a new comment for a given slug, form-encoded
