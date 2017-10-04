@@ -1,6 +1,10 @@
 # simple-comments
 a simple node app for disqus-like drop-in commenting
 
+### Server requirements
+
+Just Node.
+
 ### Minimal setup drop-in
 
 The app runs as a node server that provides a JS file to be dropped into any website.
@@ -25,7 +29,6 @@ Comments are stored in a SQLite database. For a normal sized blog this should la
 * Ideally there's an admin web app that allows approving/blocking of users and approving/rejecting of comments. 
 * Each new comment triggers a [push notification](https://developer.mozilla.org/en-US/docs/Web/API/Push_API), within reasonable limits.
 * If a user is approved, all of her comments are automatically approved. If a user is blocked, all of his comments are automatically rejected. Otherwise each comment needs to be approved/rejected manually.
-
 ### Server requirements
 
 Just Node.js.
