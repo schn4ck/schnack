@@ -22,7 +22,9 @@ Comments are stored in a SQLite database.
 
 ## Comment approval via web admin with push notifications
 
-Ideally there's an admin app that lets the admin approve/reject comments or users. Each new comment triggers a [push notification](https://developer.mozilla.org/en-US/docs/Web/API/Push_API), within reasonable limits. If a user is whitelisted, all of her comments are automatically approved. If a user is blocked, all of his comments are automatically rejected. Otherwise each comment needs to be approved/rejected manually.
+* Ideally there's an admin web app that allows approving/blocking of users and approving/rejecting of comments. 
+* Each new comment triggers a [push notification](https://developer.mozilla.org/en-US/docs/Web/API/Push_API), within reasonable limits.
+* If a user is approved, all of her comments are automatically approved. If a user is blocked, all of his comments are automatically rejected. Otherwise each comment needs to be approved/rejected manually.
 
 ## Server requirements
 
