@@ -1,5 +1,5 @@
 # simple-comments
-a simple node app for disqus-like drop-in commenting
+a simple node app for disqus-like drop-in commenting on static websites
 
 ### Server requirements
 
