@@ -18,7 +18,7 @@ The app runs as a node server that provides a JS file to be dropped into any web
 
 ### Authentication
 
-Users who want to submit a comment need to authenticate using Twitter or Facebook authentication API.
+Users who want to submit a comment need to [authenticate using Twitter](http://passportjs.org/docs/twitter) or Facebook authentication API.
 
 ### Data storage
 
