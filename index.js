@@ -22,8 +22,8 @@ const queries = {
         ORDER BY comment.created_at DESC`,
     insert:
         `INSERT INTO comment
-        (user_id, slug, comment, created_at)
-        VALUES (?,?,?,datetime())`,
+        (user_id, slug, comment, created_at, approved, rejected)
+        VALUES (?,?,?,datetime(),0,0)`,
 };
 
 function init(next) {
@@ -36,7 +36,7 @@ function init(next) {
 
 function authenticate(callback) {
     // todo
-    callback(null, { user_id: 1 });
+    callback(null, { user_id: 2 });
 }
 
 function error(err, request, reply) {
@@ -60,7 +60,10 @@ function run(err, res) {
         var slug = request.params.slug;
         db.all(queries.select, [slug], (err, comments) => {
             if (error(err, request, reply)) return;
-            comments.forEach((c) => c.created_at_s = moment(c.created_at).format(config.date_format || 'MMM DD, YYYY'))
+            comments.forEach((c) => {
+                c.created_at_s = moment(c.created_at)
+                    .format(config.date_format || 'MMM DD, YYYY');
+            });
             reply.send({ slug, comments });
         });
     });
@@ -68,6 +71,8 @@ function run(err, res) {
     fastify.post('/comments/:slug', (request, reply) => {
         var slug = request.params.slug,
             comment = request.body;
+
+        console.log(comment);
         authenticate((err, res) => {
             if (error(err, request, reply)) return;
             db.run(queries.insert, [res.user_id, slug, comment], (err) => {
