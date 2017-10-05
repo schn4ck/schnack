@@ -47,4 +47,4 @@ This is not a new idea, here are a few projects that are doing almost the same t
 
 * [CoralProject Talk](https://github.com/coralproject/talk) - Node + MongoDB + Redis
 * [Discourse](https://github.com/discourse/discourse) - Ruby on Rails + PostgreSQL + Redis
-* [Commento](https://github.com/adtac/commento) - written in Go & Node
+* [Commento](https://github.com/adtac/commento) - Go + Node
