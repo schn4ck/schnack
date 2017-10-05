@@ -5,17 +5,26 @@
     "passport-twitter": "^1.0.4",
     "sqlite3": "^3.1.13"
   },
+  "scripts": {
+    "dev": "rm -f comments.db && nodemon index.js"
+  },
   "version": "0.0.1-alpha",
   "description": "a simple node app for disqus-like drop-in commenting on static websites",
   "main": "index.js",
   "repository": "git@github.com:gka/schnack.git",
   "author": "Gregor Aisch",
   "license": "LIL",
-  "contributors" : [{
-      "name" : "Gregor Aisch",
-      "web" : "https://driven-by-data.net"
-    },{
-      "name" : "Moritz Klack",
-      "web" : "https://moritzklack.com"
-  }]
+  "contributors": [
+    {
+      "name": "Gregor Aisch",
+      "web": "https://driven-by-data.net"
+    },
+    {
+      "name": "Moritz Klack",
+      "web": "https://moritzklack.com"
+    }
+  ],
+  "devDependencies": {
+    "nodemon": "^1.12.1"
+  }
 }
