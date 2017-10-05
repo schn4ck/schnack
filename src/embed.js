@@ -30,6 +30,7 @@ import template from 'lodash.template';
                         .post(JSON.stringify(body), (err, res) => {
                             if (err) console.error(err);
                             console.log(res);
+                            // todo: notify user that the comment is awaiting approval by site owner
                             refresh();
                         });
                 });
