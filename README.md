@@ -16,7 +16,7 @@ Mostly because I think that all of the above projects are too complicated or wri
 
 ### Server requirements
 
-Just Node.
+Node + SQLite.
 
 ### Minimal setup drop-in
 
