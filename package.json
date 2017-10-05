@@ -10,7 +10,7 @@
   "scripts": {
     "build": "rollup -cw",
     "test": "http-server test -o 'http://localhost:8080/'",
-    "dev": "rm -f comments.db && nodemon index.js"
+    "dev": "nodemon index.js"
   },
   "version": "0.0.1-alpha",
   "description": "a simple node app for disqus-like drop-in commenting on static websites",

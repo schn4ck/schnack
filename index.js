@@ -61,8 +61,8 @@ function run(err, res) {
         db.all(queries.select, [slug], (err, comments) => {
             if (error(err, request, reply)) return;
             comments.forEach((c) => {
-                c.created_at_s = moment(c.created_at)
-                    .format(config.date_format || 'MMM DD, YYYY');
+                var m = moment.utc(c.created_at);
+                c.created_at_s = config.date_format ? m.format(config.date_format) : m.fromNow();
             });
             reply.send({ slug, comments });
         });
