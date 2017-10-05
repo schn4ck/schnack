@@ -1,5 +1,25 @@
-# simple-comments
-a simple node app for disqus-like drop-in commenting on static websites
+# pa·lav·er
+
+[Palaver](http://www.thefreedictionary.com/palaver) is a simple node app for disqus-like drop-in commenting on static. websites
+
+### Related projects
+
+This is not a new idea, so there are a few projects that are doing almost the same thing:
+
+* [CoralProject Talk](https://github.com/coralproject/talk) - Node + MongoDB + Redis
+* [Discourse](https://github.com/discourse/discourse) - Ruby on Rails + PostgreSQL + Redis
+* [Commento](https://github.com/adtac/commento) - Go + Node
+
+### Why do we need a new project? 
+
+Mostly because I think that all of the above projects are too complicated or written in a language I don't understand well enough to be able to maintain/hack the software.
+
+### File structure
+
+* `embed.js` - the script for rendering the comments on your website
+* `index.js` - the node server serving the comments, handling new comment requests and rendering the admin backend
+* `comments.db` - a sqlite database storing your comments + user table
+* `config.json` - the file where you store API keys for twitter/facebook and the allowed domains
 
 ### Server requirements
 
@@ -41,10 +61,3 @@ Theoretically any website could include the `embed.js` script. So the first thin
 * `GET /authenticate/(twitter/facebook/...)` - authenticate on third-party website (opens in a popup window or something)
 * `POST /comment/:slug` - submits a new comment for a given slug, form-encoded
 
-## Related projects
-
-This is not a new idea, here are a few projects that are doing almost the same thing:
-
-* [CoralProject Talk](https://github.com/coralproject/talk) - Node + MongoDB + Redis
-* [Discourse](https://github.com/discourse/discourse) - Ruby on Rails + PostgreSQL + Redis
-* [Commento](https://github.com/adtac/commento) - Go + Node
