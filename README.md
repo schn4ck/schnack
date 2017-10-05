@@ -52,7 +52,7 @@ Theoretically any website could include the `embed.js` script. So the first thin
 * [index.js](index.js) - the node server serving the comments, handling new comment requests and rendering the admin backend
 * [src/embed.js](src/embed.js) - the script for rendering the comments on your website. we're using rollup to compile the script into a compact `build/embed.js`.
 * [src/schema.sql](src/schema.sql) - the database schema
-* [src/comments.jst.html](src/comments.jst.html) - the underscore template for rendering comments + form
+* [src/comments.jst.html](src/comments.jst.html) - the underscore template for rendering comments + form. this gets compiled into `build/embed.js`.
 * `comments.db` - a sqlite database storing your comments + user table (will be generated upon first run)
 * [config.json](config.tpl.json) - config file where you store API keys for twitter/facebook, trusted domains for CORS protection and some other settings
 
