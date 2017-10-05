@@ -6,12 +6,11 @@
 	<% comments.forEach((comment) => { %>
 		<li class="schnack-comment">
 			<div class="schnack-author">
-				<%= comment.name %> (<%= comment.created_at_s %>)
+				<%= comment.name %> <span class="schnack-date"><%= comment.created_at_s %></span>
 			</div>
 			<blockquote class="schnack-body">
 				<p><%= comment.comment %></p>
 			</blockquote>
-			
 		</li>
 	<% }) %>
 </ul>

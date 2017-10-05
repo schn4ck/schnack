@@ -1,3 +1,4 @@
 {
-	"admins": []
+	"admins": [],
+	"date_format": "MMMM DD, YYYY"
 }
