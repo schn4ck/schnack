@@ -40,3 +40,11 @@ Theoretically any website could include the `embed.js` script. So the first thin
 * `GET /comments/:slug.json` - delivers comments for a given slug as JSON
 * `GET /authenticate/(twitter/facebook/...)` - authenticate on third-party website (opens in a popup window or something)
 * `POST /comment/:slug` - submits a new comment for a given slug, form-encoded
+
+## Related projects
+
+This is not a new idea, here are a few projects that are doing almost the same thing:
+
+* [CoralProject Talk](https://github.com/coralproject/talk) - Node + MongoDB + Redis
+* [Discourse](https://github.com/discourse/discourse) - Ruby on Rails + PostgreSQL + Redis
+* [Commento](https://github.com/adtac/commento) - written in Go & Node
