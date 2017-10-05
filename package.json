@@ -3,6 +3,7 @@
   "dependencies": {
     "cors": "^2.8.4",
     "fastify": "^0.29.2",
+    "moment": "^2.18.1",
     "passport-twitter": "^1.0.4",
     "sqlite3": "^3.1.13"
   },

@@ -1,5 +1,6 @@
 const fs = require('fs');
 const fastify = require('fastify')();
+const moment = require('moment');
 const sqlite3 = require('sqlite3').verbose();
 
 let db = new sqlite3.Database('./comments.db', (err) => {
@@ -48,6 +49,7 @@ function error(err, request, reply) {
 function run(err, res) {
 	if (err) console.error(err.message);
 
+	// todo: limit cors to trusted domains
 	fastify.use(require('cors')());
 
 	fastify.get('/embed.js', (request, reply) => {
@@ -58,6 +60,7 @@ function run(err, res) {
 		var slug = request.params.slug;
 		db.all(queries.select, [slug], (err, comments) => {
 			if (error(err, request, reply)) return;
+			comments.forEach((c) => c.created_at_s = moment(c.created_at).format(config.date_format || 'MMM DD, YYYY'))
 			reply.send({ slug, comments });
 		});
 	});

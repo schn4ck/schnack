@@ -1,12 +1,17 @@
+<form class="schnack-post">
+	<textarea></textarea><br>
+	<button>Send comment</button>
+</form>
 <ul class="schnack-comments">
 	<% comments.forEach((comment) => { %>
 		<li class="schnack-comment">
-			<div class="schnack-body">
-				<%= comment.comment %>
-			</div>
 			<div class="schnack-author">
-				By <%= comment.name %>, on <%= comment.created_at %>
+				<%= comment.name %> (<%= comment.created_at_s %>)
 			</div>
+			<blockquote class="schnack-body">
+				<p><%= comment.comment %></p>
+			</blockquote>
+			
 		</li>
 	<% }) %>
 </ul>
