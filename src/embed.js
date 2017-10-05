@@ -17,8 +17,7 @@ import template from 'lodash.template';
         json(host+'/comments/'+slug, (err, data) => {
             if (err) console.error(err);
             console.log(data);
-            var html = tpl(data);
-            document.querySelectorAll(target)[0].innerHTML = html;
+            document.querySelectorAll(target)[0].innerHTML = tpl(data);
         });
     }
 
