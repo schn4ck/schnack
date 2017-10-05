@@ -1,6 +1,6 @@
-# pa·lav·er
+# schnack.js
 
-[Palaver](http://www.thefreedictionary.com/palaver) is a (yet to be written) simple node app for disqus-like drop-in commenting on static. websites
+[schnack.js](https://dict.leo.org/englisch-deutsch/schnack) is a (yet to be written) simple node app for disqus-like drop-in commenting on static. websites
 
 ### Related projects
 
