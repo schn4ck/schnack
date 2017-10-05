@@ -1,0 +1,22 @@
+ul.schnack-comments {
+    margin: 1em 0;
+    padding: 0;
+}
+li.schnack-comment {
+    list-style: none;
+    margin: 0 0 1.5em;
+    padding: 0;
+}
+.schnack-body {
+    position: relative;
+    margin: 10px 0 0;
+    padding: 10px 10px;
+    border-left: 4px solid #cecece;
+}
+
+.schnack-date:before { content: "("; }
+.schnack-date:after { content: ")"; }
+
+.schnack-body p {
+    margin: 0;
+}
