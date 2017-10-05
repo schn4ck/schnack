@@ -21,18 +21,18 @@ CREATE TABLE user (
 -- test data
 INSERT INTO user(name, created_at, trusted, blocked)
 	VALUES
-		("normal guy",datetime(), 0, 0),
-		("trusted guy",datetime(), 1, 0),
-		("blocked guy",datetime(), 0, 1);
+		("Normal User",datetime(), 0, 0),
+		("Trusted User",datetime(), 1, 0),
+		("Blocked User",datetime(), 0, 1);
 
 INSERT INTO comment(user_id, slug, created_at, comment, approved, rejected)
 	VALUES
-		(1,"foo", datetime(), "normal guy approved", 1, 0),
-		(1,"foo", datetime(), "normal guy rejected", 0, 1),
-		(1,"foo", datetime(), "normal guy nothing", 0, 0),
-		(2,"foo", datetime(), "trusted guy approved", 1, 0),
-		(2,"foo", datetime(), "trusted guy rejected", 0, 1),
-		(2,"foo", datetime(), "trusted guy nothing", 0, 0),
-		(3,"foo", datetime(), "blocked guy approved", 1, 0),
-		(3,"foo", datetime(), "blocked guy rejected", 0, 1),
-		(3,"foo", datetime(), "blocked guy nothing", 0, 0);
+		(1,"foo", datetime(), "This comment was written by a normal user and was approved", 1, 0),
+		(1,"foo", datetime(), "This comment was written by a normal user and was rejected", 0, 1),
+		(1,"foo", datetime(), "This comment was written by a normal user and was neither approved nor rejected", 0, 0),
+		(2,"foo", datetime(), "This comment was written by a trusted user and was approved", 1, 0),
+		(2,"foo", datetime(), "This comment was written by a trusted user and was rejected", 0, 1),
+		(2,"foo", datetime(), "This comment was written by a trusted user and was neither approved nor rejected", 0, 0),
+		(3,"foo", datetime(), "This comment was written by a blocked user and was approved", 1, 0),
+		(3,"foo", datetime(), "This comment was written by a blocked user and was rejected", 0, 1),
+		(3,"foo", datetime(), "This comment was written by a blocked user and was neither approved nor rejected", 0, 0);

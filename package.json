@@ -7,8 +7,7 @@
     "sqlite3": "^3.1.13"
   },
   "scripts": {
-    "build-embed": "rollup -c",
-    "build-template": "ejs-compile src/comments.ejs -o build",
+    "build": "rollup -cw",
     "test": "http-server test -o 'http://localhost:8080/'",
     "dev": "rm -f comments.db && nodemon index.js"
   },
@@ -31,7 +30,6 @@
   "devDependencies": {
     "d3-request": "^1.0.6",
     "d3-selection": "^1.1.0",
-    "ejs-compile": "^0.0.1",
     "http-server": "^0.10.0",
     "lodash.template": "^4.4.0",
     "nodemon": "^1.12.1",

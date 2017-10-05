@@ -17,7 +17,8 @@ const queries = {
 		`SELECT user_id, user.name, comment.created_at, comment
 		FROM comment INNER JOIN user ON (user_id=user.id)
 		WHERE NOT user.blocked AND NOT comment.rejected
-		AND (comment.approved OR user.trusted) AND slug = ?`,
+		AND (comment.approved OR user.trusted) AND slug = ?
+		ORDER BY comment.created_at DESC`,
 	insert:
 		`INSERT INTO comment
 		(user_id, slug, comment, created_at)
