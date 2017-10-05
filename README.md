@@ -14,13 +14,6 @@ This is not a new idea, so there are a few projects that are doing almost the sa
 
 Mostly because I think that all of the above projects are too complicated or written in a language I don't understand well enough to be able to maintain/hack the software.
 
-### File structure
-
-* `embed.js` - the script for rendering the comments on your website
-* `index.js` - the node server serving the comments, handling new comment requests and rendering the admin backend
-* `comments.db` - a sqlite database storing your comments + user table
-* `config.json` - the file where you store API keys for twitter/facebook and the allowed domains
-
 ### Server requirements
 
 Just Node.
@@ -54,10 +47,17 @@ Comments are stored in a SQLite database. For a normal sized blog this should la
 
 Theoretically any website could include the `embed.js` script. So the first thing the script will do is to load the existing comments from the Node app, which will only permit certain, configurable domains using CORS. 
 
+### File structure
+
+* `embed.js` - the script for rendering the comments on your website
+* `index.js` - the node server serving the comments, handling new comment requests and rendering the admin backend
+* `comments.db` - a sqlite database storing your comments + user table
+* `config.json` - the file where you store API keys for twitter/facebook and the allowed domains
+
 ### Node server endpoints
 
 * `GET /embed.js` - return the script to render the comments and the comment entry form
 * `GET /comments/:slug.json` - delivers comments for a given slug as JSON
 * `GET /authenticate/(twitter/facebook/...)` - authenticate on third-party website (opens in a popup window or something)
 * `POST /comment/:slug` - submits a new comment for a given slug, form-encoded
-
+* `GET /admin` - the admin backend
