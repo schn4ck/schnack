@@ -1,11 +1,15 @@
 {
   "name": "schnack",
   "dependencies": {
+    "cors": "^2.8.4",
     "fastify": "^0.29.2",
     "passport-twitter": "^1.0.4",
     "sqlite3": "^3.1.13"
   },
   "scripts": {
+    "build-embed": "rollup -c",
+    "build-template": "ejs-compile src/comments.ejs -o build",
+    "test": "http-server test -o 'http://localhost:8080/'",
     "dev": "rm -f comments.db && nodemon index.js"
   },
   "version": "0.0.1-alpha",
@@ -25,6 +29,17 @@
     }
   ],
   "devDependencies": {
-    "nodemon": "^1.12.1"
+    "d3-request": "^1.0.6",
+    "d3-selection": "^1.1.0",
+    "ejs-compile": "^0.0.1",
+    "http-server": "^0.10.0",
+    "lodash.template": "^4.4.0",
+    "nodemon": "^1.12.1",
+    "rollup-plugin-buble": "^0.16.0",
+    "rollup-plugin-commonjs": "^8.2.1",
+    "rollup-plugin-node-resolve": "^3.0.0",
+    "rollup-plugin-string": "^2.0.2",
+    "rollup-plugin-template": "^1.0.10",
+    "rollup-plugin-uglify": "^2.0.1"
   }
 }

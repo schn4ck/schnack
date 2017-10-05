@@ -8,7 +8,7 @@ let db = new sqlite3.Database('./comments.db', (err) => {
 	init(run);
 });
 
-const embedJS = fs.readFileSync('./embed.js', 'utf-8');
+const embedJS = fs.readFileSync('./build/embed.js', 'utf-8');
 
 const config = JSON.parse(fs.readFileSync('./config.json'));
 
@@ -27,7 +27,7 @@ const queries = {
 function init(next) {
 	db.all("SELECT name FROM sqlite_master WHERE type = 'table'", (err, rows) => {
 		if (err) console.error(err.message);
-		if (!rows.length) db.exec(fs.readFileSync('./schema.sql', 'utf-8'), next);
+		if (!rows.length) db.exec(fs.readFileSync('./src/schema.sql', 'utf-8'), next);
 		else next();
 	});
 }
@@ -46,6 +46,8 @@ function error(err, request, reply) {
 
 function run(err, res) {
 	if (err) console.error(err.message);
+
+	fastify.use(require('cors')());
 
 	fastify.get('/embed.js', (request, reply) => {
 		reply.type('application/javascript').send(embedJS);
