@@ -1,6 +1,6 @@
 # pa·lav·er
 
-[Palaver](http://www.thefreedictionary.com/palaver) is a simple node app for disqus-like drop-in commenting on static. websites
+[Palaver](http://www.thefreedictionary.com/palaver) is a (yet to be written) simple node app for disqus-like drop-in commenting on static. websites
 
 ### Related projects
 
