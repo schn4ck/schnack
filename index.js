@@ -8,13 +8,16 @@ let db = new sqlite3.Database('./comments.db', (err) => {
 	init(run);
 });
 
+const embedJS = fs.readFileSync('./embed.js', 'utf-8');
+
+const config = JSON.parse(fs.readFileSync('./config.json'));
+
 const queries = {
 	select:
 		`SELECT user_id, user.name, comment.created_at, comment
-		FROM comment
-		INNER JOIN user ON (user_id=user.id)
+		FROM comment INNER JOIN user ON (user_id=user.id)
 		WHERE NOT user.blocked AND NOT comment.rejected
-		  AND (comment.approved OR user.trusted) AND slug = ?`,
+		AND (comment.approved OR user.trusted) AND slug = ?`,
 	insert:
 		`INSERT INTO comment
 		(user_id, slug, comment, created_at)
@@ -44,6 +47,10 @@ function error(err, request, reply) {
 function run(err, res) {
 	if (err) console.error(err.message);
 
+	fastify.get('/embed.js', (request, reply) => {
+		reply.type('application/javascript').send(embedJS);
+	});
+
 	fastify.get('/comments/:slug', (request, reply) => {
 		var slug = request.params.slug;
 		db.all(queries.select, [slug], (err, comments) => {
@@ -61,6 +68,18 @@ function run(err, res) {
 				if (error(err, request, reply)) return;
 				reply.send({ status: 'ok' });
 			});
+		});
+	});
+
+	fastify.get('/admin', (request, reply) => {
+		authenticate((err, res) => {
+			if (error(err, request, reply)) return;
+			if (config.admins.indexOf(res.user_id) > -1) {
+				// render admin
+				reply.send({ status: 'ok' });
+			} else {
+				reply.code(403).send({ error: 'access denied' });
+			}
 		});
 	});
 
