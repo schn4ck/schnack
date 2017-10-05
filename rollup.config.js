@@ -6,16 +6,16 @@ import string from 'rollup-plugin-string';
 import uglify from 'rollup-plugin-uglify';
 
 export default {
-  input: 'src/embed.js',
-  output: {
-    file: 'build/embed.js',
-    format: 'iife'
-  },
-  plugins: [
-    string({include: 'src/*.html'}),
-    commonjs(),
-    resolve(),
-    buble(),
-    uglify()
-  ]
+    input: 'src/embed.js',
+    output: {
+        file: 'build/embed.js',
+        format: 'iife'
+    },
+    plugins: [
+        string({include: 'src/*.html'}),
+        commonjs(),
+        resolve(),
+        buble(),
+        uglify()
+    ]
 };

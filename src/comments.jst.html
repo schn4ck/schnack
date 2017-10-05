@@ -1,16 +1,16 @@
 <form class="schnack-post">
-	<textarea></textarea><br>
-	<button>Send comment</button>
+    <textarea></textarea><br>
+    <button>Send comment</button>
 </form>
 <ul class="schnack-comments">
-	<% comments.forEach((comment) => { %>
-		<li class="schnack-comment">
-			<div class="schnack-author">
-				<%= comment.name %> <span class="schnack-date"><%= comment.created_at_s %></span>
-			</div>
-			<blockquote class="schnack-body">
-				<p><%= comment.comment %></p>
-			</blockquote>
-		</li>
-	<% }) %>
+    <% comments.forEach((comment) => { %>
+        <li class="schnack-comment">
+            <div class="schnack-author">
+                <%= comment.name %> <span class="schnack-date"><%= comment.created_at_s %></span>
+            </div>
+            <blockquote class="schnack-body">
+                <p><%= comment.comment %></p>
+            </blockquote>
+        </li>
+    <% }) %>
 </ul>
