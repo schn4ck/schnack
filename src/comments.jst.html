@@ -1,7 +1,11 @@
+<% if (data.user) { %>
 <div class="schnack-form">
     <textarea class="schnack-body"></textarea><br>
     <button class="schnack-button">Send comment</button>
 </div>
+<% } else { %>
+<button class="schnack-login-twitter">Login with Twitter to post comment</button>
+<% } %>
 <ul class="schnack-comments">
     <% data.comments.forEach((comment) => { %>
         <li class="schnack-comment">
