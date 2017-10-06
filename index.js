@@ -100,6 +100,10 @@ function run(err, res) {
         });
     });
 
+    app.get('/login', (request, reply) => {
+
+    });
+
     app.post('/comments/:slug', (request, reply) => {
         const { slug } = request.params;
         const { comment } = request.body;
