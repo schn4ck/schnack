@@ -1,5 +1,8 @@
 {
     "admins": [],
     "date_format": "MMMM DD, YYYY",
-    "port": 3000
+    "port": 3000,
+    "cors": {
+        "whitelist": ["http://localhost:8080"]
+    }
 }
