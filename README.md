@@ -63,3 +63,7 @@ Theoretically any website could include the `embed.js` script. So the first thin
 * `POST /comments/:slug` - submits a new comment for a given slug, form-encoded
 * `GET /authenticate/(twitter/facebook/...)` - authenticate on third-party website (opens in a popup window or something)
 * `GET /admin` - the admin backend
+
+### Who is behind Schnack?
+
+Schnack is a happy collaboration between [Webkid](https://webkid.io/) and [Gregor Aisch](https://vis4.net).
