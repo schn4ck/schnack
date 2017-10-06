@@ -97,9 +97,9 @@ function run(err, res) {
         });
     });
 
-    app.listen(config.port, (err) => {
+    var server = app.listen(config.port || 3000, (err) => {
         if (err) throw err;
-        console.log(`server listening on ${config.port}`);
+        console.log(`server listening on ${server.address().port}`);
     });
 }
 
