@@ -2,3 +2,4 @@ node_modules/*
 yarn.lock
 comments.db
 config.json
+sessions.db

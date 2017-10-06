@@ -6,6 +6,7 @@ const bodyParser = require('body-parser');
 const moment = require('moment');
 const sqlite3 = require('sqlite3').verbose();
 const session = require('express-session');
+const SQLiteStore = require('connect-sqlite3')(session);
 const passport = require('passport');
 const TwitterStrategy = require('passport-twitter').Strategy;
 
@@ -51,13 +52,13 @@ function run(err, res) {
     if (err) return console.error(err.message);
 
     app.use(session({
-        name: 'session',
         resave: false,
-        saveUninitialized: true,
+        saveUninitialized: false,
         secret: config.oauth.secret,
         cookie: {
             domain: config.cookie_domain
-        }
+        },
+        store: new SQLiteStore({ db: 'sessions.db' })
     }));
 
     app.use(passport.initialize());

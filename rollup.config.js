@@ -4,7 +4,6 @@ import commonjs from 'rollup-plugin-commonjs';
 import buble from 'rollup-plugin-buble';
 import uglify from 'rollup-plugin-uglify';
 import jst from 'rollup-plugin-jst';
-import json from 'rollup-plugin-json';
 
 export default {
     input: 'src/embed.js',
@@ -13,7 +12,6 @@ export default {
         format: 'iife'
     },
     plugins: [
-        json(),
         jst({
           extensions: ['.html'],
           include: 'src/**.html'
