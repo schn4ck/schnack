@@ -36,6 +36,7 @@
     "nodemon": "^1.12.1",
     "rollup-plugin-buble": "^0.16.0",
     "rollup-plugin-commonjs": "^8.2.1",
+    "rollup-plugin-jst": "^1.0.1",
     "rollup-plugin-node-resolve": "^3.0.0",
     "rollup-plugin-string": "^2.0.2",
     "rollup-plugin-template": "^1.0.10",

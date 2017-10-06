@@ -3,7 +3,7 @@
     <button class="schnack-button">Send comment</button>
 </div>
 <ul class="schnack-comments">
-    <% comments.forEach((comment) => { %>
+    <% data.comments.forEach((comment) => { %>
         <li class="schnack-comment">
             <div class="schnack-author">
                 <%= comment.name %> <span class="schnack-date"><%= comment.created_at_s %></span>

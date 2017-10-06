@@ -1,6 +1,5 @@
 import {request,json} from 'd3-request';
 import comments_tpl from './comments.jst.html';
-import template from 'lodash.template';
 
 (function() {
 
@@ -12,14 +11,13 @@ import template from 'lodash.template';
     var opts = script.dataset,
         slug = opts.schnackSlug,
         endpoint = opts.schnackHost+'/comments/'+slug,
-        target = opts.schnackTarget,
-        tpl = template(comments_tpl);
+        target = opts.schnackTarget;
 
     function refresh() {
         json(endpoint, (err, data) => {
             if (err) console.error(err);
             console.log(data);
-            $(target).innerHTML = tpl(data);
+            $(target).innerHTML = comments_tpl(data);
 
             $(target + ' .schnack-button')
                 .addEventListener('click', (d) => {
