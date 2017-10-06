@@ -148,15 +148,20 @@ function run(err, res) {
         }
     });
 
-    app.get('/auth/twitter', passport.authenticate('twitter'));
+    app.get('/auth/twitter',
+        passport.authenticate('twitter')
+    );
 
-    app.get('/auth/twitter/callback', passport.authenticate(
-        'twitter', { successRedirect: '/', failureRedirect: '/login' }
-    ));
+    app.get('/auth/twitter/callback',
+        passport.authenticate('twitter', {
+            successRedirect: '/',
+            failureRedirect: '/login'
+        })
+    );
 
     app.get('/', (request, reply) => {
-        console.log(request.user);
-        reply.send({test: 'ok'});
+        const { user } = request.session;
+        reply.send({test: 'ok', user, session: request.session });
     });
 
     var server = app.listen(config.port || 3000, (err) => {

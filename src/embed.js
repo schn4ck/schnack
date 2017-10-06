@@ -9,7 +9,9 @@ import comments_tpl from './comments.jst.html';
 
     const opts = script.dataset;
     const slug = opts.schnackSlug;
-    const endpoint = `${opts.schnackHost}/comments/${slug}`;
+    const host = opts.schnackHost;
+    const endpoint = `${host}/comments/${slug}`;
+    const loginTwitter = `${host}/auth/twitter`;
     const target = opts.schnackTarget;
 
     function refresh() {
@@ -22,7 +24,16 @@ import comments_tpl from './comments.jst.html';
             console.log(data);
             $(target).innerHTML = comments_tpl(data);
 
-            $(target + ' .schnack-button').addEventListener('click', (d) => {
+            const postBtn = $(target + ' .schnack-button');
+            const twitterBtn = $(target + ' .schnack-signin-twitter');
+
+            if (twitterBtn) twitterBtn.addEventListener('click', (d) => {
+                let windowRef = window.open(
+                    loginTwitter, 'Twitter Sign-In', 'resizable,scrollbars,status,width=600,height=500'
+                );
+            });
+
+            if (postBtn) postBtn.addEventListener('click', (d) => {
                 const body = $(`${target} .schnack-body`).value;
                 const data = { comment: body };
                 fetch(endpoint, {
