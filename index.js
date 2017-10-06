@@ -1,5 +1,6 @@
 const fs = require('fs');
 const express = require('express');
+const cors = require('cors');
 const app = express();
 const bodyParser = require('body-parser');
 const moment = require('moment');
@@ -51,8 +52,16 @@ function error(err, request, reply) {
 function run(err, res) {
     if (err) return console.error(err.message);
 
-    // todo: limit cors to trusted domains
-    app.use(require('cors')());
+    app.use(cors({
+        origin: (origin, callback)  => {
+            if (typeof origin === 'undefined' || config.allow_origin.indexOf(origin) !== -1) {
+                callback(null, true);
+            } else {
+                callback(new Error('Not allowed by CORS'));
+            }
+        }
+    }));
+
     app.use(bodyParser.json());
     app.use(bodyParser.urlencoded({ extended: true }));
 
