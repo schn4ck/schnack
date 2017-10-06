@@ -11,6 +11,7 @@ import comments_tpl from './comments.jst.html';
     const slug = opts.schnackSlug;
     const endpoint = `${opts.schnackHost}/comments/${slug}`;
     const target = opts.schnackTarget;
+
     function refresh() {
         json(endpoint, (err, data) => {
             if (err) console.error(err);
