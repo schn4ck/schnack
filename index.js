@@ -31,6 +31,10 @@ const queries = {
         `INSERT INTO comment
         (user_id, slug, comment, created_at, approved, rejected)
         VALUES (?,?,?,datetime(),0,0)`,
+    find_twitter_user:
+        `SELECT id, name FROM user WHERE twitter_id = ?`,
+    create_twitter_user:
+        `INSERT INTO user ()`
 };
 
 function init(next) {
@@ -73,13 +77,13 @@ function run(err, res) {
         }
     ));
 
-    passport.serializeUser((user, done) => {
-        done(null, user.id);
-    });
+    // passport.serializeUser((user, done) => {
+    //     done(null, user.id);
+    // });
 
-    passport.deserializeUser((user, done) => {
-        done(null, user);
-    });
+    // passport.deserializeUser((user, done) => {
+    //     done(null, user);
+    // });
 
     app.use(cors({
         credentials: true,
@@ -123,6 +127,7 @@ function run(err, res) {
 
     app.get('/logout', (request, reply) => {
         delete request.session.user;
+        delete request.session.passport;
         reply.send({ status: 'ok' });
     });
 
@@ -158,6 +163,18 @@ function run(err, res) {
             failureRedirect: '/login'
         })
     );
+
+    app.get('/auth/twitter/success', (request, reply) => {
+        const twitter_id = request.session.passport.user;
+        db.get(queries.find_twitter_user, [twitter_id], (err, row) => {
+            if (error(err, request, reply)) return;
+            if (row) request.session.user = row;
+            else {
+                // hello new twitter user!
+            }
+            reply.send({ status: 'ok' });
+        });
+    });
 
     app.get('/', (request, reply) => {
         const { user } = request.session;
