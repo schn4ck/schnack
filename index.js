@@ -52,7 +52,8 @@ function run(err, res) {
 
     app.use(session({
         name: 'session',
-        secret: config.oauth.secret
+        secret: config.oauth.secret,
+        domain: config.cookie_domain
     }));
 
     app.use(passport.initialize());

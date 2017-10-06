@@ -2,6 +2,7 @@
     "admins": [],
     "date_format": "MMMM DD, YYYY",
     "port": 3000,
+    "cookie_domain": ".mysite.com",
     "allow_origin": ["http://localhost:8080"],
     "oauth": {
         "secret": "xxxxx",
