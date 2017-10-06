@@ -3,8 +3,8 @@ const fastify = require('fastify')();
 const moment = require('moment');
 const sqlite3 = require('sqlite3').verbose();
 
-let db = new sqlite3.Database('./comments.db', (err) => {
-    if (err) console.error(err.message);
+const db = new sqlite3.Database('./comments.db', (err) => {
+    if (err) return console.error(err.message);
     console.log('connected to db.');
     init(run);
 });
@@ -28,7 +28,7 @@ const queries = {
 
 function init(next) {
     db.all("SELECT name FROM sqlite_master WHERE type = 'table'", (err, rows) => {
-        if (err) console.error(err.message);
+        if (err) return console.error(err.message);
         if (!rows.length) db.exec(fs.readFileSync('./src/schema.sql', 'utf-8'), next);
         else next();
     });
@@ -47,7 +47,7 @@ function error(err, request, reply) {
 }
 
 function run(err, res) {
-    if (err) console.error(err.message);
+    if (err) return console.error(err.message);
 
     // todo: limit cors to trusted domains
     fastify.use(require('cors')());
@@ -57,11 +57,11 @@ function run(err, res) {
     });
 
     fastify.get('/comments/:slug', (request, reply) => {
-        var slug = request.params.slug;
+        const { slug }  = request.params;
         db.all(queries.select, [slug], (err, comments) => {
             if (error(err, request, reply)) return;
             comments.forEach((c) => {
-                var m = moment.utc(c.created_at);
+                const m = moment.utc(c.created_at);
                 c.created_at_s = config.date_format ? m.format(config.date_format) : m.fromNow();
             });
             reply.send({ slug, comments });
@@ -69,8 +69,8 @@ function run(err, res) {
     });
 
     fastify.post('/comments/:slug', (request, reply) => {
-        var slug = request.params.slug,
-            comment = request.body;
+        const { slug } = request.params;
+        const comment = request.body;
 
         console.log(comment);
         authenticate((err, res) => {
