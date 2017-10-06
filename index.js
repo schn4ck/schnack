@@ -77,6 +77,7 @@ function run(err, res) {
     });
 
     app.use(cors({
+        credentials: true,
         origin: (origin, callback)  => {
             if (typeof origin === 'undefined' || config.allow_origin.indexOf(origin) !== -1) {
                 callback(null, true);
