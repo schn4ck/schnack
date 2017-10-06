@@ -14,7 +14,7 @@ import comments_tpl from './comments.jst.html';
 
     function refresh() {
         fetch(endpoint, {
-            withCredentials: true,
+            credentials: 'include',
             headers: { 'Content-Type': 'application/json' }
         })
         .then( r => r.json() )
@@ -26,7 +26,7 @@ import comments_tpl from './comments.jst.html';
                 const body = $(`${target} .schnack-body`).value;
                 const data = { comment: body };
                 fetch(endpoint, {
-                    withCredentials: true,
+                    credentials: 'include',
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(data)
