@@ -52,8 +52,12 @@ function run(err, res) {
 
     app.use(session({
         name: 'session',
+        resave: false,
+        saveUninitialized: true,
         secret: config.oauth.secret,
-        domain: config.cookie_domain
+        cookie: {
+            domain: config.cookie_domain
+        }
     }));
 
     app.use(passport.initialize());
@@ -97,6 +101,7 @@ function run(err, res) {
     app.get('/comments/:slug', (request, reply) => {
         const { slug } = request.params;
         const { user } = request.session;
+
         db.all(queries.select, [slug], (err, comments) => {
             if (error(err, request, reply)) return;
             comments.forEach((c) => {
