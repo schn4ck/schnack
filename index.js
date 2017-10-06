@@ -54,7 +54,7 @@ function run(err, res) {
 
     app.use(cors({
         origin: (origin, callback)  => {
-            if (typeof origin === 'undefined' || config.cors.whitelist.indexOf(origin) !== -1) {
+            if (typeof origin === 'undefined' || config.allow_origin.indexOf(origin) !== -1) {
                 callback(null, true);
             } else {
                 callback(new Error('Not allowed by CORS'));
