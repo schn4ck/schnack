@@ -4,7 +4,7 @@
     "port": 3000,
     "allow_origin": ["http://localhost:8080"],
     "oauth": {
-        "secret": 12345,
+        "secret": "xxxxx",
         "twitter": {
             "consumer_key": "xxxxx",
             "consumer_secret": "xxxxx"
