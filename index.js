@@ -5,6 +5,9 @@ const app = express();
 const bodyParser = require('body-parser');
 const moment = require('moment');
 const sqlite3 = require('sqlite3').verbose();
+const session = require('express-session');
+const passport = require('passport');
+const TwitterStrategy = require('passport-twitter').Strategy;
 
 const db = new sqlite3.Database('./comments.db', (err) => {
     if (err) return console.error(err.message);
@@ -37,11 +40,6 @@ function init(next) {
     });
 }
 
-function authenticate(callback) {
-    // todo
-    callback(null, { user_id: 2 });
-}
-
 function error(err, request, reply) {
     if (err) {
         request.log.error(err.message);
@@ -51,6 +49,27 @@ function error(err, request, reply) {
 
 function run(err, res) {
     if (err) return console.error(err.message);
+
+    app.use(session({secret: config.oauth.secret}));
+    app.use(passport.initialize());
+    app.use(passport.session());
+
+    passport.use(new TwitterStrategy({
+            consumerKey: config.oauth.twitter.consumerKey,
+            consumerSecret: config.oauth.twitter.consumerSecret,
+            callbackURL: '/auth/twitter/callback'
+        }, (token, tokenSecret, profile, done) => {
+            done(null, profile);
+        }
+    ));
+
+    passport.serializeUser((user, done) => {
+        done(null, user.id);
+    });
+      
+    passport.deserializeUser((user, done) => {
+        done(null, user);
+    });
 
     app.use(cors({
         origin: (origin, callback)  => {
@@ -94,16 +113,22 @@ function run(err, res) {
         });
     });
 
-    app.get('/admin', (request, reply) => {
-        authenticate((err, res) => {
-            if (error(err, request, reply)) return;
-            if (config.admins.indexOf(res.user_id) > -1) {
-                // render admin
-                reply.send({ status: 'ok' });
-            } else {
-                reply.status(403).send({ error: 'access denied' });
-            }
-        });
+    app.get('/admin', passport.authenticate('twitter', { callbackURL: '/admin' }), (request, reply) => {
+        console.log(request.url, request.user);
+        if (config.admins.indexOf(request.user.id) > -1) {
+            // render admin
+            reply.send({ status: 'ok' });
+        } else {
+            reply.status(403).send({ error: 'access denied' });
+        }
+    });
+
+    app.get('/auth/twitter', passport.authenticate('twitter'));
+    app.get('/auth/twitter/callback',  passport.authenticate('twitter', { successRedirect: '/', failureRedirect: '/login' }));
+
+    app.get('/', (request, reply) => {
+        console.log(request.user);
+        reply.send({test: 'ok'})
     });
 
     app.listen(config.port, (err) => {
