@@ -40,17 +40,21 @@ function init(next) {
     });
 }
 
-function error(err, request, reply) {
+function error(err, request, reply, code) {
     if (err) {
         request.log.error(err.message);
-        reply.status(500).send({ error: err.message });
+        reply.status(code || 500).send({ error: err.message });
     }
 }
 
 function run(err, res) {
     if (err) return console.error(err.message);
 
-    app.use(session({secret: config.oauth.secret}));
+    app.use(session({
+        name: 'session',
+        secret: config.oauth.secret
+    }));
+
     app.use(passport.initialize());
     app.use(passport.session());
 
@@ -89,31 +93,40 @@ function run(err, res) {
     });
 
     app.get('/comments/:slug', (request, reply) => {
-        const { slug }  = request.params;
+        const { slug } = request.params;
+        const { user } = request.session;
         db.all(queries.select, [slug], (err, comments) => {
             if (error(err, request, reply)) return;
             comments.forEach((c) => {
                 const m = moment.utc(c.created_at);
                 c.created_at_s = config.date_format ? m.format(config.date_format) : m.fromNow();
             });
-            reply.send({ slug, comments });
+            reply.send({ user, slug, comments });
         });
     });
 
     app.get('/login', (request, reply) => {
+        request.session.user = {
+            id: 2,
+            name: 'Foo'
+        };
+        reply.send({ status: 'ok' });
+    });
 
+    app.get('/logout', (request, reply) => {
+        delete request.session.user;
+        reply.send({ status: 'ok' });
     });
 
     app.post('/comments/:slug', (request, reply) => {
         const { slug } = request.params;
         const { comment } = request.body;
+        const { user } = request.session;
 
-        authenticate((err, res) => {
+        if (!user) return error('access denied', request, reply, 403);
+        db.run(queries.insert, [user.id, slug, comment], (err) => {
             if (error(err, request, reply)) return;
-            db.run(queries.insert, [res.user_id, slug, comment], (err) => {
-                if (error(err, request, reply)) return;
-                reply.send({ status: 'ok' });
-            });
+            reply.send({ status: 'ok' });
         });
     });
 
