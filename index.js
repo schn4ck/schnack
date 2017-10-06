@@ -55,8 +55,8 @@ function run(err, res) {
     app.use(passport.session());
 
     passport.use(new TwitterStrategy({
-            consumerKey: config.oauth.twitter.consumerKey,
-            consumerSecret: config.oauth.twitter.consumerSecret,
+            consumerKey: config.oauth.twitter.consumer_key,
+            consumerSecret: config.oauth.twitter.consumer_secret,
             callbackURL: '/auth/twitter/callback'
         }, (token, tokenSecret, profile, done) => {
             done(null, profile);
@@ -66,7 +66,7 @@ function run(err, res) {
     passport.serializeUser((user, done) => {
         done(null, user.id);
     });
-      
+
     passport.deserializeUser((user, done) => {
         done(null, user);
     });
@@ -124,11 +124,14 @@ function run(err, res) {
     });
 
     app.get('/auth/twitter', passport.authenticate('twitter'));
-    app.get('/auth/twitter/callback',  passport.authenticate('twitter', { successRedirect: '/', failureRedirect: '/login' }));
+
+    app.get('/auth/twitter/callback', passport.authenticate(
+        'twitter', { successRedirect: '/', failureRedirect: '/login' }
+    ));
 
     app.get('/', (request, reply) => {
         console.log(request.user);
-        reply.send({test: 'ok'})
+        reply.send({test: 'ok'});
     });
 
     var server = app.listen(config.port || 3000, (err) => {

@@ -2,5 +2,11 @@
     "admins": [],
     "date_format": "MMMM DD, YYYY",
     "port": 3000,
-    "allow_origin": ["http://localhost:8080"]
+    "allow_origin": ["http://localhost:8080"],
+    "oauth": {
+        "twitter": {
+            "consumer_key": "xxxxx",
+            "consumer_secret": "xxxxx"
+        }
+    }
 }
