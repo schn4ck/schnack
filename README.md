@@ -59,7 +59,7 @@ Theoretically any website could include the `embed.js` script. So the first thin
 ### Node server endpoints
 
 * `GET /embed.js` - return the script to render the comments and the comment entry form
-* `GET /comments/:slug.json` - delivers comments for a given slug as JSON
+* `GET /comments/:slug` - delivers comments for a given slug as JSON
 * `POST /comments/:slug` - submits a new comment for a given slug, form-encoded
 * `GET /authenticate/(twitter/facebook/...)` - authenticate on third-party website (opens in a popup window or something)
 * `GET /admin` - the admin backend
