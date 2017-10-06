@@ -1,5 +1,7 @@
 const fs = require('fs');
-const fastify = require('fastify')();
+const express = require('express');
+const app = express();
+const bodyParser = require('body-parser');
 const moment = require('moment');
 const sqlite3 = require('sqlite3').verbose();
 
@@ -42,7 +44,7 @@ function authenticate(callback) {
 function error(err, request, reply) {
     if (err) {
         request.log.error(err.message);
-        reply.code(500).send({ error: err.message });
+        reply.status(500).send({ error: err.message });
     }
 }
 
@@ -50,13 +52,15 @@ function run(err, res) {
     if (err) return console.error(err.message);
 
     // todo: limit cors to trusted domains
-    fastify.use(require('cors')());
+    app.use(require('cors')());
+    app.use(bodyParser.json());
+    app.use(bodyParser.urlencoded({ extended: true }));
 
-    fastify.get('/embed.js', (request, reply) => {
+    app.get('/embed.js', (request, reply) => {
         reply.type('application/javascript').send(embedJS);
     });
 
-    fastify.get('/comments/:slug', (request, reply) => {
+    app.get('/comments/:slug', (request, reply) => {
         const { slug }  = request.params;
         db.all(queries.select, [slug], (err, comments) => {
             if (error(err, request, reply)) return;
@@ -68,11 +72,10 @@ function run(err, res) {
         });
     });
 
-    fastify.post('/comments/:slug', (request, reply) => {
+    app.post('/comments/:slug', (request, reply) => {
         const { slug } = request.params;
-        const comment = request.body;
+        const { comment } = request.body;
 
-        console.log(comment);
         authenticate((err, res) => {
             if (error(err, request, reply)) return;
             db.run(queries.insert, [res.user_id, slug, comment], (err) => {
@@ -82,21 +85,21 @@ function run(err, res) {
         });
     });
 
-    fastify.get('/admin', (request, reply) => {
+    app.get('/admin', (request, reply) => {
         authenticate((err, res) => {
             if (error(err, request, reply)) return;
             if (config.admins.indexOf(res.user_id) > -1) {
                 // render admin
                 reply.send({ status: 'ok' });
             } else {
-                reply.code(403).send({ error: 'access denied' });
+                reply.status(403).send({ error: 'access denied' });
             }
         });
     });
 
-    fastify.listen(3000, (err) => {
+    app.listen(config.port, (err) => {
         if (err) throw err;
-        console.log(`server listening on ${fastify.server.address().port}`);
+        console.log(`server listening on ${config.port}`);
     });
 }
 

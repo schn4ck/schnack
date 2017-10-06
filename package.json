@@ -1,8 +1,9 @@
 {
   "name": "schnack",
   "dependencies": {
+    "body-parser": "^1.18.2",
     "cors": "^2.8.4",
-    "fastify": "^0.29.2",
+    "express": "^4.16.1",
     "moment": "^2.18.1",
     "passport-twitter": "^1.0.4",
     "sqlite3": "^3.1.13"
