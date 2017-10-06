@@ -66,4 +66,4 @@ Theoretically any website could include the `embed.js` script. So the first thin
 
 ### Who is behind Schnack?
 
-Schnack is a happy collaboration between [Webkid](https://webkid.io/) and [Gregor Aisch](https://vis4.net).
+Schnack is [yet another](https://github.com/gka/canvid/) happy collaboration between [Webkid](https://webkid.io/) and [Gregor Aisch](https://vis4.net).
