@@ -1,4 +1,4 @@
-import {request,json} from 'd3-request';
+import fetch from 'unfetch';
 import comments_tpl from './comments.jst.html';
 
 (function() {
@@ -13,27 +13,31 @@ import comments_tpl from './comments.jst.html';
     const target = opts.schnackTarget;
 
     function refresh() {
-        json(endpoint, (err, data) => {
-            if (err) console.error(err);
+        fetch(endpoint, {
+            withCredentials: true,
+            headers: { 'Content-Type': 'application/json' }
+        })
+        .then( r => r.json() )
+        .then((data) => {
             console.log(data);
             $(target).innerHTML = comments_tpl(data);
 
-            $(target + ' .schnack-button')
-                .addEventListener('click', (d) => {
-                    const body = $(`${target} .schnack-body`).value;
-                    const data = { comment: body };
-                    request(endpoint)
-                        .on('beforesend', (err, req) => { req.withCredentials = true; })
-                        .mimeType('application/json')
-                        .header('Content-Type', 'application/json')
-                        .post(JSON.stringify(data), (err, res) => {
-                            if (err) console.error(err);
-                            console.log(res);
-                            // todo: notify user that the comment is awaiting approval by site owner
-                            refresh();
-                        });
+            $(target + ' .schnack-button').addEventListener('click', (d) => {
+                const body = $(`${target} .schnack-body`).value;
+                const data = { comment: body };
+                fetch(endpoint, {
+                    withCredentials: true,
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(data)
+                })
+                .then( r => r.json() )
+                .then((res) => {
+                    console.log(res.json());
+                    refresh();
                 });
-        }).on('beforesend', (err, req) => { req.withCredentials = true; });
+            });
+        });
     }
 
     refresh();

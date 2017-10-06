@@ -8,7 +8,9 @@
     "moment": "^2.18.1",
     "passport": "^0.4.0",
     "passport-twitter": "^1.0.4",
-    "sqlite3": "^3.1.13"
+    "rollup-plugin-json": "^2.3.0",
+    "sqlite3": "^3.1.13",
+    "unfetch": "^3.0.0"
   },
   "scripts": {
     "build": "rollup -cw",
@@ -32,7 +34,6 @@
     }
   ],
   "devDependencies": {
-    "d3-request": "^1.0.6",
     "d3-selection": "^1.1.0",
     "http-server": "^0.10.0",
     "lodash.template": "^4.4.0",
