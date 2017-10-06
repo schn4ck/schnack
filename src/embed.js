@@ -23,6 +23,7 @@ import comments_tpl from './comments.jst.html';
                     const body = $(`${target} .schnack-body`).value;
                     const data = { comment: body };
                     request(endpoint)
+                        .on('beforesend', (req) => { req.withCredentials = true; })
                         .mimeType('application/json')
                         .header('Content-Type', 'application/json')
                         .post(JSON.stringify(data), (err, res) => {
@@ -32,7 +33,7 @@ import comments_tpl from './comments.jst.html';
                             refresh();
                         });
                 });
-        });
+        }).on('beforesend', (req) => { req.withCredentials = true; });
     }
 
     refresh();
