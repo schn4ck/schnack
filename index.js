@@ -25,15 +25,25 @@ const embedJS = fs.readFileSync('./build/embed.js', 'utf-8');
 const config = JSON.parse(fs.readFileSync('./config.json'));
 
 const queries = {
-    select:
-        `SELECT user_id, user.name, user.display_name, comment.created_at, comment
+    get_comments:
+        `SELECT user_id, user.name, user.display_name,
+          comment.created_at, comment, approved
         FROM comment INNER JOIN user ON (user_id=user.id)
-        WHERE NOT user.blocked AND NOT comment.rejected
-        AND (comment.approved OR user.trusted) AND slug = ?
+        WHERE slug = ? AND ((
+          NOT user.blocked AND NOT comment.rejected
+          AND (comment.approved OR user.trusted))
+          OR user.id = ?)
+        ORDER BY comment.created_at DESC`,
+    admin_get_comments:
+        `SELECT user_id, user.name, user.display_name,
+          comment.created_at, comment, approved, trusted
+        FROM comment INNER JOIN user ON (user_id=user.id)
+        WHERE slug = ? AND NOT user.blocked
+          AND NOT comment.rejected
         ORDER BY comment.created_at DESC`,
     awaiting_moderation:
-        `SELECT comment.id, slug, comment.created_at FROM comment
-         INNER JOIN user ON (user_id=user.id)
+        `SELECT comment.id, slug, comment.created_at
+        FROM comment INNER JOIN user ON (user_id=user.id)
         WHERE NOT user.blocked AND NOT user.trusted AND
          NOT comment.rejected AND NOT comment.approved
          ORDER BY comment.created_at DESC LIMIT 20`,
@@ -63,7 +73,7 @@ function init(next) {
 
 function error(err, request, reply, code) {
     if (err) {
-        request.log.error(err.message);
+        console.error(err.message);
         reply.status(code || 500).send({ error: err.message });
     }
 }
@@ -147,7 +157,15 @@ function run(err, res) {
         const { slug } = request.params;
         const { user } = request.session.passport || {};
 
-        db.all(queries.select, [slug], (err, comments) => {
+        let query = queries.get_comments;
+        let args = [slug, user ? user.id : -1];
+
+        if (user && user.id && config.admins.indexOf(user.id) > -1) {
+            query = queries.get_comments;
+            args.length = 1;
+        }
+
+        db.all(query, args, (err, comments) => {
             if (error(err, request, reply)) return;
             comments.forEach((c) => {
                 const m = moment.utc(c.created_at);
