@@ -41,6 +41,14 @@ const queries = {
         WHERE slug = ? AND NOT user.blocked
           AND NOT comment.rejected
         ORDER BY comment.created_at DESC`,
+    approve:
+        `UPDATE comment SET approved = 1 WHERE id = ? LIMIT 1`,
+    reject:
+        `UPDATE comment SET rejected = 1 WHERE id = ? LIMIT 1`,
+    trust:
+        `UPDATE user SET trusted = 1 WHERE id = ? LIMIT 1`,
+    block:
+        `UPDATE user SET blocked = 1 WHERE id = ? LIMIT 1`,
     awaiting_moderation:
         `SELECT comment.id, slug, comment.created_at
         FROM comment INNER JOIN user ON (user_id=user.id)
@@ -76,6 +84,10 @@ function error(err, request, reply, code) {
         console.error(err.message);
         reply.status(code || 500).send({ error: err.message });
     }
+}
+
+function isAdmin(user) {
+    return user && user.id && config.admins.indexOf(user.id) > -1;
 }
 
 function run(err, res) {
@@ -160,7 +172,7 @@ function run(err, res) {
         let query = queries.get_comments;
         let args = [slug, user ? user.id : -1];
 
-        if (user && user.id && config.admins.indexOf(user.id) > -1) {
+        if (isAdmin(user)) {
             query = queries.get_comments;
             args.length = 1;
         }
@@ -196,15 +208,15 @@ function run(err, res) {
         });
     });
 
-    // admin UI
-    app.get('/admin', passport.authenticate('twitter', { callbackURL: '/admin' }), (request, reply) => {
-        console.log(request.url, request.user);
-        if (config.admins.indexOf(request.user.id) > -1) {
-            // render admin
+    // trust/block users or approve/reject comments
+    app.get(/\/(?:comment\/(\d+)\/(approve|reject))|(?:user\/(\d+)\/(trust|block))/, (request, reply) => {
+        const { user } = request.session.passport || {};
+        if (!isAdmin(user)) return reply.status(403).send(request.params);
+        const action = request.params[1] || request.params[3];
+        const target_id = +(request.params[0] || request.params[2]);
+        db.run(queries[action], target_id, (err) => {
             reply.send({ status: 'ok' });
-        } else {
-            reply.status(403).send({ error: 'access denied' });
-        }
+        });
     });
 
     // twitter auth
