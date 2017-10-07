@@ -9,6 +9,8 @@ const session = require('express-session');
 const SQLiteStore = require('connect-sqlite3')(session);
 const passport = require('passport');
 const TwitterStrategy = require('passport-twitter').Strategy;
+const GitHubStrategy = require('passport-github2').Strategy;
+const RSS = require('rss');
 
 const db = new sqlite3.Database('./comments.db', (err) => {
     if (err) return console.error(err.message);
@@ -27,6 +29,12 @@ const queries = {
         WHERE NOT user.blocked AND NOT comment.rejected
         AND (comment.approved OR user.trusted) AND slug = ?
         ORDER BY comment.created_at DESC`,
+    awaiting_moderation:
+        `SELECT comment.id, slug, comment.created_at FROM comment
+         INNER JOIN user ON (user_id=user.id)
+        WHERE NOT user.blocked AND NOT user.trusted AND
+         NOT comment.rejected AND NOT comment.approved
+         ORDER BY comment.created_at DESC LIMIT 20`,
     insert:
         `INSERT INTO comment
         (user_id, slug, comment, created_at, approved, rejected)
@@ -72,14 +80,27 @@ function run(err, res) {
     app.use(passport.initialize());
     app.use(passport.session());
 
-    passport.use(new TwitterStrategy({
-            consumerKey: config.oauth.twitter.consumer_key,
-            consumerSecret: config.oauth.twitter.consumer_secret,
-            callbackURL: '/auth/twitter/callback'
-        }, (token, tokenSecret, profile, done) => {
-            done(null, profile);
-        }
-    ));
+    if (config.oauth.twitter) {
+        passport.use(new TwitterStrategy({
+                consumerKey: config.oauth.twitter.consumer_key,
+                consumerSecret: config.oauth.twitter.consumer_secret,
+                callbackURL: '/auth/twitter/callback'
+            }, (token, tokenSecret, profile, done) => {
+                done(null, profile);
+            }
+        ));
+    }
+
+    if (config.oauth.github) {
+        passport.use(new GitHubStrategy({
+                consumerKey: config.oauth.github.client_id,
+                consumerSecret: config.oauth.github.client_secret,
+                callbackURL: '/auth/github/callback'
+            }, (token, tokenSecret, profile, done) => {
+                done(null, profile);
+            }
+        ));
+    }
 
     passport.serializeUser((user, done) => {
         db.get(queries.find_user, [user.provider, user.id], (err, row) => {
@@ -159,20 +180,54 @@ function run(err, res) {
         }
     });
 
-    app.get('/auth/twitter',
-        passport.authenticate('twitter')
-    );
+    if (config.oauth.twitter) {
+        app.get('/auth/twitter',
+            passport.authenticate('twitter')
+        );
 
-    app.get('/auth/twitter/callback',
-        passport.authenticate('twitter', {
-            successRedirect: '/',
-            failureRedirect: '/login'
-        })
-    );
+        app.get('/auth/twitter/callback',
+            passport.authenticate('twitter', {
+                successRedirect: '/',
+                failureRedirect: '/login'
+            })
+        );
+    }
+    if (config.oauth.github) {
+        app.get('/auth/github',
+            passport.authenticate('github', { scope: [ 'user:email' ] })
+        );
+
+        app.get('/auth/github/callback',
+            passport.authenticate('github', {
+                failureRedirect: '/login'
+            }, (request, reply) => {
+                reply.redirect('/');
+            })
+        );
+    }
 
     app.get('/', (request, reply) => {
         const { user } = request.session;
         reply.send({test: 'ok', user, session: request.session });
+    });
+
+    app.get('/feed', (request, reply) => {
+        var feed = new RSS({
+            title: 'Awaiting moderation',
+            site_url: config.allow_origin[0]
+        });
+        db.each(queries.awaiting_moderation, (err, row) => {
+            if (err) console.error(err.message);
+            feed.item({
+                title: `New comment on "${row.slug}"`,
+                description: `A new comment on "${row.slug}" is awaiting moderation`,
+                url: row.slug+'/'+row.id,
+                guid: row.slug+'/'+row.id,
+                date: row.created_at
+            });
+        }, (err) => {
+            reply.send(feed.xml({indent: true}));
+        });
     });
 
     var server = app.listen(config.port || 3000, (err) => {

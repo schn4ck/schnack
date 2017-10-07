@@ -8,7 +8,9 @@
     "express-session": "^1.15.6",
     "moment": "^2.18.1",
     "passport": "^0.4.0",
+    "passport-github2": "^0.1.11",
     "passport-twitter": "^1.0.4",
+    "rss": "^1.2.2",
     "sqlite3": "^3.1.13",
     "unfetch": "^3.0.0"
   },
