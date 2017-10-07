@@ -10,5 +10,11 @@
             "consumer_key": "xxxxx",
             "consumer_secret": "xxxxx"
         }
+    },
+    "notify": {
+        "pushover": {
+            "app_token": "xxxxx",
+            "user_key": "xxxxx"
+        }
     }
 }

@@ -4,6 +4,7 @@ const cors = require('cors');
 const app = express();
 const bodyParser = require('body-parser');
 const moment = require('moment');
+const countBy = require('lodash.countby');
 const sqlite3 = require('sqlite3').verbose();
 const session = require('express-session');
 const SQLiteStore = require('connect-sqlite3')(session);
@@ -11,6 +12,7 @@ const passport = require('passport');
 const TwitterStrategy = require('passport-twitter').Strategy;
 const GitHubStrategy = require('passport-github2').Strategy;
 const RSS = require('rss');
+const Pushover = require('node-pushover');
 
 const db = new sqlite3.Database('./comments.db', (err) => {
     if (err) return console.error(err.message);
@@ -48,6 +50,8 @@ const queries = {
          created_at, trusted, blocked)
         VALUES (?, ?, ?, ?, datetime(), 0, 0)`
 };
+
+const awaiting_moderation = [];
 
 function init(next) {
     db.all("SELECT name FROM sqlite_master WHERE type = 'table'", (err, rows) => {
@@ -108,7 +112,7 @@ function run(err, res) {
             // nice to meet you, new user!
             const c_args = [user.provider, user.id, user.displayName, user.username];
             db.run(queries.create_user, c_args, (err, res) => {
-                if (err) console.log(err);
+                if (err) console.error(err);
                 db.get(queries.find_user, [user.provider, user.id], (err, row) => {
                     if (row) return done(null, row);
                     console.error('no user found after insert');
@@ -153,11 +157,17 @@ function run(err, res) {
         });
     });
 
+    app.get('/test', (req, reply) => {
+        awaiting_moderation.push({ slug: ['foo', 'bar', 'mooo'][Math.floor(Math.random()*2.9)] });
+        reply.send('ok');
+    });
+
     app.get('/logout', (request, reply) => {
         delete request.session.passport;
         reply.send({ status: 'ok' });
     });
 
+    // POST new comment
     app.post('/comments/:slug', (request, reply) => {
         const { slug } = request.params;
         const { comment } = request.body;
@@ -166,10 +176,14 @@ function run(err, res) {
         if (!user) return error('access denied', request, reply, 403);
         db.run(queries.insert, [user.id, slug, comment], (err) => {
             if (error(err, request, reply)) return;
+            if (!user.blocked && !user.trusted) {
+                awaiting_moderation.push({slug});
+            }
             reply.send({ status: 'ok' });
         });
     });
 
+    // admin UI
     app.get('/admin', passport.authenticate('twitter', { callbackURL: '/admin' }), (request, reply) => {
         console.log(request.url, request.user);
         if (config.admins.indexOf(request.user.id) > -1) {
@@ -180,6 +194,7 @@ function run(err, res) {
         }
     });
 
+    // twitter auth
     if (config.oauth.twitter) {
         app.get('/auth/twitter',
             passport.authenticate('twitter')
@@ -192,6 +207,8 @@ function run(err, res) {
             })
         );
     }
+
+    // github auth
     if (config.oauth.github) {
         app.get('/auth/github',
             passport.authenticate('github', { scope: [ 'user:email' ] })
@@ -211,6 +228,7 @@ function run(err, res) {
         reply.send({test: 'ok', user, session: request.session });
     });
 
+    // rss feed of comments in need of moderation
     app.get('/feed', (request, reply) => {
         var feed = new RSS({
             title: 'Awaiting moderation',
@@ -229,6 +247,37 @@ function run(err, res) {
             reply.send(feed.xml({indent: true}));
         });
     });
+
+    // push notification apps
+    const notifier = [];
+
+    // each notification app could hook into the
+    // the notifier array
+    if (config.notify.pushover) {
+        const push = new Pushover({
+            token: config.notify.pushover.app_token,
+            user: config.notify.pushover.user_key
+        });
+        notifier.push((msg, callback) => push.send(null, msg, callback) );
+    }
+
+    // check for new comments in need of moderation
+    setInterval(() => {
+        var bySlug;
+        if (awaiting_moderation.length) {
+            bySlug = countBy(awaiting_moderation, 'slug');
+            next();
+            awaiting_moderation.length = 0;
+        }
+        function next(err) {
+            var k = Object.keys(bySlug)[0];
+            if (!k || err) return;
+            var cnt = bySlug[k],
+                msg = `${cnt} new comment${cnt>1?'s':''} on "${k}" are awaiting moderation.`;
+            delete bySlug[k];
+            notifier.forEach((f) => f(msg, next));
+        }
+    }, 10000);
 
     var server = app.listen(config.port || 3000, (err) => {
         if (err) throw err;
