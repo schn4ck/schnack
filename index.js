@@ -157,11 +157,6 @@ function run(err, res) {
         });
     });
 
-    app.get('/test', (req, reply) => {
-        awaiting_moderation.push({ slug: ['foo', 'bar', 'mooo'][Math.floor(Math.random()*2.9)] });
-        reply.send('ok');
-    });
-
     app.get('/logout', (request, reply) => {
         delete request.session.passport;
         reply.send({ status: 'ok' });
@@ -224,8 +219,7 @@ function run(err, res) {
     }
 
     app.get('/', (request, reply) => {
-        const { user } = request.session;
-        reply.send({test: 'ok', user, session: request.session });
+        reply.send({test: 'ok' });
     });
 
     // rss feed of comments in need of moderation
@@ -275,9 +269,11 @@ function run(err, res) {
             var cnt = bySlug[k],
                 msg = `${cnt} new comment${cnt>1?'s':''} on "${k}" are awaiting moderation.`;
             delete bySlug[k];
-            notifier.forEach((f) => f(msg, next));
+            setTimeout(() => {
+                notifier.forEach((f) => f(msg, next));
+            }, 1000);
         }
-    }, 10000);
+    }, 60000);
 
     var server = app.listen(config.port || 3000, (err) => {
         if (err) throw err;
