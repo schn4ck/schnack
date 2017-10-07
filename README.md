@@ -9,10 +9,13 @@ This is not a new idea, so there are a few projects that are doing almost the sa
 * [CoralProject Talk](https://github.com/coralproject/talk) - Node + MongoDB + Redis
 * [Discourse](https://github.com/discourse/discourse) - Ruby on Rails + PostgreSQL + Redis
 * [Commento](https://github.com/adtac/commento) - Go + Node
+* [Isso](https://github.com/posativ/isso/) - Python + SQLite3
 
-### Why do we need a new project? 
+### Why do we need a new project?
 
 Mostly because I think that all of the above projects are too complicated or written in a language I don't understand well enough to be able to maintain/hack the software.
+
+Also it's [Hacktoberfest](https://github.com/blog/2260-hacktoberfest-is-back).
 
 ### Server requirements
 
