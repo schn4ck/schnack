@@ -31,10 +31,14 @@ const queries = {
         `INSERT INTO comment
         (user_id, slug, comment, created_at, approved, rejected)
         VALUES (?,?,?,datetime(),0,0)`,
-    find_twitter_user:
-        `SELECT id, name FROM user WHERE twitter_id = ?`,
-    create_twitter_user:
-        `INSERT INTO user ()`
+    find_user:
+        `SELECT id, name, display_name, provider, provider_id
+        FROM user WHERE provider = ? AND provider_id = ?`,
+    create_user:
+        `INSERT INTO user
+        (provider, provider_id, display_name, name
+         created_at, trusted, blocked)
+        VALUES (?, ?, ?, ?, datetime(), 0, 0)`
 };
 
 function init(next) {
@@ -77,13 +81,25 @@ function run(err, res) {
         }
     ));
 
-    // passport.serializeUser((user, done) => {
-    //     done(null, user.id);
-    // });
+    passport.serializeUser((user, done) => {
+        db.get(queries.find_user, [user.provider, user.id], (err, row) => {
+            if (row) return done(null, row); // welcome back
+            // nice to meet you, new user!
+            const names = [user.givenName, user.middleName, user.familyName];
+            const name = names.filter(s => s).join(' ');
+            db.serialize(() => {
+                db.run(queries.create_user, [user.provider, user.id, user.display_name, name]);
+                db.get(queries.find_user, [user.provider, user.id], (err, row) => {
+                    if (row) return done(null, row);
+                    console.error('no user found after insert');
+                });
+            });
+        });
+    });
 
-    // passport.deserializeUser((user, done) => {
-    //     done(null, user);
-    // });
+    passport.deserializeUser((user, done) => {
+        done(null, { provider: user.provider, id: user.provider_id });
+    });
 
     app.use(cors({
         credentials: true,
@@ -166,14 +182,7 @@ function run(err, res) {
 
     app.get('/auth/twitter/success', (request, reply) => {
         const twitter_id = request.session.passport.user;
-        db.get(queries.find_twitter_user, [twitter_id], (err, row) => {
-            if (error(err, request, reply)) return;
-            if (row) request.session.user = row;
-            else {
-                // hello new twitter user!
-            }
-            reply.send({ status: 'ok' });
-        });
+        
     });
 
     app.get('/', (request, reply) => {
