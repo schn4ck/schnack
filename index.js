@@ -173,6 +173,7 @@ function run(err, res) {
         let args = [slug, user ? user.id : -1];
 
         if (isAdmin(user)) {
+            user.admin = true;
             query = queries.get_comments;
             args.length = 1;
         }
