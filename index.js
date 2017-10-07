@@ -120,7 +120,7 @@ function run(err, res) {
 
     app.get('/comments/:slug', (request, reply) => {
         const { slug } = request.params;
-        const { user } = request.session;
+        const { user } = request.session.passport || {};
 
         db.all(queries.select, [slug], (err, comments) => {
             if (error(err, request, reply)) return;
