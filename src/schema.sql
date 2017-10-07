@@ -14,7 +14,7 @@ CREATE TABLE user (
     display_name CHAR(128),
     provider CHAR(128),
     provider_id CHAR(128),
-    created_at TIMESTAMP NOT NULL,
+    created_at TEXT NOT NULL,
     blocked BOOLEAN,
     trusted BOOLEAN
 );
