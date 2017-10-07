@@ -9,10 +9,15 @@
 <% } %>
 <ul class="schnack-comments">
     <% data.comments.forEach((comment) => { %>
-        <li class="schnack-comment">
+        <li class="schnack-comment<% if (!comment.approved) { %> schnack-not-approved<% } %>">
             <div class="schnack-author">
                 <%= comment.name %> <span class="schnack-date"><%= comment.created_at_s %></span>
             </div>
+            <% if (!comment.approved) { %>
+            <div class="schnack-awaiting-approval">
+                This comment is still waiting for approval by the site owner. Check back later.
+            </div>
+            <% } %>
             <blockquote class="schnack-body">
                 <p><%= comment.comment %></p>
             </blockquote>
