@@ -22,7 +22,7 @@ const config = JSON.parse(fs.readFileSync('./config.json'));
 
 const queries = {
     select:
-        `SELECT user_id, user.name, comment.created_at, comment
+        `SELECT user_id, user.name, user.display_name, comment.created_at, comment
         FROM comment INNER JOIN user ON (user_id=user.id)
         WHERE NOT user.blocked AND NOT comment.rejected
         AND (comment.approved OR user.trusted) AND slug = ?
@@ -32,11 +32,11 @@ const queries = {
         (user_id, slug, comment, created_at, approved, rejected)
         VALUES (?,?,?,datetime(),0,0)`,
     find_user:
-        `SELECT id, name, display_name, provider, provider_id
-        FROM user WHERE provider = ? AND provider_id = ?`,
+        `SELECT id,name,display_name,provider,provider_id FROM user
+         WHERE provider = ? AND provider_id = ?`,
     create_user:
         `INSERT INTO user
-        (provider, provider_id, display_name, name
+        (provider, provider_id, display_name, name,
          created_at, trusted, blocked)
         VALUES (?, ?, ?, ?, datetime(), 0, 0)`
 };
@@ -85,10 +85,9 @@ function run(err, res) {
         db.get(queries.find_user, [user.provider, user.id], (err, row) => {
             if (row) return done(null, row); // welcome back
             // nice to meet you, new user!
-            const names = [user.givenName, user.middleName, user.familyName];
-            const name = names.filter(s => s).join(' ');
-            db.serialize(() => {
-                db.run(queries.create_user, [user.provider, user.id, user.display_name, name]);
+            const c_args = [user.provider, user.id, user.displayName, user.username];
+            db.run(queries.create_user, c_args, (err, res) => {
+                if (err) console.log(err);
                 db.get(queries.find_user, [user.provider, user.id], (err, row) => {
                     if (row) return done(null, row);
                     console.error('no user found after insert');
@@ -133,16 +132,7 @@ function run(err, res) {
         });
     });
 
-    app.get('/login', (request, reply) => {
-        request.session.user = {
-            id: 2,
-            name: 'Foo'
-        };
-        reply.send({ status: 'ok' });
-    });
-
     app.get('/logout', (request, reply) => {
-        delete request.session.user;
         delete request.session.passport;
         reply.send({ status: 'ok' });
     });
@@ -150,7 +140,7 @@ function run(err, res) {
     app.post('/comments/:slug', (request, reply) => {
         const { slug } = request.params;
         const { comment } = request.body;
-        const { user } = request.session;
+        const { user } = request.session.passport || {};
 
         if (!user) return error('access denied', request, reply, 403);
         db.run(queries.insert, [user.id, slug, comment], (err) => {
@@ -179,11 +169,6 @@ function run(err, res) {
             failureRedirect: '/login'
         })
     );
-
-    app.get('/auth/twitter/success', (request, reply) => {
-        const twitter_id = request.session.passport.user;
-        
-    });
 
     app.get('/', (request, reply) => {
         const { user } = request.session;
