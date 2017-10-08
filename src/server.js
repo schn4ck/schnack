@@ -27,8 +27,12 @@ dbHandler.init()
     .then(db => run(db))
     .catch(err => console.error(err.message));
 
-const schnack_domain = url.parse(config.schnack_host)
-    .host.split('.').slice(1).join('.');
+const schnack_url = url.parse(config.schnack_host);
+if (!schnack_url.host) {
+    console.error(`"${config.schnack_host}" doesn't appear to be a proper URL. Did you forget "http://"?`);
+    process.exit(-1);
+}
+const schnack_domain = schnack_url.host.split('.').slice(1).join('.');
 
 function run(db) {
     app.use(cors({
@@ -66,6 +70,7 @@ function run(db) {
                 const m = moment.utc(c.created_at);
                 c.created_at_s = config.date_format ? m.format(config.date_format) : m.fromNow();
                 c.comment = marked(c.comment.trim());
+                c.author_url = auth.getAuthorUrl(c);
             });
             reply.send({ user, auth: providers, slug, comments });
         });
