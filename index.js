@@ -13,6 +13,7 @@ const TwitterStrategy = require('passport-twitter').Strategy;
 const GitHubStrategy = require('passport-github2').Strategy;
 const RSS = require('rss');
 const Pushover = require('node-pushover');
+const marked = require('marked');
 
 const db = new sqlite3.Database('./comments.db', (err) => {
     if (err) return console.error(err.message);
@@ -23,6 +24,10 @@ const db = new sqlite3.Database('./comments.db', (err) => {
 const embedJS = fs.readFileSync('./build/embed.js', 'utf-8');
 
 const config = JSON.parse(fs.readFileSync('./config.json'));
+
+marked.setOptions({
+    sanitize: true
+});
 
 const queries = {
     get_comments:
@@ -183,6 +188,7 @@ function run(err, res) {
             comments.forEach((c) => {
                 const m = moment.utc(c.created_at);
                 c.created_at_s = config.date_format ? m.format(config.date_format) : m.fromNow();
+                c.comment = marked(c.comment);
             });
             reply.send({ user, slug, comments });
         });

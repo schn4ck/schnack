@@ -10,8 +10,9 @@
 <ul class="schnack-comments">
     <% data.comments.forEach((comment) => { %>
         <li class="schnack-comment<% if (!comment.approved) { %> schnack-not-approved<% } %>">
-            <div class="schnack-author">
-                <%= comment.name %> <span class="schnack-date"><%= comment.created_at_s %></span>
+            <div class="schnack-dateline">
+                <span class="schnack-author"><%= comment.name %></span>
+                <span class="schnack-date"><%= comment.created_at_s %>:</span>
             </div>
             <blockquote class="schnack-body">
                 <p><%= comment.comment %></p>
@@ -19,11 +20,11 @@
             <% if (!comment.approved) { %>
             <div class="schnack-awaiting-approval">
                 This comment is still waiting for <%= data.user.admin ? 'your ' : '' %>approval<%= !data.user.admin ? ' by the site owner' : ''%>.
-            </div>
                 <% if (data.user.admin) {
                 ['approve', 'reject'].forEach((action) => { %>
                 <button class="schnack-action" data-target="<%= comment.id %>" data-class="comment" data-action="<%= action %>"><%= action %></button>
                 <% }); } %>
+            </div>
             <% } %>
         </li>
     <% }) %>
