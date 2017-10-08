@@ -21,7 +21,6 @@ import comments_tpl from './comments.jst.html';
         })
         .then( r => r.json() )
         .then((data) => {
-            console.log(data);
             $(target).innerHTML = comments_tpl(data);
 
             const postBtn = $(target + ' .schnack-button');
@@ -48,6 +47,27 @@ import comments_tpl from './comments.jst.html';
                     refresh();
                 });
             });
+
+            if (data.user.admin) {
+                const action = (d) => {
+                    const btn = this;
+                    const data = btn.dataset;
+                    fetch(`/${data.class}/${data.target}/${data.action}`, {
+                        credentials: 'include',
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: ''
+                    })
+                    .then( r => r.json() )
+                    .then((res) => {
+                        console.log(res.json());
+                        refresh();
+                    });
+                };
+                document.querySelectorAll('.schnack-action').forEach((btn) => {
+                    btn.addEventListener('click', action);
+                });
+            }
         });
     }
 
