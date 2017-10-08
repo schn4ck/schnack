@@ -62,7 +62,7 @@ import comments_tpl from './comments.jst.html';
                         let windowRef = window.open(
                             `${host}/auth/${provider.id}`, provider.name+' Sign-In', 'resizable,scrollbars,status,width=600,height=500'
                         );
-                        windowRef.onbeforeunload = refresh();
+                        windowRef.onbeforeunload = refresh;
                     });
                 });
             }
