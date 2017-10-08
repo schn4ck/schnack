@@ -73,7 +73,7 @@ function init(app, db) {
             clientID: config.oauth.github.client_id,
             clientSecret: config.oauth.github.client_secret,
             callbackURL: '/auth/github/callback'
-        }, (token, tokenSecret, profile, done) => {
+        }, (accessToken, refreshToken, profile, done) => {
             done(null, profile);
         }));
 
@@ -86,9 +86,9 @@ function init(app, db) {
         app.get('/auth/github/callback',
             passport.authenticate('github', {
                 failureRedirect: '/login'
-            }, (request, reply) => {
+            }), (request, reply) => {
                 reply.redirect('/success');
-            })
+            }
         );
     }
 }
