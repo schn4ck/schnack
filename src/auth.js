@@ -60,7 +60,7 @@ function init(app, db) {
 
         app.get('/auth/twitter/callback',
             passport.authenticate('twitter', {
-                successRedirect: '/',
+                successRedirect: '/success',
                 failureRedirect: '/login'
             })
         );
@@ -87,7 +87,7 @@ function init(app, db) {
             passport.authenticate('github', {
                 failureRedirect: '/login'
             }, (request, reply) => {
-                reply.redirect('/');
+                reply.redirect('/success');
             })
         );
     }

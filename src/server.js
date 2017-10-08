@@ -100,6 +100,10 @@ function run(db) {
         });
     });
 
+    app.get('/success', (request, reply) => {
+        reply.send('<script>window.close();</script>');
+    });
+
     app.get('/', (request, reply) => {
         reply.send({test: 'ok' });
     });
