@@ -1,10 +1,7 @@
 {
-    "schnack_host": "https://schnack.mysite.com"
-    "admins": [],
-    "date_format": "MMMM DD, YYYY",
+    "schnack_host": "https://schnack.mysite.com",
     "port": 3000,
-    "cookie_domain": ".mysite.com",
-    "allow_origin": ["https://www.mysite.com"],
+    "admins": [1],
     "oauth": {
         "secret": "xxxxx",
         "twitter": {
@@ -21,5 +18,6 @@
             "app_token": "xxxxx",
             "user_key": "xxxxx"
         }
-    }
+    },
+    "date_format": "MMMM DD, YYYY - h:mm a"
 }
