@@ -49,7 +49,7 @@ function init(app, db) {
         passport.use(new TwitterStrategy({
             consumerKey: config.oauth.twitter.consumer_key,
             consumerSecret: config.oauth.twitter.consumer_secret,
-            callbackURL: '/auth/twitter/callback'
+            callbackURL: `${config.schnack_host}/auth/twitter/callback`
         }, (token, tokenSecret, profile, done) => {
             done(null, profile);
         }));
