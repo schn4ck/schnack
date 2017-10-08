@@ -15,8 +15,12 @@
             </div>
             <% if (!comment.approved) { %>
             <div class="schnack-awaiting-approval">
-                This comment is still waiting for approval by the site owner. Check back later.
+                This comment is still waiting for <%= data.user.admin ? 'your ' : '' %>approval<%= !data.user.admin ? ' by the site owner' : ''%>.
             </div>
+                <% if (data.user.admin) {
+                ['approve', 'reject'].forEach((action) => { %>
+                <button class="schnack-action" data-target="<% comment.id %>" data-class="comment" data-action="<%= action %>"><%= action %></button>
+                <% }); } %>
             <% } %>
             <blockquote class="schnack-body">
                 <p><%= comment.comment %></p>

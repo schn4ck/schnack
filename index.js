@@ -35,7 +35,7 @@ const queries = {
           OR user.id = ?)
         ORDER BY comment.created_at DESC`,
     admin_get_comments:
-        `SELECT user_id, user.name, user.display_name,
+        `SELECT user_id, user.name, user.display_name, comment.id,
           comment.created_at, comment, approved, trusted
         FROM comment INNER JOIN user ON (user_id=user.id)
         WHERE slug = ? AND NOT user.blocked
