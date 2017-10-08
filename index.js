@@ -174,7 +174,7 @@ function run(err, res) {
 
         if (isAdmin(user)) {
             user.admin = true;
-            query = queries.get_comments;
+            query = queries.admin_get_comments;
             args.length = 1;
         }
 
