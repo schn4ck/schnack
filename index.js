@@ -210,7 +210,7 @@ function run(err, res) {
     });
 
     // trust/block users or approve/reject comments
-    app.get(/\/(?:comment\/(\d+)\/(approve|reject))|(?:user\/(\d+)\/(trust|block))/, (request, reply) => {
+    app.post(/\/(?:comment\/(\d+)\/(approve|reject))|(?:user\/(\d+)\/(trust|block))/, (request, reply) => {
         const { user } = request.session.passport || {};
         if (!isAdmin(user)) return reply.status(403).send(request.params);
         const action = request.params[1] || request.params[3];
