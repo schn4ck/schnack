@@ -1,4 +1,5 @@
 const fs = require('fs');
+const url = require('url');
 const path = require('path');
 
 const express = require('express');
@@ -25,6 +26,9 @@ marked.setOptions({ sanitize: true });
 dbHandler.init()
     .then(db => run(db))
     .catch(err => console.error(err.message));
+
+const schnack_domain = url.parse(config.schnack_host)
+    .host.split('.').slice(1).join('.');
 
 function run(db) {
     app.use(cors({
@@ -189,7 +193,7 @@ function isAdmin(user) {
 
 function checkOrigin(origin, callback) {
     // origin is allowed
-    if (typeof origin === 'undefined' || config.allow_origin.indexOf(origin) !== -1) {
+    if (typeof origin === 'undefined' || `.${url.parse(origin).host}`.endsWith(`.${schnack_domain}`)) {
         return callback(null, true);
     }
 
