@@ -44,7 +44,7 @@ import comments_tpl from './comments.jst.html';
                 })
                 .then( r => r.json() )
                 .then((res) => {
-                    console.log(res.json());
+                    console.log(res);
                     refresh();
                 });
             });
@@ -61,7 +61,7 @@ import comments_tpl from './comments.jst.html';
                     })
                     .then( r => r.json() )
                     .then((res) => {
-                        console.log(res.json());
+                        console.log(res);
                         refresh();
                     });
                 };
