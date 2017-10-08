@@ -42,13 +42,13 @@ const queries = {
           AND NOT comment.rejected
         ORDER BY comment.created_at DESC`,
     approve:
-        `UPDATE comment SET approved = 1 WHERE id = ? LIMIT 1`,
+        `UPDATE comment SET approved = 1 WHERE id = ?`,
     reject:
-        `UPDATE comment SET rejected = 1 WHERE id = ? LIMIT 1`,
+        `UPDATE comment SET rejected = 1 WHERE id = ?`,
     trust:
-        `UPDATE user SET trusted = 1 WHERE id = ? LIMIT 1`,
+        `UPDATE user SET trusted = 1 WHERE id = ?`,
     block:
-        `UPDATE user SET blocked = 1 WHERE id = ? LIMIT 1`,
+        `UPDATE user SET blocked = 1 WHERE id = ?`,
     awaiting_moderation:
         `SELECT comment.id, slug, comment.created_at
         FROM comment INNER JOIN user ON (user_id=user.id)
@@ -216,6 +216,7 @@ function run(err, res) {
         const action = request.params[1] || request.params[3];
         const target_id = +(request.params[0] || request.params[2]);
         db.run(queries[action], target_id, (err) => {
+            if (error(err, request, reply)) return;
             reply.send({ status: 'ok' });
         });
     });
