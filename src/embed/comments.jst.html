@@ -24,7 +24,7 @@ To post a comment you need to sign in via<br>
             <blockquote class="schnack-body">
                 <p><%= comment.comment %></p>
             </blockquote>
-            <% if (!comment.approved) { %>
+            <% if (!comment.approved && !comment.trusted) { %>
             <div class="schnack-awaiting-approval">
                 This comment is still waiting for <%= data.user.admin ? 'your ' : '' %>approval<%= !data.user.admin ? ' by the site owner' : ''%>.
                 <% if (data.user && data.user.admin) {

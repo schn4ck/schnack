@@ -162,7 +162,7 @@ function run(db) {
                 notifier.forEach((f) => f(msg, next));
             }, 1000);
         }
-    }, 60000);
+    }, config.notification_interval || 300000); // five minutes
 
     var server = app.listen(config.port || 3000, (err) => {
         if (err) throw err;
