@@ -9,12 +9,12 @@ const config = require('../config.json');
 
 const providers = [];
 
-function init(app, db) {
+function init(app, db, domain) {
     app.use(session({
         resave: false,
         saveUninitialized: false,
         secret: config.oauth.secret,
-        cookie: { domain: config.cookie_domain },
+        cookie: { domain: `.${domain}` },
         store: new SQLiteStore({ db: 'sessions.db' })
     }));
 

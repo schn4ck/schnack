@@ -40,7 +40,7 @@ function run(db) {
     app.use(bodyParser.urlencoded({ extended: true }));
 
     // init session + passport middleware and auth routes
-    auth.init(app, db);
+    auth.init(app, db, schnack_domain);
 
     app.get('/embed.js', (request, reply) => {
         reply.type('application/javascript').send(embedJS);
