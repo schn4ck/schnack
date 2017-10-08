@@ -67,7 +67,7 @@ function run(db) {
         });
     });
 
-    app.get('/logout', (request, reply) => {
+    app.get('/signout', (request, reply) => {
         delete request.session.passport;
         reply.send({ status: 'ok' });
     });
