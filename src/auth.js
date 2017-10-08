@@ -60,9 +60,10 @@ function init(app, db) {
 
         app.get('/auth/twitter/callback',
             passport.authenticate('twitter', {
-                successRedirect: '/success',
                 failureRedirect: '/login'
-            })
+            }), (request, reply) => {
+                reply.redirect('/success');
+            }
         );
     }
 
