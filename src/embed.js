@@ -49,8 +49,8 @@ import comments_tpl from './comments.jst.html';
             });
 
             if (data.user.admin) {
-                const action = (d) => {
-                    const btn = this;
+                const action = (evt) => {
+                    const btn = evt.target;
                     const data = btn.dataset;
                     fetch(`/${data.class}/${data.target}/${data.action}`, {
                         credentials: 'include',
