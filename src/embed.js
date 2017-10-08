@@ -9,7 +9,8 @@ import comments_tpl from './comments.jst.html';
 
     const opts = script.dataset;
     const slug = opts.schnackSlug;
-    const host = opts.schnackHost;
+    const url = new URL(script.getAtttribute('src'));
+    const host = `${url.protocol}//${url.host}`;
     const endpoint = `${host}/comments/${slug}`;
     const loginTwitter = `${host}/auth/twitter`;
     const target = opts.schnackTarget;
@@ -52,7 +53,7 @@ import comments_tpl from './comments.jst.html';
                 const action = (evt) => {
                     const btn = evt.target;
                     const data = btn.dataset;
-                    fetch(`/${data.class}/${data.target}/${data.action}`, {
+                    fetch(`${host}/${data.class}/${data.target}/${data.action}`, {
                         credentials: 'include',
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
