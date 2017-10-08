@@ -188,7 +188,7 @@ function run(err, res) {
             comments.forEach((c) => {
                 const m = moment.utc(c.created_at);
                 c.created_at_s = config.date_format ? m.format(config.date_format) : m.fromNow();
-                c.comment = marked(c.comment);
+                c.comment = marked(c.comment.trim());
             });
             reply.send({ user, slug, comments });
         });
