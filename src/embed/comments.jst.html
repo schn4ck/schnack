@@ -14,7 +14,7 @@ To post a comment you need to sign in via<br>
     <% data.comments.forEach((comment) => { %>
         <li class="schnack-comment<% if (!comment.approved && !comment.trusted) { %> schnack-not-approved<% } %>">
             <div class="schnack-dateline">
-                <span class="schnack-author"><%= comment.name %></span>
+                <span class="schnack-author"><% if (comment.author_url) { %><a href="<%= comment.author_url %>" target="_blank"><% } %><%= comment.name %><% if (comment.author_url) { %></a><% } %></span>
                 <span class="schnack-date"><%= comment.created_at_s %>:</span>
                 <% if (data.user && data.user.admin &&!comment.trusted) {
                 ['trust', 'block'].forEach((action) => { %>
