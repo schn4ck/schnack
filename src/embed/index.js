@@ -41,15 +41,6 @@ import comments_tpl from './comments.jst.html';
                 });
             });
 
-            data.auth.forEach((provider) => {
-                const btn = $(target + ' .schnack-signin-'+provider.id);
-                if (btn) btn.addEventListener('click', (d) => {
-                    let windowRef = window.open(
-                        `${host}/auth/${provider.id}`, provider.name+' Sign-In', 'resizable,scrollbars,status,width=600,height=500'
-                    );
-                });
-            });
-
             if (data.user) {
                 const signout = $('a.schnack-signout');
                 if (signout) signout.addEventListener('click', (e) => {
@@ -62,6 +53,15 @@ import comments_tpl from './comments.jst.html';
                     .then((res) => {
                         console.log(res);
                         refresh();
+                    });
+                });
+            } else {
+                data.auth.forEach((provider) => {
+                    const btn = $(target + ' .schnack-signin-'+provider.id);
+                    if (btn) btn.addEventListener('click', (d) => {
+                        let windowRef = window.open(
+                            `${host}/auth/${provider.id}`, provider.name+' Sign-In', 'resizable,scrollbars,status,width=600,height=500'
+                        );
                     });
                 });
             }
