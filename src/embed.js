@@ -9,7 +9,7 @@ import comments_tpl from './comments.jst.html';
 
     const opts = script.dataset;
     const slug = opts.schnackSlug;
-    const url = new URL(script.getAtttribute('src'));
+    const url = new URL(script.getAttribute('src'));
     const host = `${url.protocol}//${url.host}`;
     const endpoint = `${host}/comments/${slug}`;
     const loginTwitter = `${host}/auth/twitter`;
