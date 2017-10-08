@@ -34,7 +34,8 @@ module.exports = {
       (user_id, slug, comment, created_at, approved, rejected)
       VALUES (?,?,?,datetime(),0,0)`,
   find_user:
-      `SELECT id,name,display_name,provider,provider_id FROM user
+      `SELECT id, name, display_name, provider, provider_id,
+         trusted, blocked FROM user
        WHERE provider = ? AND provider_id = ?`,
   create_user:
       `INSERT INTO user
