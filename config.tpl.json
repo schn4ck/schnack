@@ -1,14 +1,19 @@
 {
+    "schnack_domain": "schnack.mysite.com"
     "admins": [],
     "date_format": "MMMM DD, YYYY",
     "port": 3000,
     "cookie_domain": ".mysite.com",
-    "allow_origin": ["http://localhost:8080"],
+    "allow_origin": ["https://www.mysite.com"],
     "oauth": {
         "secret": "xxxxx",
         "twitter": {
             "consumer_key": "xxxxx",
             "consumer_secret": "xxxxx"
+        },
+        "github": {
+            "client_id": "xxxxx",
+            "client_secret": "xxxxx"
         }
     },
     "notify": {
