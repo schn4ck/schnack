@@ -6,7 +6,7 @@ import uglify from 'rollup-plugin-uglify';
 import jst from 'rollup-plugin-jst';
 
 export default {
-    input: 'src/embed.js',
+    input: 'src/embed/index.js',
     output: {
         file: 'build/embed.js',
         format: 'iife'
@@ -14,7 +14,7 @@ export default {
     plugins: [
         jst({
           extensions: ['.html'],
-          include: 'src/**.html'
+          include: 'src/embed/**.html'
         }),
         commonjs(),
         resolve(),
