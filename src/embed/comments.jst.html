@@ -12,10 +12,14 @@ To post a comment you need to sign in via<br>
 <% } %>
 <ul class="schnack-comments">
     <% data.comments.forEach((comment) => { %>
-        <li class="schnack-comment<% if (!comment.approved) { %> schnack-not-approved<% } %>">
+        <li class="schnack-comment<% if (!comment.approved && !comment.trusted) { %> schnack-not-approved<% } %>">
             <div class="schnack-dateline">
                 <span class="schnack-author"><%= comment.name %></span>
                 <span class="schnack-date"><%= comment.created_at_s %>:</span>
+                <% if (data.user && data.user.admin &&!comment.trusted) {
+                ['trust', 'block'].forEach((action) => { %>
+                <button class="schnack-action" data-target="<%= comment.user_id %>" data-class="user" data-action="<%= action %>"><%= action %></button>
+                <% }); } %>
             </div>
             <blockquote class="schnack-body">
                 <p><%= comment.comment %></p>
@@ -23,7 +27,7 @@ To post a comment you need to sign in via<br>
             <% if (!comment.approved) { %>
             <div class="schnack-awaiting-approval">
                 This comment is still waiting for <%= data.user.admin ? 'your ' : '' %>approval<%= !data.user.admin ? ' by the site owner' : ''%>.
-                <% if (data.user.admin) {
+                <% if (data.user && data.user.admin) {
                 ['approve', 'reject'].forEach((action) => { %>
                 <button class="schnack-action" data-target="<%= comment.id %>" data-class="comment" data-action="<%= action %>"><%= action %></button>
                 <% }); } %>

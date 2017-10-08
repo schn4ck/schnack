@@ -1,7 +1,7 @@
 module.exports = {
   get_comments:
       `SELECT user_id, user.name, user.display_name,
-        comment.created_at, comment, approved
+        comment.created_at, comment, approved, trusted
       FROM comment INNER JOIN user ON (user_id=user.id)
       WHERE slug = ? AND ((
         NOT user.blocked AND NOT comment.rejected
