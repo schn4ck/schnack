@@ -43,7 +43,7 @@ New comments need to be approved by the site admin, who can see and approve or r
 
 ### Push notifications for new comments
 
-Schnack.js provides two mechanisms to remind you of new comments. The old-school way is an RSS feed that you could hook into services like [IFTTT](https://ifttt.com). Alternatively you can hook into a push notification service like [Pushover](https://pushover.net) to get notifications right to your phone.
+Schnack.js provides two mechanisms to remind you of new comments. The old-school way is an [RSS feed](https://github.com/gka/schnack/blob/master/src/server.js#L123-L141) that you can use in services like [IFTTT](https://ifttt.com). Alternatively you can hook into a push notification service like [Pushover](https://pushover.net) to get notifications right to your phone.
 
 ### Who is behind Schnack?
 
