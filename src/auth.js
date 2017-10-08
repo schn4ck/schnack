@@ -70,8 +70,8 @@ function init(app, db) {
     if (config.oauth.github) {
         providers.push({ id: 'github', name: 'Github' });
         passport.use(new GitHubStrategy({
-            consumerKey: config.oauth.github.client_id,
-            consumerSecret: config.oauth.github.client_secret,
+            clientID: config.oauth.github.client_id,
+            clientSecret: config.oauth.github.client_secret,
             callbackURL: '/auth/github/callback'
         }, (token, tokenSecret, profile, done) => {
             done(null, profile);
