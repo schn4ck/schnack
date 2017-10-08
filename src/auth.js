@@ -7,6 +7,8 @@ const GitHubStrategy = require('passport-github2').Strategy;
 const queries = require('./db/queries');
 const config = require('../config.json');
 
+const providers = [];
+
 function init(app, db) {
     app.use(session({
         resave: false,
@@ -43,6 +45,7 @@ function init(app, db) {
 
     // twitter auth
     if (config.oauth.twitter) {
+        providers.push({ id: 'twitter', name: 'Twitter' });
         passport.use(new TwitterStrategy({
             consumerKey: config.oauth.twitter.consumer_key,
             consumerSecret: config.oauth.twitter.consumer_secret,
@@ -65,6 +68,7 @@ function init(app, db) {
 
     // github auth
     if (config.oauth.github) {
+        providers.push({ id: 'github', name: 'Github' });
         passport.use(new GitHubStrategy({
             consumerKey: config.oauth.github.client_id,
             consumerSecret: config.oauth.github.client_secret,
@@ -90,5 +94,6 @@ function init(app, db) {
 }
 
 module.exports = {
-    init
+    init,
+    providers
 };

@@ -45,6 +45,7 @@ function run(db) {
     app.get('/comments/:slug', (request, reply) => {
         const { slug } = request.params;
         const { user } = request.session.passport || {};
+        const providers = user ? null : auth.providers;
 
         let query = queries.get_comments;
         let args = [slug, user ? user.id : -1];
@@ -62,7 +63,7 @@ function run(db) {
                 c.created_at_s = config.date_format ? m.format(config.date_format) : m.fromNow();
                 c.comment = marked(c.comment.trim());
             });
-            reply.send({ user, slug, comments });
+            reply.send({ user, auth: providers, slug, comments });
         });
     });
 

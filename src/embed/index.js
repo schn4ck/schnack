@@ -12,7 +12,6 @@ import comments_tpl from './comments.jst.html';
     const url = new URL(script.getAttribute('src'));
     const host = `${url.protocol}//${url.host}`;
     const endpoint = `${host}/comments/${slug}`;
-    const loginTwitter = `${host}/auth/twitter`;
     const target = opts.schnackTarget;
 
     function refresh() {
@@ -25,13 +24,6 @@ import comments_tpl from './comments.jst.html';
             $(target).innerHTML = comments_tpl(data);
 
             const postBtn = $(target + ' .schnack-button');
-            const twitterBtn = $(target + ' .schnack-signin-twitter');
-
-            if (twitterBtn) twitterBtn.addEventListener('click', (d) => {
-                let windowRef = window.open(
-                    loginTwitter, 'Twitter Sign-In', 'resizable,scrollbars,status,width=600,height=500'
-                );
-            });
 
             if (postBtn) postBtn.addEventListener('click', (d) => {
                 const body = $(`${target} .schnack-body`).value;
@@ -48,6 +40,31 @@ import comments_tpl from './comments.jst.html';
                     refresh();
                 });
             });
+
+            data.auth.forEach((provider) => {
+                const btn = $(target + ' .schnack-signin-'+provider.id);
+                if (btn) btn.addEventListener('click', (d) => {
+                    let windowRef = window.open(
+                        `${host}/auth/${provider.id}`, provider.name+' Sign-In', 'resizable,scrollbars,status,width=600,height=500'
+                    );
+                });
+            });
+
+            if (data.user) {
+                const signout = $('a.schnack-signout');
+                if (signout) signout.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    fetch(`${host}/signout`, {
+                        credentials: 'include',
+                        headers: { 'Content-Type': 'application/json' },
+                    })
+                    .then( r => r.json() )
+                    .then((res) => {
+                        console.log(res);
+                        refresh();
+                    });
+                });
+            }
 
             if (data.user && data.user.admin) {
                 const action = (evt) => {

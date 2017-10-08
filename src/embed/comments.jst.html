@@ -1,11 +1,14 @@
 <% if (data.user) { %>
 <div class="schnack-form">
-    <textarea class="schnack-body"></textarea><br>
+    <textarea class="schnack-body" placeholder="Post a comment. Markdown is supported!"></textarea><br>
     <button class="schnack-button">Send comment</button>
-    (signed in as <span class="schnack-user">@<%= data.user.name %></span>)
+    (signed in as <span class="schnack-user">@<%= data.user.name %></span> :: <a class="schnack-signout" href="#">sign out</a>)
 </div>
 <% } else { %>
-<button class="schnack-signin-twitter">Login with Twitter to post comment</button>
+To post a comment you need to sign in via<br>
+<% data.auth.forEach((provider, i) => {  %>
+    <%= i ? ' or ' : '' %><button class="schnack-signin-<%= provider.id %>"><%= provider.name %></button>
+<% }) %>
 <% } %>
 <ul class="schnack-comments">
     <% data.comments.forEach((comment) => { %>
