@@ -3,3 +3,4 @@ yarn.lock
 comments.db
 config.json
 sessions.db
+npm-debug.log

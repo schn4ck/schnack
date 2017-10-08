@@ -1,6 +1,5 @@
 {
   "name": "schnack",
-  "version": "1.0.0",
   "dependencies": {
     "body-parser": "^1.18.2",
     "connect-sqlite3": "^0.9.10",
@@ -23,7 +22,7 @@
     "test": "http-server test -o 'http://localhost:8080/'",
     "dev": "nodemon index.js"
   },
-  "version": "0.0.1-alpha",
+  "version": "0.1.0-alpha",
   "description": "a simple node app for disqus-like drop-in commenting on static websites",
   "main": "index.js",
   "repository": "git@github.com:gka/schnack.git",
