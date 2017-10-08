@@ -1,5 +1,5 @@
 {
-    "schnack_domain": "schnack.mysite.com"
+    "schnack_host": "https://schnack.mysite.com"
     "admins": [],
     "date_format": "MMMM DD, YYYY",
     "port": 3000,

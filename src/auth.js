@@ -72,7 +72,7 @@ function init(app, db) {
         passport.use(new GitHubStrategy({
             clientID: config.oauth.github.client_id,
             clientSecret: config.oauth.github.client_secret,
-            callbackURL: '/auth/github/callback'
+            callbackURL: `${config.schnack_host}/auth/github/callback`
         }, (accessToken, refreshToken, profile, done) => {
             done(null, profile);
         }));
