@@ -94,7 +94,16 @@ function init(app, db, domain) {
     }
 }
 
+function getAuthorUrl(comment) {
+    switch (comment.provider) {
+        case 'twitter': return 'https://twitter.com/'+comment.name;
+        case 'github': return 'https://github.com/'+comment.name;
+        default: return;
+    }
+}
+
 module.exports = {
     init,
-    providers
+    providers,
+    getAuthorUrl
 };
