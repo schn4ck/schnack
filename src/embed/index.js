@@ -14,6 +14,8 @@ import comments_tpl from './comments.jst.html';
     const endpoint = `${host}/comments/${slug}`;
     const target = opts.schnackTarget;
 
+    document.domain = document.domain.split('.').slice(1).join('.');
+
     function refresh() {
         fetch(endpoint, {
             credentials: 'include',
@@ -62,7 +64,10 @@ import comments_tpl from './comments.jst.html';
                         let windowRef = window.open(
                             `${host}/auth/${provider.id}`, provider.name+' Sign-In', 'resizable,scrollbars,status,width=600,height=500'
                         );
-                        windowRef.onbeforeunload = refresh;
+                        window.__schnack_wait_for_oauth = () => {
+                            windowRef.close();
+                            refresh();
+                        };
                     });
                 });
             }

@@ -101,7 +101,10 @@ function run(db) {
     });
 
     app.get('/success', (request, reply) => {
-        reply.send('<script>window.close();</script>');
+        reply.send(`<script>
+            document.domain = document.domain.split('.').slice(1).join('.');
+            window.opener.__schnack_wait_for_oauth();
+        </script>`);
     });
 
     app.get('/', (request, reply) => {
