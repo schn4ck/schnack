@@ -23,7 +23,7 @@ import comments_tpl from './comments.jst.html';
         .then( r => r.json() )
         .then((data) => {
             $(target).innerHTML = comments_tpl(data);
-            console.log(data)
+
             const postBtn = $(target + ' .schnack-button');
             const twitterBtn = $(target + ' .schnack-signin-twitter');
 

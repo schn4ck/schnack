@@ -7,109 +7,36 @@ const cors = require('cors');
 const bodyParser = require('body-parser');
 const moment = require('moment');
 const countBy = require('lodash.countby');
-const session = require('express-session');
-const SQLiteStore = require('connect-sqlite3')(session);
-const passport = require('passport');
-const TwitterStrategy = require('passport-twitter').Strategy;
-const GitHubStrategy = require('passport-github2').Strategy;
+
 const RSS = require('rss');
 const Pushover = require('node-pushover');
 const marked = require('marked');
 
 const dbHandler = require('./db');
 const queries = require('./db/queries');
+const auth = require('./auth');
 
 const embedJS = fs.readFileSync(path.resolve(__dirname, '../build/embed.js'), 'utf-8');
-const config = JSON.parse(fs.readFileSync(path.resolve(__dirname, '../config.json')));
+const config = require('../config.json');
 const awaiting_moderation = [];
 
-marked.setOptions({
-  sanitize: true
-});
-
-function error(err, request, reply, code) {
-    if (err) {
-        console.error(err.message);
-        reply.status(code || 500).send({ error: err.message });
-    }
-}
-
-function isAdmin(user) {
-    return user && user.id && config.admins.indexOf(user.id) > -1;
-}
+marked.setOptions({ sanitize: true });
 
 dbHandler.init()
     .then(db => run(db))
     .catch(err => console.error(err.message));
 
 function run(db) {
-    app.use(session({
-        resave: false,
-        saveUninitialized: false,
-        secret: config.oauth.secret,
-        cookie: {
-            domain: config.cookie_domain
-        },
-        store: new SQLiteStore({ db: 'sessions.db' })
-    }));
-
-    app.use(passport.initialize());
-    app.use(passport.session());
-
-    if (config.oauth.twitter) {
-        passport.use(new TwitterStrategy({
-                consumerKey: config.oauth.twitter.consumer_key,
-                consumerSecret: config.oauth.twitter.consumer_secret,
-                callbackURL: '/auth/twitter/callback'
-            }, (token, tokenSecret, profile, done) => {
-                done(null, profile);
-            }
-        ));
-    }
-
-    if (config.oauth.github) {
-        passport.use(new GitHubStrategy({
-                consumerKey: config.oauth.github.client_id,
-                consumerSecret: config.oauth.github.client_secret,
-                callbackURL: '/auth/github/callback'
-            }, (token, tokenSecret, profile, done) => {
-                done(null, profile);
-            }
-        ));
-    }
-
-    passport.serializeUser((user, done) => {
-        db.get(queries.find_user, [user.provider, user.id], (err, row) => {
-            if (row) return done(null, row); // welcome back
-            // nice to meet you, new user!
-            const c_args = [user.provider, user.id, user.displayName, user.username];
-            db.run(queries.create_user, c_args, (err, res) => {
-                if (err) console.error(err);
-                db.get(queries.find_user, [user.provider, user.id], (err, row) => {
-                    if (row) return done(null, row);
-                    console.error('no user found after insert');
-                });
-            });
-        });
-    });
-
-    passport.deserializeUser((user, done) => {
-        done(null, { provider: user.provider, id: user.provider_id });
-    });
-
     app.use(cors({
         credentials: true,
-        origin: (origin, callback)  => {
-            if (typeof origin === 'undefined' || config.allow_origin.indexOf(origin) !== -1) {
-                callback(null, true);
-            } else {
-                callback(new Error('Not allowed by CORS'));
-            }
-        }
+        origin: checkOrigin
     }));
 
     app.use(bodyParser.json());
     app.use(bodyParser.urlencoded({ extended: true }));
+
+    // init session + passport middleware and auth routes
+    auth.init(app, db);
 
     app.get('/embed.js', (request, reply) => {
         reply.type('application/javascript').send(embedJS);
@@ -171,35 +98,6 @@ function run(db) {
             reply.send({ status: 'ok' });
         });
     });
-
-    // twitter auth
-    if (config.oauth.twitter) {
-        app.get('/auth/twitter',
-            passport.authenticate('twitter')
-        );
-
-        app.get('/auth/twitter/callback',
-            passport.authenticate('twitter', {
-                successRedirect: '/',
-                failureRedirect: '/login'
-            })
-        );
-    }
-
-    // github auth
-    if (config.oauth.github) {
-        app.get('/auth/github',
-            passport.authenticate('github', { scope: [ 'user:email' ] })
-        );
-
-        app.get('/auth/github/callback',
-            passport.authenticate('github', {
-                failureRedirect: '/login'
-            }, (request, reply) => {
-                reply.redirect('/');
-            })
-        );
-    }
 
     app.get('/', (request, reply) => {
         reply.send({test: 'ok' });
@@ -264,3 +162,28 @@ function run(db) {
     });
 }
 
+// helper functions
+
+function error(err, request, reply, code) {
+  if (err) {
+      console.error(err.message);
+      reply.status(code || 500).send({ error: err.message });
+
+      return true;
+  }
+
+  return false;
+}
+
+function isAdmin(user) {
+  return user && user.id && config.admins.indexOf(user.id) > -1;
+}
+
+function checkOrigin(origin, callback) {
+    // origin is allowed
+    if (typeof origin === 'undefined' || config.allow_origin.indexOf(origin) !== -1) {
+        return callback(null, true);
+    }
+
+    callback(new Error('Not allowed by CORS'));
+}
