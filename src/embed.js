@@ -23,7 +23,7 @@ import comments_tpl from './comments.jst.html';
         .then( r => r.json() )
         .then((data) => {
             $(target).innerHTML = comments_tpl(data);
-
+            console.log(data)
             const postBtn = $(target + ' .schnack-button');
             const twitterBtn = $(target + ' .schnack-signin-twitter');
 
@@ -49,7 +49,7 @@ import comments_tpl from './comments.jst.html';
                 });
             });
 
-            if (data.user.admin) {
+            if (data.user && data.user.admin) {
                 const action = (evt) => {
                     const btn = evt.target;
                     const data = btn.dataset;
