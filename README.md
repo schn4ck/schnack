@@ -53,10 +53,10 @@ You can provide a list of user IDs of people you trust for each authentication p
 "trust": {
 	"twitter": [
 		"916586732845400064",
-		"902094599329591296",
-		...],
+		"902094599329591296"
+	],
 	"github": [
-		1639, 2931, 2946, 3602, 4933, ...
+		1639, 2931, 2946, 3602, 4933
 	]
 }
 ```
