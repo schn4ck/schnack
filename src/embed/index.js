@@ -14,7 +14,7 @@ import comments_tpl from './comments.jst.html';
     const endpoint = `${host}/comments/${slug}`;
     const target = opts.schnackTarget;
 
-    document.domain = document.domain.split('.').slice(1).join('.');
+    document.domain = url.host.split('.').slice(1).join('.');
 
     function refresh() {
         fetch(endpoint, {
