@@ -25,7 +25,11 @@ function init(app, db, domain) {
         db.get(queries.find_user, [user.provider, user.id], (err, row) => {
             if (row) return done(null, row); // welcome back
             // nice to meet you, new user!
-            const c_args = [user.provider, user.id, user.displayName, user.username];
+            // check if id shows up in auto-trust config
+            var trusted = config.trust &&
+                    config.trust[user.provider] &&
+                    config.trust[user.provider].indexOf(user.id) > -1 ? 1 : 0;
+            const c_args = [user.provider, user.id, user.displayName, user.username, trusted];
             db.run(queries.create_user, c_args, (err, res) => {
                 if (err) return console.error(err);
                 db.get(queries.find_user, [user.provider, user.id], (err, row) => {

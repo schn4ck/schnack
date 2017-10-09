@@ -41,5 +41,5 @@ module.exports = {
       `INSERT INTO user
       (provider, provider_id, display_name, name,
        created_at, trusted, blocked)
-      VALUES (?, ?, ?, ?, datetime(), 0, 0)`
+      VALUES (?, ?, ?, ?, datetime(), ?, 0)`
 };
