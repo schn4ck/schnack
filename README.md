@@ -2,7 +2,8 @@
 
 [schnack.js](https://dict.leo.org/englisch-deutsch/schnack) is a simple node app for Disqus-like drop-in commenting on static websites.
 
-[Say hello to Schnack.js](https://www.vis4.net/blog/2017/10/hello-schnack/)
+* [Say hello to Schnack.js](https://www.vis4.net/blog/2017/10/hello-schnack/)
+* Follow [@schnackjs](https://twitter.com/schnackjs) on Twitter
 
 ### Related projects
 
