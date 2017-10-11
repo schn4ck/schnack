@@ -18,3 +18,8 @@ CREATE TABLE user (
     blocked BOOLEAN,
     trusted BOOLEAN
 );
+
+CREATE TABLE setting (
+    id CHAR(128) PRIMARY KEY NOT NULL,
+    value BOOLEAN
+);

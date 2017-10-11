@@ -1,4 +1,10 @@
 <% if (data.user) { %>
+    <% if (data.user.admin) { %>
+    <div class="schnack-settings">
+        <button class="schnack-action" data-target="notification" data-class="setting" data-action="true">un</button>
+        <button class="schnack-action" data-target="notification" data-class="setting" data-action="false">mute notifications</button>
+    </div>
+    <% } %>
 <div class="schnack-form">
     <textarea class="schnack-body" placeholder="Post a comment. Markdown is supported!"></textarea>
     <blockquote class="schnack-body" style="display:none"></blockquote>

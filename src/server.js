@@ -10,7 +10,7 @@ const moment = require('moment');
 const countBy = require('lodash.countby');
 
 const RSS = require('rss');
-const Pushover = require('node-pushover');
+const Pushover = require('pushover-notifications');
 const marked = require('marked');
 
 const dbHandler = require('./db');
@@ -146,6 +146,16 @@ function run(db) {
         reply.send({ html: marked(comment.trim()) });
     });
 
+    app.post('/setting/:property/:value', (request, reply) => {
+        const { property, value } = request.params;
+        const { user } = request.session.passport || {};
+        if (!isAdmin(user)) return reply.status(403).send(request.params);
+        db.run(queries.set_settings, property, value, (err) => {
+            if (error(err, request, reply)) return;
+            reply.send({ status: 'ok' });
+        });
+    });
+
     // push notification apps
     const notifier = [];
 
@@ -156,7 +166,7 @@ function run(db) {
             token: config.notify.pushover.app_token,
             user: config.notify.pushover.user_key
         });
-        notifier.push((msg, callback) => push.send(null, msg, callback) );
+        notifier.push((msg, callback) => push.send(msg, callback));
     }
 
     // check for new comments in need of moderation
@@ -170,12 +180,21 @@ function run(db) {
         function next(err) {
             var k = Object.keys(bySlug)[0];
             if (!k || err) return;
-            var cnt = bySlug[k],
-                msg = `${cnt} new comment${cnt>1?'s':''} on "${k}" are awaiting moderation.`;
-            delete bySlug[k];
-            setTimeout(() => {
-                notifier.forEach((f) => f(msg, next));
-            }, 1000);
+            db.get(queries.get_settings, (err, row) => {
+                if (err) console.error(err.message);
+
+                var cnt = bySlug[k],
+                    msg = {
+                        message: `${cnt} new comment${cnt>1?'s':''} on "${k}" are awaiting moderation.`,
+                        url: url.resolve(config.schnack_host, k),
+                        sound: (row.value === 'true') ? 'pushover' : 'none'
+                    };
+                    console.log(msg);
+                delete bySlug[k];
+                setTimeout(() => {
+                    notifier.forEach((f) => f(msg, next));
+                }, 1000);
+            });
         }
     }, config.notification_interval || 300000); // five minutes
 
