@@ -1,6 +1,9 @@
 <% if (data.user) { %>
     <% if (data.user.admin) { %>
     <div class="schnack-settings">
+        <button class="btn btn-primary" id="schnack-push" name="schnack-push">
+            Enable Push Messaging
+        </button>
         <button class="schnack-action" data-target="notification" data-class="setting" data-action="true">un</button>
         <button class="schnack-action" data-target="notification" data-class="setting" data-action="false">mute notifications</button>
     </div>

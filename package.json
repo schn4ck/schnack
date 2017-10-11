@@ -16,7 +16,8 @@
     "pushover-notifications": "^0.2.4",
     "rss": "^1.2.2",
     "sqlite3": "^3.1.13",
-    "unfetch": "^3.0.0"
+    "unfetch": "^3.0.0",
+    "web-push": "^3.2.3"
   },
   "scripts": {
     "build": "rollup -cw",
