@@ -48,6 +48,9 @@ import comments_tpl from './comments.jst.html';
                     .then( r => r.json() )
                     .then((res) => {
                         console.log(res);
+                        textarea.value = '';
+                        window.localStorage.setItem(`schnack-draft-${slug}`, textarea.value);                        
+
                         refresh();
                     });
                 });
