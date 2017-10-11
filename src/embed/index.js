@@ -30,7 +30,7 @@ import comments_tpl from './comments.jst.html';
             const preview = $(`${target} .schnack-form blockquote.schnack-body`);
 
             const draft = window.localStorage.getItem(`schnack-draft-${slug}`);
-            if (draft) textarea.value = draft;
+            if (draft && textarea) textarea.value = draft;
 
             const postBtn = $(target + ' .schnack-button');
             const previewBtn = $(target + ' .schnack-preview');
