@@ -70,7 +70,7 @@ import comments_tpl from './comments.jst.html';
                 });
 
                 writeBtn.addEventListener('click', (d) => {
-                    textarea.style.display = 'block';
+                    textarea.style.display = 'inline';
                     previewBtn.style.display = 'inline';
                     preview.style.display = 'none';
                     writeBtn.style.display = 'none';
