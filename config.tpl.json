@@ -17,6 +17,10 @@
         "pushover": {
             "app_token": "xxxxx",
             "user_key": "xxxxx"
+        },
+        "webpush": {
+            "vapid_public_key": "xxxxx",
+            "vapid_private_key": "xxxxx"
         }
     },
     "date_format": "MMMM DD, YYYY - h:mm a"

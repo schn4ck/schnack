@@ -118,6 +118,10 @@ import comments_tpl from './comments.jst.html';
             }
 
             if (data.user && data.user.admin) {
+                const push = document.createElement('script');
+                push.setAttribute('src', `${host}/push.js`);
+                document.head.appendChild(push);
+
                 const action = (evt) => {
                     const btn = evt.target;
                     const data = btn.dataset;

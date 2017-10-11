@@ -11,13 +11,13 @@ const countBy = require('lodash.countby');
 
 const RSS = require('rss');
 const Pushover = require('pushover-notifications');
+const webPush = require('web-push');
 const marked = require('marked');
 
 const dbHandler = require('./db');
 const queries = require('./db/queries');
 const auth = require('./auth');
 
-const embedJS = fs.readFileSync(path.resolve(__dirname, '../build/embed.js'), 'utf-8');
 const config = require('../config.json');
 const awaiting_moderation = [];
 
@@ -46,9 +46,8 @@ function run(db) {
     // init session + passport middleware and auth routes
     auth.init(app, db, schnack_domain);
 
-    app.get('/embed.js', (request, reply) => {
-        reply.type('application/javascript').send(embedJS);
-    });
+    // serve /build
+    app.use(express.static(path.join('build')));
 
     app.get('/comments/:slug', (request, reply) => {
         const { slug } = request.params;
@@ -149,11 +148,39 @@ function run(db) {
         reply.send({ html: marked(comment.trim()) });
     });
 
+    // settings
     app.post('/setting/:property/:value', (request, reply) => {
         const { property, value } = request.params;
         const user = getUser(request);
         if (!isAdmin(user)) return reply.status(403).send(request.params);
         db.run(queries.set_settings, property, value, (err) => {
+            if (error(err, request, reply)) return;
+            reply.send({ status: 'ok' });
+        });
+    });
+
+    // push notifications
+    app.post('/subscribe', (request, reply) => {
+        const { endpoint, publicKey, auth } = req.body;
+        
+        const pushSubscription = {
+            endpoint: endpoint,
+            keys: {
+                p256dh: publicKey,
+                auth: auth
+            }
+        };
+    
+        db.run(queries.subscribe, endpoint, publicKey, auth, (err) => {
+            if (error(err, request, reply)) return;
+            reply.send({ status: 'ok' });
+        });
+    });
+    
+    app.post('/unsubscribe', (request, reply) => {
+        const { endpoint } = req.body;
+    
+        db.run(queries.unsubscribe, endpoint, (err) => {
             if (error(err, request, reply)) return;
             reply.send({ status: 'ok' });
         });
@@ -170,6 +197,29 @@ function run(db) {
             user: config.notify.pushover.user_key
         });
         notifier.push((msg, callback) => push.send(msg, callback));
+    }
+
+    if (config.notify.webpush) {
+        webPush.setVapidDetails(
+            config.schnack_host,
+            config.notify.webpush.vapid_public_key,
+            config.notify.webpush.vapid_private_key
+        );
+
+        
+        notifier.push((msg, callback) => db.each(queries.get_subscriptions, (err, row) => {
+            if (error(err)) return; 
+            
+            const subscription = {
+                endpoint: row.endpoint,
+                keys: {
+                    p256dh: row.publicKey,
+                    auth: row.auth
+                }
+            };
+            console.log(subscription)
+            webpush.sendNotification(subscription, JSON.stringify({message: msg.message, clickTarget: msg.url})).then(callback)
+        }))
     }
 
     // check for new comments in need of moderation
@@ -192,14 +242,13 @@ function run(db) {
                         url: url.resolve(config.schnack_host, k),
                         sound: (row.value === 'true') ? 'pushover' : 'none'
                     };
-                    console.log(msg);
                 delete bySlug[k];
                 setTimeout(() => {
                     notifier.forEach((f) => f(msg, next));
                 }, 1000);
             });
         }
-    }, config.notification_interval || 300000); // five minutes
+    }, config.notification_interval || 300); // five minutes
 
     var server = app.listen(config.port || 3000, (err) => {
         if (err) throw err;
@@ -227,7 +276,7 @@ function getUser(request) {
 }
 
 function isAdmin(user) {
-  return user && user.id && config.admins.indexOf(user.id) > -1;
+  return user && user.id && config.admins.indexOf(user.provider_id) > -1;
 }
 
 function checkOrigin(origin, callback) {

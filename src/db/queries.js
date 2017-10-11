@@ -49,5 +49,14 @@ module.exports = {
       `INSERT OR REPLACE INTO setting (id, value)
       VALUES (?, ?)`,
   get_settings:
-      `SELECT value FROM setting WHERE id = "notification"`
+      `SELECT value FROM setting WHERE id = "notification"`,
+  subscribe:
+      `INSERT INTO subscription
+      (endpoint, publicKey, auth)
+      VALUES (?, ?, ?)`,
+  unsubscribe:
+      `DELETE FROM subscription
+      WHERE endpoint = ?`,
+  get_subscriptions:
+      `SELECT (endpoint, publicKey, auth) FROM subscription`
 };
