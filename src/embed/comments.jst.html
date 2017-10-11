@@ -1,7 +1,10 @@
 <% if (data.user) { %>
 <div class="schnack-form">
     <textarea class="schnack-body" placeholder="Post a comment. Markdown is supported!"></textarea><br>
-    <button class="schnack-button">Send comment</button>
+    <blockquote class="schnack-body" style="display:none"></blockquote>
+    <button class="schnack-preview">Preview</button>
+    <button style="display:none" class="schnack-write">Edit</button>&nbsp;
+    <button class="schnack-button">Send comment</button><br>
     (signed in as <span class="schnack-user">@<%= data.user.name %></span> :: <a class="schnack-signout" href="#">sign out</a>)
 </div>
 <% } else { %>
@@ -22,7 +25,7 @@ To post a comment you need to sign in via<br>
                 <% }); } %>
             </div>
             <blockquote class="schnack-body">
-                <p><%= comment.comment %></p>
+                <%= comment.comment %>
             </blockquote>
             <% if (!comment.approved && !comment.trusted) { %>
             <div class="schnack-awaiting-approval">

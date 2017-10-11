@@ -17,6 +17,7 @@ import comments_tpl from './comments.jst.html';
     document.domain = url.host.split('.').slice(1).join('.');
 
     function refresh() {
+
         fetch(endpoint, {
             credentials: 'include',
             headers: { 'Content-Type': 'application/json' }
@@ -25,24 +26,56 @@ import comments_tpl from './comments.jst.html';
         .then((data) => {
             $(target).innerHTML = comments_tpl(data);
 
+            const textarea = $(`${target} textarea.schnack-body`);
+            const preview = $(`${target} .schnack-form blockquote.schnack-body`);
+
             const postBtn = $(target + ' .schnack-button');
+            const previewBtn = $(target + ' .schnack-preview');
+            const writeBtn = $(target + ' .schnack-write');
 
-            if (postBtn) postBtn.addEventListener('click', (d) => {
-                const body = $(`${target} .schnack-body`).value;
-                const data = { comment: body };
-                fetch(endpoint, {
-                    credentials: 'include',
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(data)
-                })
-                .then( r => r.json() )
-                .then((res) => {
-                    console.log(res);
-                    refresh();
+            if (postBtn) {
+                postBtn.addEventListener('click', (d) => {
+                    const body = textarea.value;
+                    fetch(endpoint, {
+                        credentials: 'include',
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ comment: body })
+                    })
+                    .then( r => r.json() )
+                    .then((res) => {
+                        console.log(res);
+                        refresh();
+                    });
                 });
-            });
 
+                previewBtn.addEventListener('click', (d) => {
+                    const body = textarea.value;
+                    textarea.style.display = 'none';
+                    previewBtn.style.display = 'none';
+                    preview.style.display = 'block';
+                    writeBtn.style.display = 'inline';
+                    fetch(`${host}/markdown`, {
+                        credentials: 'include',
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ comment: body })
+                    })
+                    .then( r => r.json() )
+                    .then((res) => {
+                        console.log(res);
+                        preview.innerHTML = res.html;
+                        // refresh();
+                    });
+                });
+
+                writeBtn.addEventListener('click', (d) => {
+                    textarea.style.display = 'block';
+                    previewBtn.style.display = 'inline';
+                    preview.style.display = 'none';
+                    writeBtn.style.display = 'none';
+                });
+            }
             if (data.user) {
                 const signout = $('a.schnack-signout');
                 if (signout) signout.addEventListener('click', (e) => {

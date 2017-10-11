@@ -140,6 +140,12 @@ function run(db) {
         });
     });
 
+    // for markdown preview
+    app.post('/markdown', (request, reply) => {
+        const { comment } = request.body;
+        reply.send({ html: marked(comment.trim()) });
+    });
+
     // push notification apps
     const notifier = [];
 
