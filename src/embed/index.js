@@ -29,6 +29,9 @@ import comments_tpl from './comments.jst.html';
             const textarea = $(`${target} textarea.schnack-body`);
             const preview = $(`${target} .schnack-form blockquote.schnack-body`);
 
+            const draft = window.localStorage.getItem(`schnack-draft-${slug}`);
+            if (draft) textarea.value = draft;
+
             const postBtn = $(target + ' .schnack-button');
             const previewBtn = $(target + ' .schnack-preview');
             const writeBtn = $(target + ' .schnack-write');
@@ -74,6 +77,10 @@ import comments_tpl from './comments.jst.html';
                     previewBtn.style.display = 'inline';
                     preview.style.display = 'none';
                     writeBtn.style.display = 'none';
+                });
+
+                textarea.addEventListener('keyup', () => {
+                    window.localStorage.setItem(`schnack-draft-${slug}`, textarea.value);
                 });
             }
             if (data.user) {
