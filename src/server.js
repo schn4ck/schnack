@@ -150,7 +150,8 @@ function run(db) {
         const { property, value } = request.params;
         const { user } = request.session.passport || {};
         if (!isAdmin(user)) return reply.status(403).send(request.params);
-        db.run(queries.set_settings, property, value, (err) => {
+        const setting = value ? 1 : 0;
+        db.run(queries.set_settings, [property, setting], (err) => {
             if (error(err, request, reply)) return;
             reply.send({ status: 'ok' });
         });
@@ -223,14 +224,13 @@ function run(db) {
         function next(err) {
             var k = Object.keys(bySlug)[0];
             if (!k || err) return;
-            db.get(queries.get_settings, (err, row) => {
+            db.get(queries.get_settings, 'notification', (err, row) => {
                 if (err) console.error(err.message);
-
                 var cnt = bySlug[k],
                     msg = {
                         message: `${cnt} new comment${cnt>1?'s':''} on "${k}" are awaiting moderation.`,
-                        url: url.resolve(config.schnack_host, k),
-                        sound: (row.value === 'true') ? 'pushover' : 'none'
+                        url: `/${k}`,
+                        sound: !!row.active ? 'pushover' : 'none'
                     };
                 delete bySlug[k];
                 setTimeout(() => {
