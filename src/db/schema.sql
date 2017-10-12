@@ -20,8 +20,8 @@ CREATE TABLE user (
 );
 
 CREATE TABLE setting (
-    id CHAR(128) PRIMARY KEY NOT NULL,
-    value BOOLEAN NOT NULL
+    name CHAR(128) PRIMARY KEY NOT NULL,
+    active BOOLEAN NOT NULL
 );
 
 CREATE TABLE subscription (
@@ -30,4 +30,4 @@ CREATE TABLE subscription (
     auth CHAR(600) NOT NULL
 );
 
-INSERT INTO setting (id, value) VALUES ('notification', true);
+INSERT INTO setting (name, active) VALUES ('notification', 1);
