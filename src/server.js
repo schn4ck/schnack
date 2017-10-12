@@ -238,7 +238,7 @@ function run(db) {
                 }, 1000);
             });
         }
-    }, config.notification_interval || 300); // five minutes
+    }, config.notification_interval || 300000); // five minutes
 
     var server = app.listen(config.port || 3000, (err) => {
         if (err) throw err;
@@ -260,7 +260,7 @@ function error(err, request, reply, code) {
 }
 
 function isAdmin(user) {
-  return user && user.id && config.admins.indexOf(user.provider_id) > -1;
+  return user && user.id && config.admins.indexOf(user.id) > -1;
 }
 
 function checkOrigin(origin, callback) {
