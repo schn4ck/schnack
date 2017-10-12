@@ -11,7 +11,7 @@ const countBy = require('lodash.countby');
 
 const RSS = require('rss');
 const Pushover = require('pushover-notifications');
-const webPush = require('web-push');
+const webpush = require('web-push');
 const marked = require('marked');
 
 const dbHandler = require('./db');
@@ -158,15 +158,7 @@ function run(db) {
 
     // push notifications
     app.post('/subscribe', (request, reply) => {
-        const { endpoint, publicKey, auth } = req.body;
-        
-        const pushSubscription = {
-            endpoint: endpoint,
-            keys: {
-                p256dh: publicKey,
-                auth: auth
-            }
-        };
+        const { endpoint, publicKey, auth } = request.body;
     
         db.run(queries.subscribe, endpoint, publicKey, auth, (err) => {
             if (error(err, request, reply)) return;
@@ -175,7 +167,7 @@ function run(db) {
     });
     
     app.post('/unsubscribe', (request, reply) => {
-        const { endpoint } = req.body;
+        const { endpoint } = request.body;
     
         db.run(queries.unsubscribe, endpoint, (err) => {
             if (error(err, request, reply)) return;
@@ -197,26 +189,27 @@ function run(db) {
     }
 
     if (config.notify.webpush) {
-        webPush.setVapidDetails(
+        webpush.setVapidDetails(
             config.schnack_host,
             config.notify.webpush.vapid_public_key,
             config.notify.webpush.vapid_private_key
         );
 
         
-        notifier.push((msg, callback) => db.each(queries.get_subscriptions, (err, row) => {
-            if (error(err)) return; 
-            
-            const subscription = {
-                endpoint: row.endpoint,
-                keys: {
-                    p256dh: row.publicKey,
-                    auth: row.auth
-                }
-            };
-            console.log(subscription)
-            webpush.sendNotification(subscription, JSON.stringify({message: msg.message, clickTarget: msg.url})).then(callback)
-        }))
+        notifier.push((msg, callback) => {
+            db.each(queries.get_subscriptions, (err, row) => {
+                if (error(err)) return;
+
+                const subscription = {
+                    endpoint: row.endpoint,
+                    keys: {
+                        p256dh: row.publicKey,
+                        auth: row.auth
+                    }
+                };
+                webpush.sendNotification(subscription, JSON.stringify({title: 'schnack', message: msg.message, clickTarget: msg.url}))
+            }, callback);
+        })
     }
 
     // check for new comments in need of moderation
