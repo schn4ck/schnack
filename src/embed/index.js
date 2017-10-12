@@ -2,6 +2,7 @@ import fetch from 'unfetch';
 import comments_tpl from './comments.jst.html';
 
 (function() {
+    let initialized = false;
     const $ = (sel) => document.querySelector(sel);
     const script = $('script[data-schnack-target]');
 
@@ -116,9 +117,12 @@ import comments_tpl from './comments.jst.html';
             }
 
             if (data.user && data.user.admin) {
-                const push = document.createElement('script');
-                push.setAttribute('src', `${host}/push.js`);
-                document.head.appendChild(push);
+                if (!initialized) {
+                    const push = document.createElement('script');
+                    push.setAttribute('src', `${host}/push.js`);
+                    document.head.appendChild(push);
+                    initialized = true;
+                }
 
                 const action = (evt) => {
                     const btn = evt.target;
