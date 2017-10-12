@@ -1,25 +1,14 @@
 //Vapid public key.
 const applicationServerPublicKey = 'BHzaOeZ5zxbHp9xE8jYAOjI2xFcKx0VayBWWq6CjxI1mNPHUpTClj4eLclNjDwOCKTC2PZiuY3e_L3Ps-_VRMO8';
 
-const serviceWorkerName = 'http://ab1f7fbf.ngrok.io/sw.js';
+const serviceWorkerName = '/sw.js';
 
 let isSubscribed = false;
 let swRegistration = null;
 
-(function() {
-    const $ = (sel) => document.querySelector(sel);
-    $('#schnack-push').click((event) => {
-        if(isSubscribed){
-            unsubscribe();
-        }else{
-            subscribe();
-        }
-    });
-    
+(function() {    
     Notification.requestPermission().then(function (status) {
-        if (status === 'denied') {
-            disableAndSetBtnMessage('Notification permission denied');
-        } else if (status === 'granted') {
+        if (status === 'granted') {
             initialiseServiceWorker();
         }
     });
@@ -27,10 +16,11 @@ let swRegistration = null;
 
 function initialiseServiceWorker() {
     if ('serviceWorker' in navigator) {
-        navigator.serviceWorker.register(serviceWorkerName).then(handleSWRegistration);
+        navigator.serviceWorker.register(serviceWorkerName)
+            .then(handleSWRegistration)
+            .catch(err => console.error(err));
     } else {
         console.log('Service workers aren\'t supported in this browser.');
-        disableAndSetBtnMessage('Service workers unsupported');
     }
 };
 
@@ -44,14 +34,12 @@ function initialiseState(reg) {
     // Are Notifications supported in the service worker?
     if (!(reg.showNotification)) {
         console.log('Notifications aren\'t supported on service workers.');
-        disableAndSetBtnMessage('Notifications unsupported');
         return;
     }
 
     // Check if push messaging is supported
     if (!('PushManager' in window)) {
         console.log('Push messaging isn\'t supported.');
-        disableAndSetBtnMessage('Push messaging unsupported');
         return;
     }
 
@@ -62,12 +50,11 @@ function initialiseState(reg) {
             .then((subscription) => {
                 if (!subscription) {
                     isSubscribed = false;
-                    makeButtonSubscribable();
+                    subscribe();
                 } else {
                     // initialize status, which includes setting UI elements for subscribed status
                     // and updating Subscribers list via push
                     isSubscribed = true;
-                    makeButtonUnsubscribable();
                 }
             })
             .catch((err) => {
@@ -94,7 +81,6 @@ function subscribe() {
                 const auth = subscription.getKey('auth');
                 sendSubscriptionToServer(endpoint, key, auth);
                 isSubscribed = true;
-                makeButtonUnsubscribable();
             })
             .catch((err) => {
                 // A problem occurred with the subscription.
@@ -120,8 +106,6 @@ function unsubscribe() {
 
             console.log('User is unsubscribed.');
             isSubscribed = false;
-
-            makeButtonSubscribable(endpoint);
         });
 }
 
@@ -129,47 +113,23 @@ function sendSubscriptionToServer(endpoint, key, auth) {
     const encodedKey = btoa(String.fromCharCode.apply(null, new Uint8Array(key)));
     const encodedAuth = btoa(String.fromCharCode.apply(null, new Uint8Array(auth)));
     
-    fetch(`${host}/subscribe`, {
+    fetch('/subscribe', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({publicKey: encodedKey, auth: encodedAuth, endpoint})
     }).then((res) => {
-        console.log('Subscribed successfully! ' + JSON.stringify(response));        
+        console.log('Subscribed successfully! ' + JSON.stringify(res));        
     })
 }
 
 function removeSubscriptionFromServer(endpoint) {
-    fetch(`${host}/unsubscribe`, {
+    fetch('/unsubscribe', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({publicKey: encodedKey, auth: encodedAuth, endpoint})
     }).then((res) => {
-        console.log('Unsubscribed successfully! ' + JSON.stringify(response));        
+        console.log('Unsubscribed successfully! ' + JSON.stringify(res));        
     })
-}
-
-function disableAndSetBtnMessage(message) {
-    setBtnMessage(message);
-    $('#schnack-push').attr('disabled','disabled');
-}
-
-function enableAndSetBtnMessage(message) {
-    setBtnMessage(message);
-    $('#schnack-push').removeAttr('disabled');
-}
-
-function makeButtonSubscribable() {
-    enableAndSetBtnMessage('Subscribe to push notifications');
-    $('#schnack-push').addClass('btn-primary').removeClass('btn-danger');
-}
-
-function makeButtonUnsubscribable() {
-    enableAndSetBtnMessage('Unsubscribe from push notifications');
-    $('#schnack-push').addClass('btn-danger').removeClass('btn-primary');
-}
-
-function setBtnMessage(message) {
-    $('#schnack-push').text(message);
 }
 
 function urlB64ToUint8Array(base64String) {
@@ -181,7 +141,7 @@ function urlB64ToUint8Array(base64String) {
     const rawData = window.atob(base64);
     const outputArray = new Uint8Array(rawData.length);
 
-    for (const i = 0; i < rawData.length; ++i) {
+    for (let i = 0; i < rawData.length; ++i) {
         outputArray[i] = rawData.charCodeAt(i);
     }
     return outputArray;
