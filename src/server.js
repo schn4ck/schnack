@@ -52,7 +52,7 @@ function run(db) {
 
     app.get('/comments/:slug', (request, reply) => {
         const { slug } = request.params;
-        const { user } = request.session.passport || {};
+        const user = getUser(request);
         const providers = user ? null : auth.providers;
 
         let query = queries.get_comments;
@@ -85,7 +85,7 @@ function run(db) {
     app.post('/comments/:slug', (request, reply) => {
         const { slug } = request.params;
         const { comment } = request.body;
-        const { user } = request.session.passport || {};
+        const user = getUser(request);
 
         if (!user) return error('access denied', request, reply, 403);
         db.run(queries.insert, [user.id, slug, comment], (err) => {
@@ -99,7 +99,7 @@ function run(db) {
 
     // trust/block users or approve/reject comments
     app.post(/\/(?:comment\/(\d+)\/(approve|reject))|(?:user\/(\d+)\/(trust|block))/, (request, reply) => {
-        const { user } = request.session.passport || {};
+        const user = getUser(request);
         if (!isAdmin(user)) return reply.status(403).send(request.params);
         const action = request.params[1] || request.params[3];
         const target_id = +(request.params[0] || request.params[2]);
@@ -148,7 +148,7 @@ function run(db) {
 
     app.post('/setting/:property/:value', (request, reply) => {
         const { property, value } = request.params;
-        const { user } = request.session.passport || {};
+        const user = getUser(request);
         if (!isAdmin(user)) return reply.status(403).send(request.params);
         db.run(queries.set_settings, property, value, (err) => {
             if (error(err, request, reply)) return;
@@ -215,6 +215,12 @@ function error(err, request, reply, code) {
   }
 
   return false;
+}
+
+function getUser(request) {
+    if (config.dev) return { id: 1, name: 'Dev', display_name: 'Dev', admin: true, trusted: 1};
+    const { user } = request.session.passport || {};
+    return user;
 }
 
 function isAdmin(user) {
