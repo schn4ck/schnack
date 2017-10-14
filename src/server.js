@@ -28,11 +28,11 @@ dbHandler.init()
     .catch(err => console.error(err.message));
 
 const schnack_url = url.parse(config.schnack_host);
-if (!schnack_url.host) {
+if (!schnack_url.hostname) {
     console.error(`"${config.schnack_host}" doesn't appear to be a proper URL. Did you forget "http://"?`);
     process.exit(-1);
 }
-const schnack_domain = schnack_url.host.split('.').slice(1).join('.');
+const schnack_domain = schnack_url.hostname.split('.').slice(1).join('.');
 
 function run(db) {
     app.use(cors({
