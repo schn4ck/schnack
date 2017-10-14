@@ -229,7 +229,7 @@ function isAdmin(user) {
 
 function checkOrigin(origin, callback) {
     // origin is allowed
-    if (typeof origin === 'undefined' || `.${url.parse(origin).host}`.endsWith(`.${schnack_domain}`)) {
+    if (typeof origin === 'undefined' || `.${url.parse(origin).hostname}`.endsWith(`.${schnack_domain}`)) {
         return callback(null, true);
     }
 
