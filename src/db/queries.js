@@ -15,6 +15,9 @@ module.exports = {
       WHERE slug = ? AND NOT user.blocked
         AND NOT comment.rejected
       ORDER BY comment.created_at DESC`,
+  get_last_comment:
+      `SELECT comment, user_id FROM comment WHERE slug = ?
+      ORDER BY comment.created_at DESC LIMIT 1`,
   approve:
       `UPDATE comment SET approved = 1 WHERE id = ?`,
   reject:

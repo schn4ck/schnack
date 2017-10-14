@@ -88,12 +88,15 @@ function run(db) {
         const user = getUser(request);
 
         if (!user) return error('access denied', request, reply, 403);
-        db.run(queries.insert, [user.id, slug, comment], (err) => {
-            if (error(err, request, reply)) return;
-            if (!user.blocked && !user.trusted) {
-                awaiting_moderation.push({slug});
-            }
-            reply.send({ status: 'ok' });
+        checkValidComment(db, slug, user.id, comment, (err) => {
+            if (err) return reply.send({ status: 'rejected', reason: err });
+            db.run(queries.insert, [user.id, slug, comment], (err) => {
+                if (error(err, request, reply)) return;
+                if (!user.blocked && !user.trusted) {
+                    awaiting_moderation.push({slug});
+                }
+                reply.send({ status: 'ok' });
+            });
         });
     });
 
@@ -234,4 +237,16 @@ function checkOrigin(origin, callback) {
     }
 
     callback(new Error('Not allowed by CORS'));
+}
+
+function checkValidComment(db, slug, user_id, comment, callback) {
+    if (comment.trim() === '') return callback('the comment can\'t be empty');
+    // check duplicate comment
+    db.get(queries.get_last_comment, [slug], (err, row) => {
+        if (err) return callback(err);
+        if (row && row.comment.trim() == comment && row.user_id == user_id) {
+            return callback('the exact comment has been entered before');
+        }
+        callback(null);
+    });
 }
