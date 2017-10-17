@@ -15,13 +15,13 @@
     "passport-twitter": "^1.0.4",
     "pushover-notifications": "^0.2.4",
     "rss": "^1.2.2",
-    "sqlite3": "^3.1.13",
+    "sqlite": "^2.8.0",
     "unfetch": "^3.0.0"
   },
   "scripts": {
     "build": "rollup -cw",
-    "test": "http-server test -o 'http://localhost:8080/'",
-    "dev": "nodemon index.js"
+    "test": "http-server test -o 'http://localhost:8080/' -P 'http://localhost:3000/'",
+    "dev": "NODE_ENV=development nodemon index.js"
   },
   "description": "a simple node app for disqus-like drop-in commenting on static websites",
   "main": "index.js",
