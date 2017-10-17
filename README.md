@@ -68,7 +68,7 @@ Schnack is [yet another](https://github.com/gka/canvid/) happy collaboration bet
 
 ### Who is using Schnack?
 
-Schnack would never track who is using the software, so we don't really know! If you are a happy Schnack user, [let us know](https://twitter.com/schnackjs) and we'll add you here. So far Schnack is being used on:
+Schnack would never track who is using the software, so we don't know! If you are a Schnack user, [let us know](https://twitter.com/schnackjs) and we'll add your website here. So far Schnack is being used on:
 
 * https://vis4.net/blog
 
