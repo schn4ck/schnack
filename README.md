@@ -46,6 +46,14 @@ New comments need to be approved by the site admin, who can see and approve or r
 
 Schnack.js provides two mechanisms to remind you of new comments. The old-school way is an [RSS feed](https://github.com/gka/schnack/blob/master/src/server.js#L123-L141) that you can use in services like [IFTTT](https://ifttt.com). Alternatively you can hook into a push notification service like [Pushover](https://pushover.net) to get notifications right to your phone.
 
+**New: web-push notifications**
+
+If you want you can be notified about new comments using web-push notifications. To configure this you need to do 3 things:
+
+1. Generate the vapid-keys using `node_modules/.bin/web-push  generate-vapid-keys` and copy them into your config.json.
+2. Copy the [sw.js](https://github.com/gka/schnack/blob/master/sw.js) into your website's root path.
+3. Next time you log into your site you will be asked to allow notifications.
+
 ### Semi-automatically trust your friends
 
 You can provide a list of user IDs of people you trust for each authentication provider. For instance, you could use the Twitter API to [get a list of all the people you follow](https://apigee.com/console/twitter?req=%7B%22resource%22%3A%22friends_ids%22%2C%22params%22%3A%7B%22query%22%3A%7B%22stringify_ids%22%3A%22true%22%2C%22cursor%22%3A%22-1%22%7D%2C%22template%22%3A%7B%7D%2C%22headers%22%3A%7B%7D%2C%22body%22%3A%7B%22attachmentFormat%22%3A%22mime%22%2C%22attachmentContentDisposition%22%3A%22form-data%22%7D%7D%2C%22verb%22%3A%22get%22%7D) and drop that into the config.
