@@ -6,7 +6,7 @@ const serviceWorkerName = '/sw.js';
 let isSubscribed = false;
 let swRegistration = null;
 
-(function() {    
+(function() {
     Notification.requestPermission().then(function (status) {
         if (status === 'granted') {
             initialiseServiceWorker();
@@ -66,7 +66,7 @@ function initialiseState(reg) {
 function subscribe() {
     navigator.serviceWorker.ready.then(function (reg) {
         const subscribeParams = {userVisibleOnly: true};
-        
+
         //Setting the public key of our VAPID key pair.
         const applicationServerKey = urlB64ToUint8Array(applicationServerPublicKey);
         subscribeParams.applicationServerKey = applicationServerKey;
@@ -112,13 +112,13 @@ function unsubscribe() {
 function sendSubscriptionToServer(endpoint, key, auth) {
     const encodedKey = btoa(String.fromCharCode.apply(null, new Uint8Array(key)));
     const encodedAuth = btoa(String.fromCharCode.apply(null, new Uint8Array(auth)));
-    
+
     fetch('/subscribe', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({publicKey: encodedKey, auth: encodedAuth, endpoint})
     }).then((res) => {
-        console.log('Subscribed successfully! ' + JSON.stringify(res));        
+        console.log('Subscribed successfully! ' + JSON.stringify(res));
     })
 }
 
@@ -128,7 +128,7 @@ function removeSubscriptionFromServer(endpoint) {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({publicKey: encodedKey, auth: encodedAuth, endpoint})
     }).then((res) => {
-        console.log('Unsubscribed successfully! ' + JSON.stringify(res));        
+        console.log('Unsubscribed successfully! ' + JSON.stringify(res));
     })
 }
 

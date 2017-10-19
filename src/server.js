@@ -34,6 +34,23 @@ if (!schnack_url.hostname) {
 }
 const schnack_domain = schnack_url.hostname.split('.').slice(1).join('.');
 
+function send_file(file, admin_only) {
+    return send_string(fs.readFileSync(file, 'utf-8'), admin_only);
+}
+
+function send_string(body, admin_only) {
+    return function(request, reply, next) {
+        if (admin_only) {
+            const user = getUser(request);
+            if (!user.admin) return next();
+        }
+        if (request.baseUrl.endsWith('.js')) {
+            reply.header("Content-Type", "application/javascript");
+        }
+        reply.send(body);
+    };
+}
+
 function run(db) {
     app.use(cors({
         credentials: true,
@@ -46,8 +63,11 @@ function run(db) {
     // init session + passport middleware and auth routes
     auth.init(app, db, schnack_domain);
 
-    // serve /build
-    app.use(express.static(path.join('build')));
+    // serve static js files
+    app.use('/embed.js', send_file('build/embed.js'));
+    app.use('/sw.js', send_file('src/embed/sw.js', true));
+    app.use('/push.js', send_string(fs.readFileSync('src/embed/push.js', 'utf-8')
+        .replace('%VAPID_PUBLIC_KEY%', config.notify.webpush.vapid_public_key), true));
 
     app.get('/comments/:slug', (request, reply) => {
         const { slug } = request.params;
@@ -163,16 +183,16 @@ function run(db) {
     // push notifications
     app.post('/subscribe', (request, reply) => {
         const { endpoint, publicKey, auth } = request.body;
-    
+
         db.run(queries.subscribe, endpoint, publicKey, auth, (err) => {
             if (error(err, request, reply)) return;
             reply.send({ status: 'ok' });
         });
     });
-    
+
     app.post('/unsubscribe', (request, reply) => {
         const { endpoint } = request.body;
-    
+
         db.run(queries.unsubscribe, endpoint, (err) => {
             if (error(err, request, reply)) return;
             reply.send({ status: 'ok' });
@@ -199,7 +219,6 @@ function run(db) {
             config.notify.webpush.vapid_private_key
         );
 
-        
         notifier.push((msg, callback) => {
             db.each(queries.get_subscriptions, (err, row) => {
                 if (error(err)) return;
@@ -211,9 +230,9 @@ function run(db) {
                         auth: row.auth
                     }
                 };
-                webpush.sendNotification(subscription, JSON.stringify({title: 'schnack', message: msg.message, clickTarget: msg.url}))
+                webpush.sendNotification(subscription, JSON.stringify({title: 'schnack', message: msg.message, clickTarget: msg.url}));
             }, callback);
-        })
+        });
     }
 
     // check for new comments in need of moderation
