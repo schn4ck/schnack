@@ -41,7 +41,7 @@ function send_file(file, admin_only) {
 function send_string(body, admin_only) {
     return function(request, reply, next) {
         if (admin_only) {
-            const user = getUser(request);
+            const user = getUser(request) || {};
             if (!user.admin) return next();
         }
         if (request.baseUrl.endsWith('.js')) {
