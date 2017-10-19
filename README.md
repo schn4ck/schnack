@@ -32,7 +32,7 @@ The app runs as a node server that provides a JS file to be dropped into any web
 
 ### Authentication
 
-So far, users who want to post a comment need to Twitter or Github. More auth providers can be added easily, thanks to [Passport.js](passportjs.org).
+So far, users who want to post a comment need to Twitter or Github. More auth providers can be added easily, thanks to [Passport.js](http://passportjs.org).
 
 ### Data storage
 
