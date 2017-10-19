@@ -11,13 +11,13 @@ const countBy = require('lodash.countby');
 
 const RSS = require('rss');
 const Pushover = require('pushover-notifications');
+const webpush = require('web-push');
 const marked = require('marked');
 
 const dbHandler = require('./db');
 const queries = require('./db/queries');
 const auth = require('./auth');
 
-const embedJS = fs.readFileSync(path.resolve(__dirname, '../build/embed.js'), 'utf-8');
 const config = require('../config.json');
 const awaiting_moderation = [];
 
@@ -46,9 +46,8 @@ function run(db) {
     // init session + passport middleware and auth routes
     auth.init(app, db, schnack_domain);
 
-    app.get('/embed.js', (request, reply) => {
-        reply.type('application/javascript').send(embedJS);
-    });
+    // serve /build
+    app.use(express.static(path.join('build')));
 
     app.get('/comments/:slug', (request, reply) => {
         const { slug } = request.params;
@@ -149,11 +148,32 @@ function run(db) {
         reply.send({ html: marked(comment.trim()) });
     });
 
+    // settings
     app.post('/setting/:property/:value', (request, reply) => {
         const { property, value } = request.params;
         const user = getUser(request);
         if (!isAdmin(user)) return reply.status(403).send(request.params);
-        db.run(queries.set_settings, property, value, (err) => {
+        const setting = value ? 1 : 0;
+        db.run(queries.set_settings, [property, setting], (err) => {
+            if (error(err, request, reply)) return;
+            reply.send({ status: 'ok' });
+        });
+    });
+
+    // push notifications
+    app.post('/subscribe', (request, reply) => {
+        const { endpoint, publicKey, auth } = request.body;
+    
+        db.run(queries.subscribe, endpoint, publicKey, auth, (err) => {
+            if (error(err, request, reply)) return;
+            reply.send({ status: 'ok' });
+        });
+    });
+    
+    app.post('/unsubscribe', (request, reply) => {
+        const { endpoint } = request.body;
+    
+        db.run(queries.unsubscribe, endpoint, (err) => {
             if (error(err, request, reply)) return;
             reply.send({ status: 'ok' });
         });
@@ -172,6 +192,30 @@ function run(db) {
         notifier.push((msg, callback) => push.send(msg, callback));
     }
 
+    if (config.notify.webpush) {
+        webpush.setVapidDetails(
+            config.schnack_host,
+            config.notify.webpush.vapid_public_key,
+            config.notify.webpush.vapid_private_key
+        );
+
+        
+        notifier.push((msg, callback) => {
+            db.each(queries.get_subscriptions, (err, row) => {
+                if (error(err)) return;
+
+                const subscription = {
+                    endpoint: row.endpoint,
+                    keys: {
+                        p256dh: row.publicKey,
+                        auth: row.auth
+                    }
+                };
+                webpush.sendNotification(subscription, JSON.stringify({title: 'schnack', message: msg.message, clickTarget: msg.url}))
+            }, callback);
+        })
+    }
+
     // check for new comments in need of moderation
     setInterval(() => {
         var bySlug;
@@ -183,16 +227,14 @@ function run(db) {
         function next(err) {
             var k = Object.keys(bySlug)[0];
             if (!k || err) return;
-            db.get(queries.get_settings, (err, row) => {
+            db.get(queries.get_settings, 'notification', (err, row) => {
                 if (err) console.error(err.message);
-
                 var cnt = bySlug[k],
                     msg = {
                         message: `${cnt} new comment${cnt>1?'s':''} on "${k}" are awaiting moderation.`,
-                        url: url.resolve(config.schnack_host, k),
-                        sound: (row.value === 'true') ? 'pushover' : 'none'
+                        url: `/${k}`,
+                        sound: !!row.active ? 'pushover' : 'none'
                     };
-                    console.log(msg);
                 delete bySlug[k];
                 setTimeout(() => {
                     notifier.forEach((f) => f(msg, next));

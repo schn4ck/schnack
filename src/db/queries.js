@@ -46,8 +46,17 @@ module.exports = {
        created_at, trusted, blocked)
       VALUES (?, ?, ?, ?, datetime(), ?, 0)`,
   set_settings:
-      `INSERT OR REPLACE INTO setting (id, value)
+      `INSERT OR REPLACE INTO setting (name, active)
       VALUES (?, ?)`,
   get_settings:
-      `SELECT value FROM setting WHERE id = "notification"`
+      `SELECT active FROM setting WHERE name = ?`,
+  subscribe:
+      `INSERT INTO subscription
+      (endpoint, publicKey, auth)
+      VALUES (?, ?, ?)`,
+  unsubscribe:
+      `DELETE FROM subscription
+      WHERE endpoint = ?`,
+  get_subscriptions:
+      `SELECT endpoint, publicKey, auth FROM subscription`
 };

@@ -20,6 +20,14 @@ CREATE TABLE user (
 );
 
 CREATE TABLE setting (
-    id CHAR(128) PRIMARY KEY NOT NULL,
-    value BOOLEAN
+    name CHAR(128) PRIMARY KEY NOT NULL,
+    active BOOLEAN NOT NULL
 );
+
+CREATE TABLE subscription (
+    endpoint CHAR(600) PRIMARY KEY NOT NULL,
+    publicKey CHAR(4096) NOT NULL,
+    auth CHAR(600) NOT NULL
+);
+
+INSERT INTO setting (name, active) VALUES ('notification', 1);
