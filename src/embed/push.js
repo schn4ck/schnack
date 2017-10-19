@@ -2,7 +2,7 @@
 const applicationServerPublicKey = '%VAPID_PUBLIC_KEY%';
 const schnack_host = '%SCHNACK_HOST%';
 
-const serviceWorkerName = schnack_host + '/sw.js';
+const serviceWorkerName =  '/sw.js';
 
 let isSubscribed = false;
 let swRegistration = null;
