@@ -1,7 +1,8 @@
 //Vapid public key.
-const applicationServerPublicKey = 'BHzaOeZ5zxbHp9xE8jYAOjI2xFcKx0VayBWWq6CjxI1mNPHUpTClj4eLclNjDwOCKTC2PZiuY3e_L3Ps-_VRMO8';
+const applicationServerPublicKey = '%VAPID_PUBLIC_KEY%';
+const schnack_host = '%SCHNACK_HOST%';
 
-const serviceWorkerName = '/sw.js';
+const serviceWorkerName = schnack_host + '/sw.js';
 
 let isSubscribed = false;
 let swRegistration = null;
@@ -113,23 +114,26 @@ function sendSubscriptionToServer(endpoint, key, auth) {
     const encodedKey = btoa(String.fromCharCode.apply(null, new Uint8Array(key)));
     const encodedAuth = btoa(String.fromCharCode.apply(null, new Uint8Array(auth)));
 
-    fetch('/subscribe', {
+    fetch(schnack_host+'/subscribe', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({publicKey: encodedKey, auth: encodedAuth, endpoint})
     }).then((res) => {
         console.log('Subscribed successfully! ' + JSON.stringify(res));
-    })
+    });
 }
 
 function removeSubscriptionFromServer(endpoint) {
-    fetch('/unsubscribe', {
+    const encodedKey = btoa(String.fromCharCode.apply(null, new Uint8Array(key)));
+    const encodedAuth = btoa(String.fromCharCode.apply(null, new Uint8Array(auth)));
+
+    fetch(schnack_host+'/unsubscribe', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({publicKey: encodedKey, auth: encodedAuth, endpoint})
     }).then((res) => {
         console.log('Unsubscribed successfully! ' + JSON.stringify(res));
-    })
+    });
 }
 
 function urlB64ToUint8Array(base64String) {
