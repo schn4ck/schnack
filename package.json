@@ -38,6 +38,10 @@
     {
       "name": "Moritz Klack",
       "web": "https://moritzklack.com"
+    },
+    {
+      "name": "g-div",
+      "web": "https://github.com/g-div"
     }
   ],
   "devDependencies": {
