@@ -40,7 +40,7 @@ To post a comment you need to sign in via<br>
                 ['approve', 'reject'].forEach((action) => { %>
                 <button class="schnack-action" data-target="<%= comment.id %>" data-class="comment" data-action="<%= action %>"><i class="icon schnack-icon-<%= action %>"></i> <span><%= action %></span></button>
                 <% }); } %>
-                This comment is still waiting for <%= data.user.admin ? 'your ' : '' %>approval<%= !data.user.admin ? ' by the site owner' : ''%>.
+                <%= data.user.admin ? 'This' : 'Your' %> comment is still waiting for <%= data.user.admin ? 'your ' : '' %>approval<%= !data.user.admin ? ' by the site owner' : ''%>.
             </div>
             <% } else { %>
             <!-- <button>reply</button> -->
