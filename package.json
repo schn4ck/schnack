@@ -22,8 +22,9 @@
   },
   "scripts": {
     "build": "rollup -cw",
-    "test": "http-server test -o 'http://localhost:8080/' -P 'http://localhost:3000/'",
-    "dev": "NODE_ENV=development nodemon index.js"
+    "test-server": "http-server test -o 'http://localhost:8080/' -P 'http://localhost:3000/'",
+    "server": "NODE_ENV=development nodemon index.js",
+    "dev": "test/run"
   },
   "description": "a simple node app for disqus-like drop-in commenting on static websites",
   "main": "index.js",
