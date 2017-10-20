@@ -3,6 +3,7 @@ import comments_tpl from './comments.jst.html';
 
 (function() {
     let initialized = false;
+    let firstLoad = true;
     const $ = (sel) => document.querySelector(sel);
     const script = $('script[data-schnack-target]');
 
@@ -52,7 +53,7 @@ import comments_tpl from './comments.jst.html';
                     .then((res) => {
                         console.log(res);
                         textarea.value = '';
-                        window.localStorage.setItem(`schnack-draft-${slug}`, textarea.value);                        
+                        window.localStorage.setItem(`schnack-draft-${slug}`, textarea.value);
 
                         refresh();
                     });
@@ -144,6 +145,13 @@ import comments_tpl from './comments.jst.html';
                 document.querySelectorAll('.schnack-action').forEach((btn) => {
                     btn.addEventListener('click', action);
                 });
+            }
+
+            if (firstLoad && window.location.hash.match(/^#comment-\d+$/)) {
+                const hl = document.querySelector(window.location.hash);
+                hl.scrollIntoView();
+                hl.classList.add('schnack-highlight');
+                firstLoad = false;
             }
         });
     }
