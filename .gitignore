@@ -4,3 +4,4 @@ comments.db
 config.json
 sessions.db
 npm-debug.log
+*.sublime-*
