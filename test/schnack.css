@@ -20,3 +20,21 @@ li.schnack-comment {
 .schnack-body p {
     margin: 0;
 }
+
+button.schnack-action {
+    border:0;
+    background: none;
+    cursor: pointer;
+    padding:0;
+    opacity: 0.5;
+}
+
+
+button.schnack-action:hover {
+    color: #c00;
+    opacity: 1;
+}
+
+button.schnack-action span {
+    display: none;
+}
