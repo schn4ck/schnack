@@ -1,0 +1,79 @@
+@charset "UTF-8";
+
+@font-face {
+  font-family: "schnack";
+  src:url("fonts/schnack.eot");
+  src:url("fonts/schnack.eot?#iefix") format("embedded-opentype"),
+    url("fonts/schnack.woff") format("woff"),
+    url("fonts/schnack.ttf") format("truetype"),
+    url("fonts/schnack.svg#schnack") format("svg");
+  font-weight: normal;
+  font-style: normal;
+
+}
+
+[data-icon]:before {
+  font-family: "schnack" !important;
+  content: attr(data-icon);
+  font-style: normal !important;
+  font-weight: normal !important;
+  font-variant: normal !important;
+  text-transform: none !important;
+  speak: none;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+[class^="schnack-icon-"]:before,
+[class*=" schnack-icon-"]:before {
+  font-family: "schnack" !important;
+  font-style: normal !important;
+  font-weight: normal !important;
+  font-variant: normal !important;
+  text-transform: none !important;
+  speak: none;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.schnack-icon-approve:before {
+  content: "\66";
+}
+.schnack-icon-reject:before {
+  content: "\67";
+}
+.schnack-icon-subscribe:before {
+  content: "\68";
+}
+.schnack-icon-twitter:before {
+  content: "\69";
+}
+.schnack-icon-github:before {
+  content: "\6a";
+}
+.schnack-icon-facebook-squared:before {
+  content: "\6b";
+}
+.schnack-icon-gplus-circled:before {
+  content: "\6c";
+}
+.schnack-icon-rss:before {
+  content: "\6d";
+}
+.schnack-icon-delete:before {
+  content: "\6e";
+}
+.schnack-icon-block:before {
+  content: "\6f";
+}
+.schnack-icon-trust:before {
+  content: "\70";
+}
+.schnack-icon-edit:before {
+  content: "\61";
+}
+.schnack-icon-reply:before {
+  content: "\62";
+}
