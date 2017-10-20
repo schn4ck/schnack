@@ -109,12 +109,14 @@ function run(db) {
         if (!user) return error('access denied', request, reply, 403);
         checkValidComment(db, slug, user.id, comment, (err) => {
             if (err) return reply.send({ status: 'rejected', reason: err });
-            db.run(queries.insert, [user.id, slug, comment], (err) => {
-                if (error(err, request, reply)) return;
+            let stmt = db
+            .prepare(queries.insert, [user.id, slug, comment])
+            .run(err => {
+                if (err) return error(err, request, reply);
                 if (!user.blocked && !user.trusted) {
                     awaiting_moderation.push({slug});
                 }
-                reply.send({ status: 'ok' });
+                reply.send({ status: 'ok', id: stmt.lastID });
             });
         });
     });
