@@ -54,7 +54,10 @@ import comments_tpl from './comments.jst.html';
                         console.log(res);
                         textarea.value = '';
                         window.localStorage.setItem(`schnack-draft-${slug}`, textarea.value);
-
+                        if (res.id) {
+                            firstLoad = true;
+                            window.location.hash = '#comment-'+res.id;
+                        }
                         refresh();
                     });
                 });
