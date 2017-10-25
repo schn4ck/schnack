@@ -8,7 +8,8 @@ const dbpath = path.resolve(__dirname, `../../${dbname}`);
 function init() {
   return Promise.resolve(db.open(dbpath, { Promise }))
   .then(db => db.migrate({
-    force: process.env.NODE_ENV === 'development' ? 'last' : false
+    // force: process.env.NODE_ENV === 'development' ? 'last' : false
+    force: false
   }))
   .then(db => db.driver) // @FIXME
   .catch(err => console.error(err));
