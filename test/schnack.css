@@ -29,6 +29,11 @@ button.schnack-action {
     opacity: 0.5;
 }
 
+.schnack-comment .schnack-form,
+.schnack-comment .schnack-comments {
+    margin-left: 2em;
+}
+
 
 button.schnack-action:hover {
     color: #c00;

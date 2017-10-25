@@ -19,6 +19,6 @@ export default {
         commonjs(),
         resolve(),
         buble(),
-        uglify()
+        // uglify()
     ]
 };

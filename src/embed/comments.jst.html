@@ -1,25 +1,6 @@
-<% if (data.user) { %>
-    <% if (data.user.admin) { %>
-    <div class="schnack-settings">
-        <button class="schnack-action" data-target="notification" data-class="setting" data-action="true">un</button>
-        <button class="schnack-action" data-target="notification" data-class="setting" data-action="false">mute notifications</button>
-    </div>
-    <% } %>
-<div class="schnack-form">
-    <textarea class="schnack-body" placeholder="Post a comment. Markdown is supported!"></textarea>
-    <blockquote class="schnack-body" style="display:none"></blockquote>
-    <br>
-    <button class="schnack-preview">Preview</button>
-    <button style="display:none" class="schnack-write">Edit</button>&nbsp;
-    <button class="schnack-button">Send comment</button><br>
-    (signed in as <span class="schnack-user">@<%= data.user.name %></span> :: <a class="schnack-signout" href="#">sign out</a>)
-</div>
-<% } else { %>
-To post a comment you need to sign in via<br>
-<% data.auth.forEach((provider, i) => {  %>
-    <%= i ? ' or ' : '' %><button class="schnack-signin-<%= provider.id %>"><%= provider.name %></button>
-<% }) %>
-<% } %>
+<%
+console.log('comments tpl', data);
+%>
 <ul class="schnack-comments">
     <% data.comments.forEach((comment) => { %>
         <li id="comment-<%= comment.id %>" data-id="<%= comment.id %>" class="schnack-comment<% if (!comment.approved && !comment.trusted) { %> schnack-not-approved<% } %>">
@@ -43,11 +24,13 @@ To post a comment you need to sign in via<br>
                 <%= data.user.admin ? 'This' : 'Your' %> comment is still waiting for <%= data.user.admin ? 'your ' : '' %>approval<%= !data.user.admin ? ' by the site owner' : ''%>.
             </div>
             <% } else { %>
-            <!-- <button>reply</button> -->
+            <button class="schnack-reply" data-reply-to="<%= comment.id %>">reply</button>
+            <% } %>
+            <% if (data.replies[comment.id]) {
+            data.comments = data.replies[comment.id];
+            %>
+            <%= data.comments_tpl(data) %>
             <% } %>
         </li>
     <% }) %>
 </ul>
-<style type="text/css">
-.schnack-action > * { pointer-events: none; }
-</style>

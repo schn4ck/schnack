@@ -1,10 +1,12 @@
 import fetch from 'unfetch';
+import schnack_tpl from './schnack.jst.html';
 import comments_tpl from './comments.jst.html';
 
 (function() {
     let initialized = false;
     let firstLoad = true;
     const $ = (sel) => document.querySelector(sel);
+    const $$ = (sel) => document.querySelectorAll(sel);
     const script = $('script[data-schnack-target]');
 
     if (!script) return console.warn('schnack script tag needs some data attributes');
@@ -28,8 +30,11 @@ import comments_tpl from './comments.jst.html';
         })
         .then( r => r.json() )
         .then((data) => {
-            $(target).innerHTML = comments_tpl(data);
+            data.comments_tpl = comments_tpl;
+            $(target).innerHTML = schnack_tpl(data);
 
+            const above = $(`${target} div.schnack-above`);
+            const form = $(`${target} div.schnack-form`);
             const textarea = $(`${target} textarea.schnack-body`);
             const preview = $(`${target} .schnack-form blockquote.schnack-body`);
 
@@ -39,6 +44,8 @@ import comments_tpl from './comments.jst.html';
             const postBtn = $(target + ' .schnack-button');
             const previewBtn = $(target + ' .schnack-preview');
             const writeBtn = $(target + ' .schnack-write');
+            const cancelReplyBtn = $(target + ' .schnack-cancel-reply');
+            const replyBtns = $$(target + ' .schnack-reply');
 
             if (postBtn) {
                 postBtn.addEventListener('click', (d) => {
@@ -47,7 +54,10 @@ import comments_tpl from './comments.jst.html';
                         credentials: 'include',
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({ comment: body })
+                        body: JSON.stringify({
+                            comment: body,
+                            replyTo: form.dataset.reply
+                        })
                     })
                     .then( r => r.json() )
                     .then((res) => {
@@ -91,6 +101,20 @@ import comments_tpl from './comments.jst.html';
 
                 textarea.addEventListener('keyup', () => {
                     window.localStorage.setItem(`schnack-draft-${slug}`, textarea.value);
+                });
+
+                replyBtns.forEach((btn) => {
+                    btn.addEventListener('click', () => {
+                        form.dataset.reply = btn.dataset.replyTo;
+                        cancelReplyBtn.style.display = 'inline-block';
+                        btn.parentElement.appendChild(form);
+                    });
+                });
+
+                cancelReplyBtn.addEventListener('click', () => {
+                    above.appendChild(form);
+                    delete form.dataset.reply;
+                    cancelReplyBtn.style.display = 'none';
                 });
             }
             if (data.user) {

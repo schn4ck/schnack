@@ -52,7 +52,7 @@ function checkOrigin(origin, callback) {
     callback(new Error('Not allowed by CORS'));
 }
 
-function checkValidComment(db, slug, user_id, comment, callback) {
+function checkValidComment(db, slug, user_id, comment, replyTo, callback) {
     if (comment.trim() === '') return callback('the comment can\'t be empty');
     // check duplicate comment
     db.get(queries.get_last_comment, [slug], (err, row) => {
@@ -60,6 +60,7 @@ function checkValidComment(db, slug, user_id, comment, callback) {
         if (row && row.comment.trim() == comment && row.user_id == user_id) {
             return callback('the exact comment has been entered before');
         }
+        // @todo: check for cyclic replies
         callback(null);
     });
 }

@@ -29,16 +29,16 @@ marked.setOptions({ sanitize: true });
 dbHandler.init()
     .then(db => run(db))
     .catch(err => console.error(err.message));
-    
+
     function run(db) {
         app.use(cors({
             credentials: true,
             origin: checkOrigin
         }));
-        
+
         app.use(bodyParser.json());
         app.use(bodyParser.urlencoded({ extended: true }));
-        
+
         // init session + passport middleware and auth routes
         auth.init(app, db, getSchnackDomain());
         pushHandler.init(app, db, awaiting_moderation);
@@ -77,14 +77,14 @@ dbHandler.init()
     // POST new comment
     app.post('/comments/:slug', (request, reply) => {
         const { slug } = request.params;
-        const { comment } = request.body;
+        const { comment, replyTo } = request.body;
         const user = getUser(request);
 
         if (!user) return error('access denied', request, reply, 403);
-        checkValidComment(db, slug, user.id, comment, (err) => {
+        checkValidComment(db, slug, user.id, comment, replyTo, (err) => {
             if (err) return reply.send({ status: 'rejected', reason: err });
             let stmt = db
-            .prepare(queries.insert, [user.id, slug, comment])
+            .prepare(queries.insert, [user.id, slug, comment, replyTo ? +replyTo : null])
             .run(err => {
                 if (err) return error(err, request, reply);
                 if (!user.blocked && !user.trusted) {
