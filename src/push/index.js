@@ -6,7 +6,8 @@ const config = require('../../config.json');
 const queries = require('../db/queries');
 const {
     send_file,
-    send_string
+    send_string,
+    error
 } = require('../helper');
 
 function init(app, db, awaiting_moderation) {
@@ -96,10 +97,9 @@ function init(app, db, awaiting_moderation) {
             reply.send({ status: 'ok' });
         });
     });
-};
+}
 
 module.exports = {
     init
 };
-  
-  
+
