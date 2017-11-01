@@ -84,7 +84,7 @@ The image will contain everything in the project folder and can be started with:
 docker run -p 3000:3000 -d gka/schnack
 ```
 
-In order to be able to edit your config file and your SQL database files, you may be want to share the project folder with the docker container:
+In order to be able to edit your config file and your SQL database files, you may want to share the project folder with the docker container:
 
 ```sh
 docker run -p 3000:3000 -v $(pwd):/usr/src/app -d gka/schnack
