@@ -70,6 +70,26 @@ You can provide a list of user IDs of people you trust for each authentication p
 }
 ```
 
+### Run in Docker
+
+You can build a Docker image for the schnack server running:
+
+```sh
+docker build -t gka/schnack .
+```
+
+The image will contain everything in the project folder and can be started with:
+
+```sh
+docker run -p 3000:3000 -d gka/schnack
+```
+
+In order to be able to edit your config file and your SQL database files, you may be want to share the project folder with the docker container:
+
+```sh
+docker run -p 3000:3000 -v $(pwd):/usr/src/app -d gka/schnack
+```
+
 ### Who is behind Schnack?
 
 Schnack is [yet another](https://github.com/gka/canvid/) happy collaboration between [Webkid](https://webkid.io/) and [Gregor Aisch](https://www.vis4.net).
