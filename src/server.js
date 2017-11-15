@@ -30,18 +30,18 @@ dbHandler.init()
     .then(db => run(db))
     .catch(err => console.error(err.message));
 
-    function run(db) {
-        app.use(cors({
-            credentials: true,
-            origin: checkOrigin
-        }));
+function run(db) {
+    app.use(cors({
+        credentials: true,
+        origin: checkOrigin
+    }));
 
-        app.use(bodyParser.json());
-        app.use(bodyParser.urlencoded({ extended: true }));
+    app.use(bodyParser.json());
+    app.use(bodyParser.urlencoded({ extended: true }));
 
-        // init session + passport middleware and auth routes
-        auth.init(app, db, getSchnackDomain());
-        pushHandler.init(app, db, awaiting_moderation);
+    // init session + passport middleware and auth routes
+    auth.init(app, db, getSchnackDomain());
+    pushHandler.init(app, db, awaiting_moderation);
 
     app.get('/comments/:slug', (request, reply) => {
         const { slug } = request.params;
