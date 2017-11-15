@@ -1,5 +1,6 @@
 {
     "schnack_host": "https://schnack.mysite.com",
+    "page_url": "https://blog.mysite.com/posts/%SLUG%",
     "port": 3000,
     "admins": [1],
     "oauth": {
@@ -21,6 +22,9 @@
         "webpush": {
             "vapid_public_key": "xxxxx",
             "vapid_private_key": "xxxxx"
+        },
+        "slack": {
+            "webhook_url": "xxxxx"
         }
     },
     "date_format": "MMMM DD, YYYY - h:mm a"

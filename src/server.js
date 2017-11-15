@@ -12,6 +12,7 @@ const dbHandler = require('./db');
 const queries = require('./db/queries');
 const auth = require('./auth');
 const pushHandler = require('./push');
+const schnackEvents = require('./events');
 const {
     error,
     getUser,
@@ -90,6 +91,7 @@ function run(db) {
                 if (!user.blocked && !user.trusted) {
                     awaiting_moderation.push({slug});
                 }
+                schnackEvents.emit('new-comment', { user: user, slug, id: stmt.lastID, comment, replyTo });
                 reply.send({ status: 'ok', id: stmt.lastID });
             });
         });

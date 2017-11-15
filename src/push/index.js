@@ -4,6 +4,7 @@ const webpush = require('web-push');
 const Pushover = require('pushover-notifications');
 const config = require('../../config.json');
 const queries = require('../db/queries');
+const slack = require('./slack');
 const {
     send_file,
     send_string,
@@ -42,7 +43,11 @@ function init(app, db, awaiting_moderation) {
                         auth: row.auth
                     }
                 };
-                webpush.sendNotification(subscription, JSON.stringify({title: 'schnack', message: msg.message, clickTarget: msg.url}));
+                webpush.sendNotification(subscription, JSON.stringify({
+                    title: 'schnack',
+                    message: msg.message,
+                    clickTarget: msg.url
+                }));
             }, callback);
         });
     }
