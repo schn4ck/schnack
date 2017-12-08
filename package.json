@@ -25,6 +25,7 @@
     "build": "rollup -cw",
     "test-server": "http-server test -o 'http://localhost:8080/' -P 'http://localhost:3000/'",
     "server": "NODE_ENV=development nodemon index.js",
+    "import": "node src/importer.js",
     "dev": "test/run"
   },
   "description": "a simple node app for disqus-like drop-in commenting on static websites",
