@@ -90,6 +90,14 @@ In order to be able to edit your config file and your SQL database files, you ma
 docker run -p 3000:3000 -v $(pwd):/usr/src/app -d gka/schnack
 ```
 
+### Import comments from disqus
+
+You can import comments from your [disqus XML export](https://help.disqus.com/customer/portal/articles/472149-comments-export) as following:
+
+```
+npm run import -- disqus.xml
+```
+
 ### Who is behind Schnack?
 
 Schnack is [yet another](https://github.com/gka/canvid/) happy collaboration between [Webkid](https://webkid.io/) and [Gregor Aisch](https://www.vis4.net).

@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<disqus xmlns="http://disqus.com" xmlns:dsq="http://disqus.com/disqus-internals" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://disqus.com/api/schemas/1.0/disqus.xsd http://disqus.com/api/schemas/1.0/disqus-internals.xsd">
+    <category dsq:id="3286472">
+        <forum>webkid</forum>
+        <title>General</title>
+        <isDefault>true</isDefault>
+    </category>
+    <thread dsq:id="3057176120">
+        <id>foo</id>
+        <forum>webkid</forum>
+        <category dsq:id="3286472" />
+        <link>http://localhost:3000/foo/</link>
+        <title>Welcome</title>
+        <message />
+        <createdAt>2014-09-26T20:11:04Z</createdAt>
+        <author>
+            <email>info@webkid.io</email>
+            <name>webkid</name>
+            <isAnonymous>false</isAnonymous>
+            <username>webkid</username>
+        </author>
+        <ipAddress>127.0.0.1</ipAddress>
+        <isClosed>false</isClosed>
+        <isDeleted>false</isDeleted>
+    </thread>
+    <thread dsq:id="3057176121">
+        <id>bar</id>
+        <forum>webkid</forum>
+        <category dsq:id="3286472" />
+        <link>http://localhost:3000/bar/</link>
+        <title>Bar!</title>
+        <message />
+        <createdAt>2014-09-26T20:11:04Z</createdAt>
+        <author>
+            <email>info@webkid.io</email>
+            <name>webkid</name>
+            <isAnonymous>false</isAnonymous>
+            <username>webkid</username>
+        </author>
+        <ipAddress>127.0.0.1</ipAddress>
+        <isClosed>false</isClosed>
+        <isDeleted>false</isDeleted>
+    </thread>
+    <post dsq:id="1664694813">
+        <id />
+        <message>
+            <![CDATA[<p>Hey, wow!</p><p>// Amazing post.</p><p>Check <a href="http://example.example" rel="nofollow noopener" title="example">example</a>.</p>]]>
+        </message>
+        <createdAt>2014-11-01T15:06:24Z</createdAt>
+        <isDeleted>false</isDeleted>
+        <isSpam>false</isSpam>
+        <author>
+            <email>moriz@webkid.io</email>
+            <name>Moritz</name>
+            <isAnonymous>false</isAnonymous>
+            <username>moritz</username>
+        </author>
+        <ipAddress>127.0.0.1</ipAddress>
+        <thread dsq:id="3057176120" />
+    </post>
+    <post dsq:id="1664831530">
+        <id />
+        <message>
+            <![CDATA[<p>Hi Moritz,</p><p>thanks for reading! </p>]]>
+        </message>
+        <createdAt>2014-11-01T16:59:29Z</createdAt>
+        <isDeleted>false</isDeleted>
+        <isSpam>false</isSpam>
+        <author>
+            <email>christopher@webkid.io</email>
+            <name>Christopher</name>
+            <isAnonymous>false</isAnonymous>
+            <username>christopher</username>
+        </author>
+        <ipAddress>127.0.0.1</ipAddress>
+        <thread dsq:id="3057176120" />
+        <parent dsq:id="1664694813" />
+    </post>
+    <post dsq:id="1690922142">
+        <id />
+        <message>
+            <![CDATA[<p>Hi Christopher!</p><p>Thanks! </p>]]>
+        </message>
+        <createdAt>2014-11-13T09:03:26Z</createdAt>
+        <isDeleted>false</isDeleted>
+        <isSpam>false</isSpam>
+        <author>
+            <email>moriz@webkid.io</email>
+            <name>Moritz</name>
+            <isAnonymous>false</isAnonymous>
+            <username>moritz</username>
+        </author>
+        <ipAddress>127.0.0.1</ipAddress>
+        <thread dsq:id="3057176120" />
+        <parent dsq:id="1664831530" />
+    </post>
+    <post dsq:id="1664694824">
+        <id />
+        <message>
+            <![CDATA[<p>Bar is the best.</p>]]>
+        </message>
+        <createdAt>2014-11-01T15:06:24Z</createdAt>
+        <isDeleted>false</isDeleted>
+        <isSpam>false</isSpam>
+        <author>
+            <email>moriz@webkid.io</email>
+            <name>Moritz</name>
+            <isAnonymous>false</isAnonymous>
+            <username>moritz</username>
+        </author>
+        <ipAddress>127.0.0.1</ipAddress>
+        <thread dsq:id="3057176121" />
+    </post>
+    <post dsq:id="1690992879">
+        <id />
+        <message>
+            <![CDATA[<p>Nice! :)</p>]]>
+        </message>
+        <createdAt>2014-11-13T10:40:03Z</createdAt>
+        <isDeleted>false</isDeleted>
+        <isSpam>false</isSpam>
+        <author>
+            <email>christopher@webkid.io</email>
+            <name>Christopher</name>
+            <isAnonymous>false</isAnonymous>
+            <username>christopher</username>
+        </author>
+        <ipAddress>127.0.0.1</ipAddress>
+        <thread dsq:id="3057176120" />
+        <parent dsq:id="1690922142" />
+    </post>
+</disqus>
