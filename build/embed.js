@@ -166,7 +166,7 @@ __p += '\n                ' +
 'approval' +
 ((__t = ( !data.user.admin ? ' by the site owner' : '')) == null ? '' : __t) +
 '.\n            </div>\n            ';
- } else { 
+ } else if (data.user) { 
 __p += '\n            <button class="schnack-reply" data-reply-to="' +
 ((__t = ( comment.id )) == null ? '' : __t) +
 '">reply</button>\n            ';

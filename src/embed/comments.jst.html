@@ -23,7 +23,7 @@ console.log('comments tpl', data);
                 <% }); } %>
                 <%= data.user.admin ? 'This' : 'Your' %> comment is still waiting for <%= data.user.admin ? 'your ' : '' %>approval<%= !data.user.admin ? ' by the site owner' : ''%>.
             </div>
-            <% } else { %>
+            <% } else if (data.user) { %>
             <button class="schnack-reply" data-reply-to="<%= comment.id %>">reply</button>
             <% } %>
             <% if (data.replies[comment.id]) {
