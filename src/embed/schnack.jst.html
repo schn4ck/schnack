@@ -5,6 +5,9 @@
         <button class="schnack-action" data-target="notification" data-class="setting" data-action="false">mute notifications</button>
     </div>
     <% } %>
+<div class="schack-login-status">
+    (signed in as <span class="schnack-user">@<%= data.user.name %></span> :: <a class="schnack-signout" href="#">sign out</a>)
+</div>
 <div class="schnack-above">
     <div class="schnack-form">
         <textarea class="schnack-body" placeholder="Post a comment. Markdown is supported!"></textarea>
@@ -16,8 +19,6 @@
         <button class="schnack-cancel-reply" style="display:none">Cancel</button>
     </div>
 </div>
-(signed in as <span class="schnack-user">@<%= data.user.name %></span> :: <a class="schnack-signout" href="#">sign out</a>)
-
 <% } else { %>
 To post a comment you need to sign in via<br>
 <% data.auth.forEach((provider, i) => {  %>
