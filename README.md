@@ -108,3 +108,4 @@ Schnack would never track who is using the software, so we don't know! If you ar
 
 * https://vis4.net/blog
 * https://blog.datawrapper.de
+* https://blog.webkid.io
