@@ -29,6 +29,41 @@ The app runs as a node server that provides a JS file to be dropped into any web
     data-schnack-target=".comments-go-here">
 </script>
 ```
+### Server installation
+
+Run:
+
+```
+npm install
+```
+
+Then copy `config.tpl.json` to `config.json and edit your config.
+Create [wep-push keys](https://github.com/gka/schnack#push-notifications-for-new-comments) and finally run the server with:
+
+```
+npm run server
+```
+
+### Run with Docker
+
+You can build a Docker image for the schnack server running:
+
+```sh
+docker build -t gka/schnack .
+```
+
+The image will contain everything in the project folder and can be started with:
+
+```sh
+docker run -p 3000:3000 -d gka/schnack
+```
+
+In order to be able to edit your config file and your SQL database files, you may want to share the project folder with the docker container:
+
+```sh
+docker run -p 3000:3000 -v $(pwd):/usr/src/app -d gka/schnack
+```
+
 
 ### Authentication
 
@@ -68,26 +103,6 @@ You can provide a list of user IDs of people you trust for each authentication p
 		1639, 2931, 2946, 3602, 4933
 	]
 }
-```
-
-### Run in Docker
-
-You can build a Docker image for the schnack server running:
-
-```sh
-docker build -t gka/schnack .
-```
-
-The image will contain everything in the project folder and can be started with:
-
-```sh
-docker run -p 3000:3000 -d gka/schnack
-```
-
-In order to be able to edit your config file and your SQL database files, you may want to share the project folder with the docker container:
-
-```sh
-docker run -p 3000:3000 -v $(pwd):/usr/src/app -d gka/schnack
 ```
 
 ### Import comments from disqus
