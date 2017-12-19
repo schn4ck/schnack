@@ -1,0 +1,2 @@
+docs:
+	echo "docs made"
