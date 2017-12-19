@@ -37,7 +37,7 @@ Run:
 npm install
 ```
 
-Then copy `config.tpl.json` to `config.json and edit your config.
+Then copy `config.tpl.json` to `config.json` and edit your config.
 Create [wep-push keys](https://github.com/gka/schnack#push-notifications-for-new-comments) and finally run the server with:
 
 ```
