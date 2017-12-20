@@ -158,7 +158,7 @@ function run(db) {
         });
     });
 
-    var server = app.listen(config.port || 3000, (err) => {
+    var server = app.listen(config.port || process.env.PORT || 3000, (err) => {
         if (err) throw err;
         console.log(`server listening on ${server.address().port}`);
     });
