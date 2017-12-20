@@ -38,7 +38,7 @@ npm install
 ```
 
 Then copy `config.tpl.json` to `config.json` and edit your config.
-Create [wep-push keys](https://github.com/gka/schnack#push-notifications-for-new-comments) and finally run the server with:
+Create [web-push keys](https://github.com/gka/schnack#push-notifications-for-new-comments) and finally run the server with:
 
 ```
 npm run server
@@ -67,7 +67,7 @@ docker run -p 3000:3000 -v $(pwd):/usr/src/app -d gka/schnack
 
 ### Authentication
 
-So far, users who want to post a comment need to Twitter or Github. More auth providers can be added easily, thanks to [Passport.js](http://passportjs.org).
+So far, users who want to post a comment need to authenticate using Twitter or Github. More auth providers can be added easily, thanks to [Passport.js](http://passportjs.org).
 
 ### Data storage
 
@@ -79,13 +79,13 @@ New comments need to be approved by the site admin, who can see and approve or r
 
 ### Push notifications for new comments
 
-Schnack.js provides two mechanisms to remind you of new comments. The old-school way is an [RSS feed](https://github.com/gka/schnack/blob/master/src/server.js#L123-L141) that you can use in services like [IFTTT](https://ifttt.com). Alternatively you can hook into a push notification service like [Pushover](https://pushover.net) to get notifications right to your phone.
+Schnack.js provides two mechanisms to notify you about new comments. The old-school way is an [RSS feed](https://github.com/gka/schnack/blob/master/src/server.js#L123-L141) that you can use in services like [IFTTT](https://ifttt.com). Alternatively you can hook into a push notification service like [Pushover](https://pushover.net) to get notifications right to your phone.
 
 **New: web-push notifications**
 
 If you want you can be notified about new comments using web-push notifications. To configure this you need to do 3 things:
 
-1. Generate the vapid-keys using `node_modules/.bin/web-push  generate-vapid-keys` and copy them into your config.json.
+1. Generate the vapid-keys using `node_modules/.bin/web-push generate-vapid-keys` and copy them into your config.json.
 2. Copy the [sw.js](https://github.com/gka/schnack/blob/master/sw.js) into your website's root path.
 3. Next time you log into your site you will be asked to allow notifications.
 
@@ -119,7 +119,7 @@ Schnack is [yet another](https://github.com/gka/canvid/) happy collaboration bet
 
 ### Who is using Schnack?
 
-Schnack would never track who is using the software, so we don't know! If you are a Schnack user, [let us know](https://twitter.com/schnackjs) and we'll add your website here. So far Schnack is being used on:
+Schnack will never track who is using it, so we don't know! If you are a Schnack user, [let us know](https://twitter.com/schnackjs) and we'll add your website here. So far Schnack is being used on:
 
 * https://vis4.net/blog
 * https://blog.datawrapper.de
