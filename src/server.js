@@ -158,6 +158,11 @@ function run(db) {
         });
     });
 
+    if (config.dev) {
+        // create dev user for testing purposes
+        db.run('INSERT OR IGNORE INTO user (id,name,blocked,trusted,created_at) VALUES (1,"dev",0,1,datetime())');
+    }
+
     var server = app.listen(config.port || process.env.PORT || 3000, (err) => {
         if (err) throw err;
         console.log(`server listening on ${server.address().port}`);
