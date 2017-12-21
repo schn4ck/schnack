@@ -19,7 +19,7 @@ import comments_tpl from './comments.jst.html';
     const target = opts.schnackTarget;
 
     if (url.hostname != 'localhost') {
-        document.domain = url.host.split('.').slice(1).join('.');
+        document.domain = url.hostname.split('.').slice(1).join('.');
     }
 
     function refresh() {
