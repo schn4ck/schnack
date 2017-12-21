@@ -62,9 +62,9 @@ __p += '\n    ';
  if (data.user.admin) { 
 __p += '\n    <div class="schnack-settings">\n        <button class="schnack-action" data-target="notification" data-class="setting" data-action="true">un</button>\n        <button class="schnack-action" data-target="notification" data-class="setting" data-action="false">mute notifications</button>\n    </div>\n    ';
  } 
-__p += '\n<div class="schnack-above">\n    <div class="schnack-form">\n        <textarea class="schnack-body" placeholder="Post a comment. Markdown is supported!"></textarea>\n        <blockquote class="schnack-body" style="display:none"></blockquote>\n        <br>\n        <button class="schnack-preview">Preview</button>\n        <button style="display:none" class="schnack-write">Edit</button>&nbsp;\n        <button class="schnack-button">Send comment</button>&nbsp;\n        <button class="schnack-cancel-reply" style="display:none">Cancel</button>\n    </div>\n</div>\n(signed in as <span class="schnack-user">@' +
+__p += '\n<div class="schack-login-status">\n    (signed in as <span class="schnack-user">@' +
 ((__t = ( data.user.name )) == null ? '' : __t) +
-'</span> :: <a class="schnack-signout" href="#">sign out</a>)\n\n';
+'</span> :: <a class="schnack-signout" href="#">sign out</a>)\n</div>\n<div class="schnack-above">\n    <div class="schnack-form">\n        <textarea class="schnack-body" placeholder="Post a comment. Markdown is supported!"></textarea>\n        <blockquote class="schnack-body" style="display:none"></blockquote>\n        <br>\n        <button class="schnack-preview">Preview</button>\n        <button style="display:none" class="schnack-write">Edit</button>&nbsp;\n        <button class="schnack-button">Send comment</button>&nbsp;\n        <button class="schnack-cancel-reply" style="display:none">Cancel</button>\n    </div>\n</div>\n';
  } else { 
 __p += '\nTo post a comment you need to sign in via<br>\n';
  data.auth.forEach(function (provider, i) {  
@@ -96,7 +96,7 @@ data.comments = comments;
 
 __p += '\n' +
 ((__t = ( data.comments_tpl(data) )) == null ? '' : __t) +
-'\n<style type="text/css">\n.schnack-action > * { pointer-events: none; }\n</style>';
+'\n<style type="text/css">\n.schnack-action > * { pointer-events: none; }\n</style>\n';
 return __p
 };
 
