@@ -71,8 +71,13 @@ function getSchnackDomain() {
         console.error(`"${config.schnack_host}" doesn't appear to be a proper URL. Did you forget "http://"?`);
         process.exit(-1);
     }
-    const schnack_domain = schnack_url.hostname.split('.').slice(1).join('.');
-    return schnack_domain;
+
+    if (schnack_url.hostname === 'localhost') {
+        return schnack_url.hostname;
+    } else {
+        const schnack_domain = schnack_url.hostname.split('.').slice(1).join('.');
+        return schnack_domain;
+    }
 }
 
 module.exports = {
