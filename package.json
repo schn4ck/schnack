@@ -8,7 +8,7 @@
     "express": "^4.16.1",
     "express-session": "^1.15.6",
     "lodash.countby": "^4.6.0",
-    "marked": "^0.3.6",
+    "marked": "^0.3.9",
     "moment": "^2.18.1",
     "passport": "^0.4.0",
     "passport-github2": "^0.1.11",
