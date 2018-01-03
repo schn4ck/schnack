@@ -37,12 +37,39 @@ Run:
 npm install
 ```
 
-Then copy `config.tpl.json` to `config.json` and edit your config.
+Then copy `config.tpl.json` to `config.json` and edit your [config](#configuration).
 Create [web-push keys](https://github.com/gka/schnack#push-notifications-for-new-comments) and finally run the server with:
 
 ```
 npm run server
 ```
+
+### Configuration
+
+- *schnack_host*: the hostname where the schnack server runs (e.g. *https://schnack.mysite.com*)
+- *page_url*: the page where schnack is going to be embeded.
+	the `%SLUG%` placeholder should be replaceble with you tags (e.g. *https://blog.mysite.com/posts/%SLUG%*)
+- *database*: the filename of the embeded SQLite database where data is going to be stored (e.g. *comments.db*)
+- *port*: the port where the schnack server is going to run (e.g. 3000)
+- *admins*: an array of userIDs which can login as admin (e.g. *[1, 245]*)
+- *oauth*:
+	- *secret*: the secret passed to [express-session](https://github.com/expressjs/session#secret)
+	- *twitter*: 
+		- *consumer_key*: the consumer key for Twitter OAuth apps
+		- *consumer_secret*: the consumer secret for Twitter OAuth apps
+	- *github*:
+		- *client_id*: the client id for Github OAuth apps
+		- *client_secret*: the client id for Github OAuth apps
+- *notify*:
+	- *pushover*:
+		- *app_token*: the Pushover app token
+		- *user_key*: the Pushover user key
+	- *webpush*:
+		- *vapid_public_key*: the [webpush](https://github.com/gka/schnack#push-notifications-for-new-comments) public key,
+		- *vapid_private_key*: the [webpush](https://github.com/gka/schnack#push-notifications-for-new-comments) private key
+	- *slack*: 
+		- *webhook_url*: the Slack webhook URL
+- *date_format*: how to display dates (e.g. *MMMM DD, YYYY - h:mm a*)
 
 ### Run with Docker
 
