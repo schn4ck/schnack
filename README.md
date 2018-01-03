@@ -1,6 +1,6 @@
 # schnack.js
 
-[![Join the chat at https://gitter.im/schnackjs/Lobby](https://badges.gitter.im/schnackjs/Lobby.svg)](https://gitter.im/schnackjs/Lobby?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+[![Join the chat at https://gitter.im/schnackjs/schnack](https://badges.gitter.im/schnackjs/schnack.svg)](https://gitter.im/schnackjs/Lobby?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
 [schnack.js](https://dict.leo.org/englisch-deutsch/schnack) is a simple node app for Disqus-like drop-in commenting on static websites.
 
