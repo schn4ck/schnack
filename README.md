@@ -132,13 +132,15 @@ You can provide a list of user IDs of people you trust for each authentication p
 }
 ```
 
-### Import comments from disqus
+### Import comments from disqus or Wordpress
 
 You can import comments from your [disqus XML export](https://help.disqus.com/customer/portal/articles/472149-comments-export) as following:
 
 ```
 npm run import -- disqus.xml
 ```
+
+This will work for [Wordpress XML exports](https://en.blog.wordpress.com/2006/06/12/xml-import-export/) as well.
 
 ### Who is behind Schnack?
 
