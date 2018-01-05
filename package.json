@@ -52,7 +52,6 @@
     }
   ],
   "devDependencies": {
-    "d3-selection": "^1.1.0",
     "http-server": "^0.10.0",
     "nodemon": "^1.12.1",
     "rollup": "^0.50.0",
