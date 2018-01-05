@@ -59,7 +59,13 @@ npm run server
 		- *consumer_secret*: the consumer secret for Twitter OAuth apps
 	- *github*:
 		- *client_id*: the client id for Github OAuth apps
-		- *client_secret*: the client id for Github OAuth apps
+		- *client_secret*: the client secret for Github OAuth apps
+	- *google*:
+		- *client_id*: the client id for Google OAuth2 apps
+		- *client_secret*: the client secret for Google OAuth2 apps
+	- *facebook*:
+		- *client_id*: the client id for Facebook OAuth apps
+		- *client_secret*: the client secret for Facebook OAuth apps
 - *notify*:
 	- *pushover*:
 		- *app_token*: the Pushover app token
@@ -94,7 +100,7 @@ docker run -p 3000:3000 -v $(pwd):/usr/src/app -d gka/schnack
 
 ### Authentication
 
-So far, users who want to post a comment need to authenticate using Twitter or Github. More auth providers can be added easily, thanks to [Passport.js](http://passportjs.org).
+So far, users who want to post a comment need to authenticate using Twitter, Github, Facebook and Google. More auth providers can be added easily, thanks to [Passport.js](http://passportjs.org).
 
 ### Data storage
 

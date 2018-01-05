@@ -4,6 +4,7 @@ const SQLiteStore = require('connect-sqlite3')(session);
 const TwitterStrategy = require('passport-twitter').Strategy;
 const GitHubStrategy = require('passport-github2').Strategy;
 const GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
+const FacebookStrategy = require('passport-facebook').Strategy;
 
 const queries = require('./db/queries');
 const config = require('../config.json');
@@ -120,6 +121,30 @@ function init(app, db, domain) {
                 failureRedirect: '/login'
             }), (request, reply) => {
                 reply.redirect('/success');
+            }
+        );
+    }
+
+    // facebook oauth
+    if (config.oauth.facebook) {
+        providers.push({ id: 'facebook', name: 'Facebook' });
+        passport.use(new FacebookStrategy({
+            clientID: client.oauth.facebook.client_id,
+            clientSecret: config.oauth.facebook.client_secret,
+            callbackURL: `${config.schnack_host}/auth/facebook/callback`
+        }, (accessToken, refreshToken, profile, done) => {
+              done(null, profile);
+        }));
+
+        app.get('/auth/facebook',
+            passport.authenticate('facebook')
+        );
+
+        app.get('/auth/facebook/callback',
+            passport.authenticate('facebook', {
+                failureRedirect: '/login'
+            }), (request, reply) => {
+                reply.redirect('/success')
             }
         );
     }

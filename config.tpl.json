@@ -17,6 +17,10 @@
         "google": {
             "client_id": "xxxxx",
             "client_secret": "xxxxx"
+        },
+        "facebook": {
+            "client_id": "xxxxx",
+            "client_secret": "xxxxx"
         }
     },
     "notify": {
