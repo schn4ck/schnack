@@ -24,7 +24,7 @@ The app runs as a node server that provides a JS file to be dropped into any web
 
 ```html
 <div class="comments-go-here"></div>
-<script src="//comments.yoursite.com/embed.js"
+<script src="https://comments.yoursite.com/embed.js"
     data-schnack-slug="post-slug"
     data-schnack-target=".comments-go-here">
 </script>
