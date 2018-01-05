@@ -12,6 +12,7 @@
     "moment": "^2.18.1",
     "passport": "^0.4.0",
     "passport-github2": "^0.1.11",
+    "passport-google-oauth": "^1.0.0",
     "passport-twitter": "^1.0.4",
     "pushover-notifications": "^0.2.4",
     "request": "^2.83.0",

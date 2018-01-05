@@ -13,6 +13,10 @@
         "github": {
             "client_id": "xxxxx",
             "client_secret": "xxxxx"
+        },
+        "google": {
+            "client_id": "xxxxx",
+            "client_secret": "xxxxx"
         }
     },
     "notify": {

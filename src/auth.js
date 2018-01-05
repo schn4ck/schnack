@@ -3,6 +3,7 @@ const session = require('express-session');
 const SQLiteStore = require('connect-sqlite3')(session);
 const TwitterStrategy = require('passport-twitter').Strategy;
 const GitHubStrategy = require('passport-github2').Strategy;
+const GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
 
 const queries = require('./db/queries');
 const config = require('../config.json');
@@ -29,7 +30,7 @@ function init(app, db, domain) {
             var trusted = config.trust &&
                     config.trust[user.provider] &&
                     config.trust[user.provider].indexOf(user.id) > -1 ? 1 : 0;
-            const c_args = [user.provider, user.id, user.displayName, user.username, trusted];
+            const c_args = [user.provider, user.id, user.displayName, user.username || user.displayName, trusted];
             db.run(queries.create_user, c_args, (err, res) => {
                 if (err) return console.error(err);
                 db.get(queries.find_user, [user.provider, user.id], (err, row) => {
@@ -90,6 +91,32 @@ function init(app, db, domain) {
 
         app.get('/auth/github/callback',
             passport.authenticate('github', {
+                failureRedirect: '/login'
+            }), (request, reply) => {
+                reply.redirect('/success');
+            }
+        );
+    }
+
+    // google oauth
+    if (config.oauth.google) {
+        providers.push({ id: 'google', name: 'Google' });
+        passport.use(new GoogleStrategy({
+            clientID: config.oauth.google.client_id,
+            clientSecret: config.oauth.google.client_secret,
+            callbackURL: `${config.schnack_host}/auth/google/callback`
+        }, (accessToken, refreshToken, profile, done) => {
+            done(null, profile);
+        }));
+
+        app.get('/auth/google',
+            passport.authenticate('google', {
+                scope: ['https://www.googleapis.com/auth/plus.login']
+            })
+        );
+
+        app.get('/auth/google/callback',
+            passport.authenticate('google', {
                 failureRedirect: '/login'
             }), (request, reply) => {
                 reply.redirect('/success');
