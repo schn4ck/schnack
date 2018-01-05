@@ -19,7 +19,7 @@ Install dependencies:
 ```
 npm install
 ```
-Copy and edit the config file according to [Configuration](#Configuration):
+Copy and edit the config file according to [configuration](#configuration) section:
 ```
 cp config.tpl.json config.json
 ```
@@ -29,7 +29,7 @@ Run the server:
 npm start
 ```
 
-- Embed in your HTML page:
+Embed in your HTML page:
 ```html
 <div class="comments-go-here"></div>
 <script src="https://comments.yoursite.com/embed.js"
@@ -79,4 +79,3 @@ npm start
 # How it works ?
 
 # Development
-
