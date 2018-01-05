@@ -1,0 +1,26 @@
+* {
+  box-sizing: border-box;
+}
+
+html, body {
+  margin: 0;
+}
+
+.main{
+  max-width: 1000px;
+  margin: 0 auto;
+  display: flex;
+}
+
+aside {
+  width: 25%;
+  max-width: 300px;
+}
+
+aside img {
+  width: 100px;
+}
+
+aside .nav__item {
+  display: block
+}

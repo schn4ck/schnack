@@ -4,3 +4,4 @@ yarn.lock
 config.json
 npm-debug.log
 *.sublime-*
+.DS_Store

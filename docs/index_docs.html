@@ -1,0 +1,300 @@
+<html>
+  <head>
+    <title>schnack - simple self-hosted comment system for static websites</title>
+    <link href="style.css" rel="stylesheet">
+  </head>
+  <body>
+    <div class="main">
+      <aside>
+        <img src="schnack-logo.jpg" />
+        <nav>
+      <a
+        class="nav__item nav__item-1"
+        href="#quickstart"
+      >
+        Quickstart
+      </a>
+    
+
+      <a
+        class="nav__item nav__item-1"
+        href="#configuration"
+      >
+        Configuration
+      </a>
+    
+
+      <a
+        class="nav__item nav__item-2"
+        href="#general"
+      >
+        General
+      </a>
+    
+
+      <a
+        class="nav__item nav__item-2"
+        href="#authentication"
+      >
+        Authentication
+      </a>
+    
+
+      <a
+        class="nav__item nav__item-2"
+        href="#notifications"
+      >
+        Notifications
+      </a>
+    
+
+      <a
+        class="nav__item nav__item-2"
+        href="#trust-your-friends"
+      >
+        Trust your friends
+      </a>
+    
+
+      <a
+        class="nav__item nav__item-1"
+        href="#administration"
+      >
+        Administration
+      </a>
+    
+
+      <a
+        class="nav__item nav__item-2"
+        href="#moderation"
+      >
+        Moderation
+      </a>
+    
+
+      <a
+        class="nav__item nav__item-2"
+        href="#backups"
+      >
+        Backups
+      </a>
+    
+
+      <a
+        class="nav__item nav__item-1"
+        href="#import-comments"
+      >
+        Import comments
+      </a>
+    
+
+      <a
+        class="nav__item nav__item-2"
+        href="#wordpress"
+      >
+        WordPress
+      </a>
+    
+
+      <a
+        class="nav__item nav__item-2"
+        href="#disqus"
+      >
+        Disqus
+      </a>
+    
+
+      <a
+        class="nav__item nav__item-1"
+        href="#docker"
+      >
+        Docker
+      </a>
+    
+
+      <a
+        class="nav__item nav__item-1"
+        href="#how-it-works-"
+      >
+        How it works ?
+      </a>
+    
+
+      <a
+        class="nav__item nav__item-1"
+        href="#development"
+      >
+        Development
+      </a>
+    </nav>
+      </aside>
+      <section>
+        <header>
+          <h1>schnack!</h1>
+          <p>An easy to use and open source commenting system</p>
+        </header>
+        
+    <h1 id="quickstart">
+      <a class="anchor" href="#quickstart">
+        Quickstart
+      </a>
+    </h1>
+  <p>This is the fastest way to setup <em>schnack</em>. </p>
+<p><strong>Requirements</strong>:</p>
+<ul>
+<li>Node.js (&gt;= v6)</li>
+<li>npm (&gt;= v5)</li>
+</ul>
+<p>Clone or download schnack:</p>
+<pre><code>git clone https://github.com/gka/schnack
+</code></pre><p>Go to the schnack directory:</p>
+<pre><code>cd schnack
+</code></pre><p>Install dependencies:</p>
+<pre><code>npm install
+</code></pre><p>Copy and edit the config file according to <a href="#Configuration">Configuration</a>:</p>
+<pre><code>cp config.tpl.json config.json
+</code></pre><p>Run the server:</p>
+<pre><code>npm start
+</code></pre><ul>
+<li>Embed in your HTML page:<pre><code class="lang-html">&lt;div class=&quot;comments-go-here&quot;&gt;&lt;/div&gt;
+&lt;script src=&quot;https://comments.yoursite.com/embed.js&quot;
+  data-schnack-slug=&quot;post-slug&quot;
+  data-schnack-target=&quot;.comments-go-here&quot;&gt;
+&lt;/script&gt;
+</code></pre>
+</li>
+</ul>
+
+    <h1 id="configuration">
+      <a class="anchor" href="#configuration">
+        Configuration
+      </a>
+    </h1>
+  
+    <h2 id="general">
+      <a class="anchor" href="#general">
+        General
+      </a>
+    </h2>
+  
+    <h2 id="authentication">
+      <a class="anchor" href="#authentication">
+        Authentication
+      </a>
+    </h2>
+  <ul>
+<li>secret</li>
+</ul>
+
+    <h3 id="twitter">
+      <a class="anchor" href="#twitter">
+        Twitter
+      </a>
+    </h3>
+  
+    <h3 id="github">
+      <a class="anchor" href="#github">
+        GitHub
+      </a>
+    </h3>
+  
+    <h3 id="google">
+      <a class="anchor" href="#google">
+        Google
+      </a>
+    </h3>
+  
+    <h3 id="facebook">
+      <a class="anchor" href="#facebook">
+        Facebook
+      </a>
+    </h3>
+  
+    <h2 id="notifications">
+      <a class="anchor" href="#notifications">
+        Notifications
+      </a>
+    </h2>
+  
+    <h3 id="web-push">
+      <a class="anchor" href="#web-push">
+        web-push
+      </a>
+    </h3>
+  
+    <h3 id="slack">
+      <a class="anchor" href="#slack">
+        slack
+      </a>
+    </h3>
+  
+    <h3 id="pushover">
+      <a class="anchor" href="#pushover">
+        PushOver
+      </a>
+    </h3>
+  
+    <h2 id="trust-your-friends">
+      <a class="anchor" href="#trust-your-friends">
+        Trust your friends
+      </a>
+    </h2>
+  
+    <h1 id="administration">
+      <a class="anchor" href="#administration">
+        Administration
+      </a>
+    </h1>
+  
+    <h2 id="moderation">
+      <a class="anchor" href="#moderation">
+        Moderation
+      </a>
+    </h2>
+  
+    <h2 id="backups">
+      <a class="anchor" href="#backups">
+        Backups
+      </a>
+    </h2>
+  
+    <h1 id="import-comments">
+      <a class="anchor" href="#import-comments">
+        Import comments
+      </a>
+    </h1>
+  
+    <h2 id="wordpress">
+      <a class="anchor" href="#wordpress">
+        WordPress
+      </a>
+    </h2>
+  
+    <h2 id="disqus">
+      <a class="anchor" href="#disqus">
+        Disqus
+      </a>
+    </h2>
+  
+    <h1 id="docker">
+      <a class="anchor" href="#docker">
+        Docker
+      </a>
+    </h1>
+  
+    <h1 id="how-it-works-">
+      <a class="anchor" href="#how-it-works-">
+        How it works ?
+      </a>
+    </h1>
+  
+    <h1 id="development">
+      <a class="anchor" href="#development">
+        Development
+      </a>
+    </h1>
+  
+      </section>
+    </div>
+   </body>
+</html>
