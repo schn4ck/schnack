@@ -16,11 +16,14 @@ a {
   text-decoration: none;
 }
 
+table {
+  width: 100%;
+}
+
 .main{
   max-width: 1000px;
   margin: 0 auto;
   display: flex;
-  padding: 1em 0;
 }
 
 header h1 {
@@ -37,14 +40,7 @@ header p {
 }
 
 aside {
-  width: 25%;
-  min-width: 25%;
-  max-width: 300px;
-  padding: 0 1em;
-}
-
-aside img {
-  width: 100%;
+  display: none;
 }
 
 .nav__item {
@@ -59,8 +55,18 @@ aside img {
   margin-bottom: .5em;
 }
 
+.docs {
+  width: 100%;
+  padding: 0 .85em;
+}
+
 .docs p {
   line-height: 1.4;
+}
+
+.docs p a {
+  color: #222;
+  border-bottom: 1px solid #FFB962;
 }
 
 .docs h1 a {
@@ -93,3 +99,34 @@ aside img {
   background-color: #f5f2f0;
 }
 
+.github-corner svg {
+  fill:#FFB962;
+  color:#fff;
+  position: absolute;
+  top: 0;
+  border: 0;
+  right: 0;
+}
+
+@media screen and (min-width: 768px) {
+  aside {
+    display: block;
+    width: 25%;
+    min-width: 25%;
+    max-width: 300px;
+    padding: 0 1em;
+  }
+
+  aside img {
+    width: 100%;
+  }
+
+  .docs {
+    padding-right: 1em;
+  }
+
+  .github-corner svg {
+    width: 70px;
+    height: 70px;
+  }
+}
