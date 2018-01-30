@@ -50,10 +50,18 @@ aside {
   font-size: 0.95em;
 }
 
+.nav__item-1:first-child {
+  margin-top: 0;
+}
+
 .nav__item-1 {
   font-weight: 700;
   border-bottom: 2px solid #FFB962;
-  margin-bottom: .5em;
+  margin: 1em 0 .5em;
+}
+
+.nav__item-2 {
+  margin-top: .2em;
 }
 
 .docs {
