@@ -176,10 +176,23 @@ The most effective way to keep a backup of your data is to take a copy of your `
 
 # Import comments
 
-It is possible to import [disqus XML export](https://help.disqus.com/customer/portal/articles/472149-comments-export) and [Wordpress XML export](https://en.blog.wordpress.com/2006/06/12/xml-import-export/) files using 
+It is possible to import [disqus XML export](https://help.disqus.com/customer/portal/articles/472149-comments-export) and [Wordpress XML export](https://en.blog.wordpress.com/2006/06/12/xml-import-export/).
+In order to be able to import your comments, a database should already exist and schnack shouldn't be running.
+The importer requires **Node.js >= v9**.
 
-## WordPress
+## Wordpress
+
+You can export you data from Wordpress following [this guide](https://en.blog.wordpress.com/2006/06/12/xml-import-export/). Then you can run the following to import the comments into schnack's database:
+```
+npm run import -- wordpress.xml
+```
+
 ## Disqus
+
+You can [export](https://help.disqus.com/customer/portal/articles/472149-comments-export) your disqus comments and import them into schnack running:
+```
+npm run import -- disqus.xml
+```
 
 # Docker
 
