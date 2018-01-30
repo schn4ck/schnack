@@ -6,7 +6,6 @@ const renderer = new marked.Renderer();
 renderer.heading = headingParser;
 
 const toc = [];
-
 const docsMarkdown = readFile('docs.md');
 const docsAsHtml = marked(docsMarkdown, { renderer });
 const navAsHtml = generateNavigation(toc);
@@ -16,9 +15,7 @@ const index = indexTemplate
   .replace('{{content}}', docsAsHtml)
   .replace('{{navigation}}', navAsHtml);
 
-
-fs.writeFile(path.resolve(__dirname, 'index_docs.html'), index, () => {});
-
+fs.writeFile(path.resolve(__dirname, 'index.html'), index, () => {});
 
 function generateNavigation(toc) {
   return toc
