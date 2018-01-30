@@ -6,21 +6,71 @@ html, body {
   margin: 0;
 }
 
+body {
+  color: #222;
+  font-family: 'Roboto', sans-serif;
+  line-height: 1.4;
+}
+
+a {
+  text-decoration: none;
+}
+
 .main{
   max-width: 1000px;
   margin: 0 auto;
   display: flex;
+  padding: 1em 0;
+}
+
+header h1 {
+  margin: 0;
+  font-size: 3em;
+}
+
+header h1 span {
+  color: #FFB962;
+}
+
+header p {
+  margin:0
 }
 
 aside {
   width: 25%;
+  min-width: 25%;
   max-width: 300px;
+  padding: 0 1em;
 }
 
 aside img {
-  width: 100px;
+  width: 100%;
 }
 
-aside .nav__item {
-  display: block
+.nav__item {
+  display: block;
+  color: #222;
+  font-size: 0.95em;
+}
+
+.nav__item-1 {
+  font-weight: 700;
+  border-bottom: 2px solid #FFB962;
+  margin-bottom: .5em;
+}
+
+.docs p {
+  line-height: 1.4;
+}
+
+.docs h1 a {
+  color: #222;
+  border-bottom: 3px solid #FFB962;
+  width: 100%;
+  display: block;
+}
+
+.docs h2 a,
+.docs h3 a {
+  color: #222;
 }
