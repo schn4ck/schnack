@@ -74,3 +74,22 @@ aside img {
 .docs h3 a {
   color: #222;
 }
+
+.docs code[class*=language-],
+.docs pre[class*=language-] {
+  font-size: 0.91em;
+}
+
+.docs thead {
+  text-align: left;
+}
+
+.docs td, .docs th {
+  padding: .25em .5em;
+  min-height: 45px;
+}
+
+.docs tbody tr:nth-child(even) {
+  background-color: #f5f2f0;
+}
+

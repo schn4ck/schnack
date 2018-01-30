@@ -1,32 +1,32 @@
 # Quickstart
 
-This is the fastest way to setup *schnack*. 
+This is the fastest way to setup *schnack*.
 
 **Requirements**:
 - Node.js (>= v6)
 - npm (>= v5)
 
 Clone or download schnack:
-```
+```bash
 git clone https://github.com/gka/schnack
 ```
 Go to the schnack directory:
-```
+```bash
 cd schnack
 ```
 
 Install dependencies:
-```
+```bash
 npm install
 ```
 Copy and edit the config file according to [configuration](#configuration) section:
-```
+```bash
 cp config.tpl.json config.json
 vim config.json                 # or open with any editor of your choice
 ```
 
 Run the server:
-```
+```bash
 npm start
 ```
 
@@ -183,14 +183,14 @@ The importer requires **Node.js >= v9**.
 ## Wordpress
 
 You can export you data from Wordpress following [this guide](https://en.blog.wordpress.com/2006/06/12/xml-import-export/). Then you can run the following to import the comments into schnack's database:
-```
+```bash
 npm run import -- wordpress.xml
 ```
 
 ## Disqus
 
 You can [export](https://help.disqus.com/customer/portal/articles/472149-comments-export) your disqus comments and import them into schnack running:
-```
+```bash
 npm run import -- disqus.xml
 ```
 
@@ -198,19 +198,19 @@ npm run import -- disqus.xml
 
 You can build a Docker image for the schnack server running:
 
-```sh
+```bash
 docker build -t gka/schnack .
 ```
 
 The image will contain everything in the project folder and can be started with:
 
-```sh
+```bash
 docker run -p 3000:3000 -d gka/schnack
 ```
 
 In order to be able to edit your config file and your SQL database files, you may want to share the project folder with the docker container:
 
-```sh
+```bash
 docker run -p 3000:3000 -v $(pwd):/usr/src/app -d gka/schnack
 ```
 
