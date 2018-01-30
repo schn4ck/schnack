@@ -64,7 +64,9 @@ aside {
   line-height: 1.4;
 }
 
-.docs p a {
+.docs p a,
+.docs table a,
+.docs ul a {
   color: #222;
   border-bottom: 1px solid #FFB962;
 }
