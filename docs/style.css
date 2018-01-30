@@ -9,7 +9,8 @@ html, body {
 body {
   color: #222;
   font-family: 'Roboto', sans-serif;
-  line-height: 1.4;
+  line-height: 1.5;
+  font-size: 1em;
 }
 
 a {
@@ -17,7 +18,13 @@ a {
 }
 
 table {
+  border-collapse: collapse;
   width: 100%;
+  table-layout: fixed;
+}
+
+table td {
+  overflow: auto;
 }
 
 .main{
@@ -69,8 +76,13 @@ aside {
   padding: 0 .85em;
 }
 
-.docs p {
-  line-height: 1.4;
+.docs code {
+  background-color: #f5f2f0;
+  padding: .1em .25em;
+}
+
+.docs ul {
+  padding-left: 20px;
 }
 
 .docs p a,
@@ -99,6 +111,7 @@ aside {
 
 .docs thead {
   text-align: left;
+  border-bottom: 1px solid #eee;
 }
 
 .docs td, .docs th {
@@ -108,6 +121,12 @@ aside {
 
 .docs tbody tr:nth-child(even) {
   background-color: #f5f2f0;
+}
+
+.docs tbody tr td:first-child,
+.docs code {
+  font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+  font-size: 0.91em;
 }
 
 .github-corner svg {
