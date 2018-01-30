@@ -1,11 +1,505 @@
 <html>
-<head>
-<title>schnack - simple self-hosted comment system for static websites</title></head>
-<body>
-<a href="https://github.com/gka/schnack"><img src="schnack-logo.jpg"></a>
-<style>
-body { text-align: center; padding-top:100px;}
-img { max-width: 100%; width: 500px; }
-</style>
-</body>
+  <head>
+    <title>schnack - simple self-hosted comment system for static websites</title>
+    <link href="style.css" rel="stylesheet">
+  </head>
+  <body>
+    <div class="main">
+      <aside>
+        <img src="schnack-logo.jpg" />
+        <nav>
+      <a
+        class="nav__item nav__item-1"
+        href="#quickstart"
+      >
+        Quickstart
+      </a>
+    
+
+      <a
+        class="nav__item nav__item-1"
+        href="#configuration"
+      >
+        Configuration
+      </a>
+    
+
+      <a
+        class="nav__item nav__item-2"
+        href="#general"
+      >
+        General
+      </a>
+    
+
+      <a
+        class="nav__item nav__item-2"
+        href="#authentication"
+      >
+        Authentication
+      </a>
+    
+
+      <a
+        class="nav__item nav__item-2"
+        href="#notifications"
+      >
+        Notifications
+      </a>
+    
+
+      <a
+        class="nav__item nav__item-1"
+        href="#administration"
+      >
+        Administration
+      </a>
+    
+
+      <a
+        class="nav__item nav__item-2"
+        href="#moderation"
+      >
+        Moderation
+      </a>
+    
+
+      <a
+        class="nav__item nav__item-2"
+        href="#trust-your-friends"
+      >
+        Trust your friends
+      </a>
+    
+
+      <a
+        class="nav__item nav__item-2"
+        href="#backups"
+      >
+        Backups
+      </a>
+    
+
+      <a
+        class="nav__item nav__item-1"
+        href="#import-comments"
+      >
+        Import comments
+      </a>
+    
+
+      <a
+        class="nav__item nav__item-2"
+        href="#wordpress"
+      >
+        Wordpress
+      </a>
+    
+
+      <a
+        class="nav__item nav__item-2"
+        href="#disqus"
+      >
+        Disqus
+      </a>
+    
+
+      <a
+        class="nav__item nav__item-1"
+        href="#docker"
+      >
+        Docker
+      </a>
+    
+
+      <a
+        class="nav__item nav__item-1"
+        href="#how-it-works-"
+      >
+        How it works ?
+      </a>
+    
+
+      <a
+        class="nav__item nav__item-1"
+        href="#development"
+      >
+        Development
+      </a>
+    </nav>
+      </aside>
+      <section>
+        <header>
+          <h1>schnack!</h1>
+          <p>An easy to use and open source commenting system</p>
+        </header>
+        
+    <h1 id="quickstart">
+      <a class="anchor" href="#quickstart">
+        Quickstart
+      </a>
+    </h1>
+  <p>This is the fastest way to setup <em>schnack</em>. </p>
+<p><strong>Requirements</strong>:</p>
+<ul>
+<li>Node.js (&gt;= v6)</li>
+<li>npm (&gt;= v5)</li>
+</ul>
+<p>Clone or download schnack:</p>
+<pre><code>git clone https://github.com/gka/schnack
+</code></pre><p>Go to the schnack directory:</p>
+<pre><code>cd schnack
+</code></pre><p>Install dependencies:</p>
+<pre><code>npm install
+</code></pre><p>Copy and edit the config file according to <a href="#configuration">configuration</a> section:</p>
+<pre><code>cp config.tpl.json config.json
+vim config.json                 # or open with any editor of your choice
+</code></pre><p>Run the server:</p>
+<pre><code>npm start
+</code></pre><p>Embed in your HTML page:</p>
+<pre><code class="lang-html">&lt;div class=&quot;comments-go-here&quot;&gt;&lt;/div&gt;
+&lt;script src=&quot;https://comments.yoursite.com/embed.js&quot;
+    data-schnack-slug=&quot;post-slug&quot;
+    data-schnack-target=&quot;.comments-go-here&quot;&gt;
+&lt;/script&gt;
+</code></pre>
+
+    <h1 id="configuration">
+      <a class="anchor" href="#configuration">
+        Configuration
+      </a>
+    </h1>
+  <p><em>schnack</em> will try to read the configuration from the <code>config.json</code> file. The minimal configuration requires the following fields: <em>schnack_host</em>, <em>admins</em>, <em>oauth.secret</em>  and at least one oauth provider (id and secret key) and one notification provider.
+The fields <em>schnack_host</em> and <em>page_url</em> should be hosted on the <strong>same domain</strong>. If your blog is running at <em><a href="https://blog.mysite.com">https://blog.mysite.com</a></em>, then your <em>schnack</em> instance should be reachable at any <strong>subdomain</strong> of <em>mysite.com</em>.</p>
+<table>
+<thead>
+<tr>
+<th>option</th>
+<th>description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>schnack_host</td>
+<td>the hostname where the schnack server runs (e.g. <em><a href="https://schnack.mysite.com">https://schnack.mysite.com</a></em>)</td>
+</tr>
+<tr>
+<td>page_url</td>
+<td>the page where schnack is going to be embeded. The <code>%SLUG%</code> placeholder should be replaceable with you tags (e.g. <em><a href="https://blog.mysite.com/posts/%SLUG%">https://blog.mysite.com/posts/%SLUG%</a></em>)</td>
+</tr>
+<tr>
+<td>database</td>
+<td>the filename of the embeded SQLite database where data is going to be stored (e.g. <em>comments.db</em>)</td>
+</tr>
+<tr>
+<td>port</td>
+<td>the port where the schnack server is going to run (e.g. 3000)</td>
+</tr>
+<tr>
+<td>admins</td>
+<td>an array of userIDs which can login as admin (e.g. <em>[1, 245]</em>)</td>
+</tr>
+<tr>
+<td>oauth</td>
+<td></td>
+</tr>
+<tr>
+<td>&nbsp;&nbsp;secret</td>
+<td>the secret passed to <a href="https://github.com/expressjs/session#secret">express-session</a></td>
+</tr>
+<tr>
+<td>&nbsp;&nbsp;twitter</td>
+<td></td>
+</tr>
+<tr>
+<td>&nbsp;&nbsp;&nbsp;&nbsp;consumer_key</td>
+<td>the consumer key for Twitter OAuth apps</td>
+</tr>
+<tr>
+<td>&nbsp;&nbsp;&nbsp;&nbsp;consumer_secret</td>
+<td>the consumer secret for Twitter OAuth apps</td>
+</tr>
+<tr>
+<td>&nbsp;&nbsp;github</td>
+<td></td>
+</tr>
+<tr>
+<td>&nbsp;&nbsp;&nbsp;&nbsp;client_id</td>
+<td>the client id for GitHub OAuth apps</td>
+</tr>
+<tr>
+<td>&nbsp;&nbsp;&nbsp;&nbsp;client_secret</td>
+<td>the client secret for GitHub OAuth apps</td>
+</tr>
+<tr>
+<td>&nbsp;&nbsp;google</td>
+<td></td>
+</tr>
+<tr>
+<td>&nbsp;&nbsp;&nbsp;&nbsp;client_id</td>
+<td>the client id for Google OAuth2 apps</td>
+</tr>
+<tr>
+<td>&nbsp;&nbsp;&nbsp;&nbsp;client_secret</td>
+<td>the client secret for Google OAuth2 apps</td>
+</tr>
+<tr>
+<td>&nbsp;&nbsp;facebook</td>
+<td></td>
+</tr>
+<tr>
+<td>&nbsp;&nbsp;&nbsp;&nbsp;client_id</td>
+<td>the client id for Facebook OAuth apps</td>
+</tr>
+<tr>
+<td>&nbsp;&nbsp;&nbsp;&nbsp;client_secret</td>
+<td>the client secret for Facebook OAuth apps</td>
+</tr>
+<tr>
+<td>notify</td>
+<td></td>
+</tr>
+<tr>
+<td>&nbsp;&nbsp;pushover</td>
+<td></td>
+</tr>
+<tr>
+<td>&nbsp;&nbsp;&nbsp;&nbsp;app_token</td>
+<td>the Pushover app token</td>
+</tr>
+<tr>
+<td>&nbsp;&nbsp;&nbsp;&nbsp;user_key</td>
+<td>the Pushover user key</td>
+</tr>
+<tr>
+<td>&nbsp;&nbsp;webpush</td>
+<td></td>
+</tr>
+<tr>
+<td>&nbsp;&nbsp;&nbsp;&nbsp;vapid_public_key</td>
+<td>the <a href="https://github.com/gka/schnack#push-notifications-for-new-comments">webpush</a> public key</td>
+</tr>
+<tr>
+<td>&nbsp;&nbsp;&nbsp;&nbsp;vapid_private_key</td>
+<td>the <a href="https://github.com/gka/schnack#push-notifications-for-new-comments">webpush</a> private key</td>
+</tr>
+<tr>
+<td>&nbsp;&nbsp;slack</td>
+<td></td>
+</tr>
+<tr>
+<td>&nbsp;&nbsp;&nbsp;&nbsp;webhook_url</td>
+<td>the Slack webhook URL</td>
+</tr>
+<tr>
+<td>date_format</td>
+<td>how to display dates (e.g. <em>MMMM DD, YYYY - h:mm a</em>)</td>
+</tr>
+<tr>
+<td>trust</td>
+<td>a list of trusted users (see <a href="#trust-your-friends">Trust your friends</a>)</td>
+</tr>
+</tbody>
+</table>
+
+    <h2 id="general">
+      <a class="anchor" href="#general">
+        General
+      </a>
+    </h2>
+  
+    <h2 id="authentication">
+      <a class="anchor" href="#authentication">
+        Authentication
+      </a>
+    </h2>
+  <p><em>schnack</em> uses OAuth to authenticate the users of your comment platform, in order to prevent spam without having to implement and manage an own user management system. Users have to be registered for one of the configured providers. You should configure at least one of the OAuth providers in order to allow users to login and write comments.
+When an user login through an OAuth provider, the session informations are stored into a cookie. In order to allow this action, your <em>schnack</em> instance and the page where you are embedding <em>schnack</em> should reside on <strong>subdomains of the same domain</strong>.</p>
+<p>The <code>secret</code> provided in <code>config.json</code> will be used by <a href="https://github.com/expressjs/session#secret">express-session</a> to sign the session ID cookie.</p>
+
+    <h3 id="twitter">
+      <a class="anchor" href="#twitter">
+        Twitter
+      </a>
+    </h3>
+  <ul>
+<li>Create a new OAuth App on <a href="https://apps.twitter.com/">apps.twitter.com</a> <ul>
+<li><em>Name</em>: the name of your blog</li>
+<li><em>Description</em>: the description of your blog</li>
+<li><em>Website</em>: the URL of your <em>schnack</em> instance (e.g. <a href="https://schnack.mysite.com">https://schnack.mysite.com</a>)</li>
+<li><em>Callback URL</em>: the URL of your <em>schnack</em> instance followed by <code>/auth/twitter/callback</code> (e.g. <a href="https://schnack.mysite.com/auth/twitter/callback">https://schnack.mysite.com/auth/twitter/callback</a>)</li>
+<li>Check the checkbox &quot;Allow this application to be used to Sign in with Twitter&quot;</li>
+</ul>
+</li>
+<li>Copy the Consumer Key and the Consumer Secret from &quot;Keys and Access Tokens&quot; to <code>oauth.twitter.consumer_key</code> and <code>oauth.twitter.consumer_secret</code> in <code>config.json</code></li>
+</ul>
+
+    <h3 id="github">
+      <a class="anchor" href="#github">
+        GitHub
+      </a>
+    </h3>
+  <ul>
+<li>Create a new GitHub <a href="https://github.com/settings/applications/new">OAuth App</a><ul>
+<li><em>Application name</em>: the name of your blog</li>
+<li><em>Homepage URL</em>: the URL of your <em>schnack</em> instance (e.g. <a href="https://schnack.mysite.com">https://schnack.mysite.com</a>)</li>
+<li><em>Application description</em>: the description of your blog</li>
+<li><em>Authorization callack URL</em>: the URL of your <em>schnack</em> instance followed by <code>/auth/github/callback</code> (e.g. <a href="https://schnack.mysite.com/auth/github/callback">https://schnack.mysite.com/auth/github/callback</a>)</li>
+</ul>
+</li>
+</ul>
+
+    <h3 id="google">
+      <a class="anchor" href="#google">
+        Google
+      </a>
+    </h3>
+  
+    <h3 id="facebook">
+      <a class="anchor" href="#facebook">
+        Facebook
+      </a>
+    </h3>
+  
+    <h2 id="notifications">
+      <a class="anchor" href="#notifications">
+        Notifications
+      </a>
+    </h2>
+  <p>When new comments are awaiting for approval, <em>schnack</em> will notify the administrators using one of the following services:</p>
+
+    <h3 id="web-push">
+      <a class="anchor" href="#web-push">
+        web-push
+      </a>
+    </h3>
+  <p>Web-push is a <a href="https://tools.ietf.org/html/draft-ietf-webpush-protocol-12">protocol</a> designed to send push notifications to browsers on mobile and desktop devices. Using a <a href="https://caniuse.com/#feat=serviceworkers">Service Worker</a> it is possible to register a component which is always listening for push notifications, even when the tab or the browser are closed. This allows to send end-to-end notifications from the <em>schnack</em> server to the admins.</p>
+<p>In order to configure web-pushes, you should follow these steps:</p>
+<ul>
+<li>Generate a VAPID key pairs using the web-push package:<pre><code>node_modules/.bin/web-push generate-vapid-keys
+</code></pre></li>
+<li>Copy the VAPID keys in <code>config.json</code></li>
+<li>Add your user ID to the <em>admin</em> array in <code>config.json</code></li>
+<li>Copy the <a href="https://github.com/gka/schnack/blob/master/sw.js">sw.js</a> into your website&#39;s root path, so that this will be accessible at <a href="https://comments.mysite.com/sw.js">https://comments.mysite.com/sw.js</a></li>
+<li>Login to your <em>schnack</em> instance and you will be asked to grant the permission for push notifications.</li>
+</ul>
+<p>When a new comment is posted, you will be notified with a notification. In order to avoid flooding, <em>schnack</em> will send only a notification every 5 minutes, highlighting the number of comments awaiting for approval.</p>
+<p>We strongly reccommend to subscribe to push notifications using Chrome on your mobile device.</p>
+
+    <h3 id="slack">
+      <a class="anchor" href="#slack">
+        slack
+      </a>
+    </h3>
+  <p><em>schnack</em> can also send a message to a slack channel when a new comment is awaiting for approval. In order to configure this service just create a slack <a href="https://api.slack.com/incoming-webhooks">webhook</a> and paste its URL to <code>notify.slack.webhook_url</code> in <code>config.json</code>.</p>
+
+    <h3 id="pushover">
+      <a class="anchor" href="#pushover">
+        PushOver
+      </a>
+    </h3>
+  <p><a href="https://pushover.net/">PushOver</a> is a service to send notifications to your devices. You can use it to receive <em>schnack</em> notifications. In order to configure it you should first register for an account and download a <a href="https://pushover.net/clients">client</a>. Then you can create an app and copy the token and the key to <code>notify.pushover.app_token</code> and <code>notify.pushover.user_key</code> in <code>config.json</code>.</p>
+
+    <h3 id="rss">
+      <a class="anchor" href="#rss">
+        RSS
+      </a>
+    </h3>
+  <p>If none of the notification services fits your needs, you can still use the RSS feed provided at <code>/feed</code> to stay updated about the latest comments posted. You can also use this endpoint in combination with services like <a href="https://ifttt.com">IFTTT</a>.</p>
+
+    <h1 id="administration">
+      <a class="anchor" href="#administration">
+        Administration
+      </a>
+    </h1>
+  <p>Administrators are managed adding or removing their <em>schnack</em> user ID to the <code>admins</code> array in <code>config.js</code>. When a user logs in as administrator, the moderation UI will appear.</p>
+
+    <h2 id="moderation">
+      <a class="anchor" href="#moderation">
+        Moderation
+      </a>
+    </h2>
+  <p>It is possible to approve or reject single comments, but it is also possible to trust or block a certain user.
+An approved comment will be displayed to all users visiting your site, while a rejected comment will be deleted. Comments posted by a trusted users are approved automatically, while comments posted by blocked users will be automatically deleted.</p>
+<p><em>schnack</em> also prevent users from posting the same comment twice.</p>
+
+    <h2 id="trust-your-friends">
+      <a class="anchor" href="#trust-your-friends">
+        Trust your friends
+      </a>
+    </h2>
+  <p>You can provide a list of user IDs of people you trust for each authentication provider. For instance, you could use the Twitter API to <a href="https://apigee.com/console/twitter?req=%7B%22resource%22%3A%22friends_ids%22%2C%22params%22%3A%7B%22query%22%3A%7B%22stringify_ids%22%3A%22true%22%2C%22cursor%22%3A%22-1%22%7D%2C%22template%22%3A%7B%7D%2C%22headers%22%3A%7B%7D%2C%22body%22%3A%7B%22attachmentFormat%22%3A%22mime%22%2C%22attachmentContentDisposition%22%3A%22form-data%22%7D%7D%2C%22verb%22%3A%22get%22%7D">get a list of all the people you follow</a> and drop that into the <code>trust.twitter</code> in <code>config.js</code>.</p>
+<pre><code class="lang-json">&quot;trust&quot;: {
+    &quot;twitter&quot;: [
+        &quot;916586732845400064&quot;,
+        &quot;902094599329591296&quot;
+    ],
+    &quot;github&quot;: [
+        1639, 2931, 2946, 3602, 4933
+    ]
+}
+</code></pre>
+
+    <h2 id="backups">
+      <a class="anchor" href="#backups">
+        Backups
+      </a>
+    </h2>
+  <p>The most effective way to keep a backup of your data is to take a copy of your <code>comments.db</code> file, which is actually including all necessary data. If you cannot find this file then you probably set another name to <code>database</code> in <code>config.json</code>.</p>
+
+    <h1 id="import-comments">
+      <a class="anchor" href="#import-comments">
+        Import comments
+      </a>
+    </h1>
+  <p>It is possible to import <a href="https://help.disqus.com/customer/portal/articles/472149-comments-export">disqus XML export</a> and <a href="https://en.blog.wordpress.com/2006/06/12/xml-import-export/">Wordpress XML export</a>.
+In order to be able to import your comments, a database should already exist and schnack shouldn&#39;t be running.
+The importer requires <strong>Node.js &gt;= v9</strong>.</p>
+
+    <h2 id="wordpress">
+      <a class="anchor" href="#wordpress">
+        Wordpress
+      </a>
+    </h2>
+  <p>You can export you data from Wordpress following <a href="https://en.blog.wordpress.com/2006/06/12/xml-import-export/">this guide</a>. Then you can run the following to import the comments into schnack&#39;s database:</p>
+<pre><code>npm run import -- wordpress.xml
+</code></pre>
+    <h2 id="disqus">
+      <a class="anchor" href="#disqus">
+        Disqus
+      </a>
+    </h2>
+  <p>You can <a href="https://help.disqus.com/customer/portal/articles/472149-comments-export">export</a> your disqus comments and import them into schnack running:</p>
+<pre><code>npm run import -- disqus.xml
+</code></pre>
+    <h1 id="docker">
+      <a class="anchor" href="#docker">
+        Docker
+      </a>
+    </h1>
+  <p>You can build a Docker image for the schnack server running:</p>
+<pre><code class="lang-sh">docker build -t gka/schnack .
+</code></pre>
+<p>The image will contain everything in the project folder and can be started with:</p>
+<pre><code class="lang-sh">docker run -p 3000:3000 -d gka/schnack
+</code></pre>
+<p>In order to be able to edit your config file and your SQL database files, you may want to share the project folder with the docker container:</p>
+<pre><code class="lang-sh">docker run -p 3000:3000 -v $(pwd):/usr/src/app -d gka/schnack
+</code></pre>
+
+    <h1 id="how-it-works-">
+      <a class="anchor" href="#how-it-works-">
+        How it works ?
+      </a>
+    </h1>
+  
+    <h1 id="development">
+      <a class="anchor" href="#development">
+        Development
+      </a>
+    </h1>
+  
+      </section>
+    </div>
+   </body>
 </html>
