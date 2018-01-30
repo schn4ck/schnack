@@ -396,8 +396,11 @@ When an user login through an OAuth provider, the session informations are store
   <p>Web-push is a <a href="https://tools.ietf.org/html/draft-ietf-webpush-protocol-12">protocol</a> designed to send push notifications to browsers on mobile and desktop devices. Using a <a href="https://caniuse.com/#feat=serviceworkers">Service Worker</a> it is possible to register a component which is always listening for push notifications, even when the tab or the browser are closed. This allows to send end-to-end notifications from the <em>schnack</em> server to the admins.</p>
 <p>In order to configure web-pushes, you should follow these steps:</p>
 <ul>
-<li>Generate a VAPID key pairs using the web-push package:<pre><code>node_modules/.bin/web-push generate-vapid-keys
-</code></pre></li>
+<li>Generate a VAPID key pairs using the web-push package:</li>
+</ul>
+<pre><code class="lang-bash">node_modules/.bin/web-push generate-vapid-keys
+</code></pre>
+<ul>
 <li>Copy the VAPID keys in <code>config.json</code></li>
 <li>Add your user ID to the <em>admin</em> array in <code>config.json</code></li>
 <li>Copy the <a href="https://github.com/gka/schnack/blob/master/sw.js">sw.js</a> into your website&#39;s root path, so that this will be accessible at <a href="https://comments.mysite.com/sw.js">https://comments.mysite.com/sw.js</a></li>
@@ -524,8 +527,6 @@ The importer requires <strong>Node.js &gt;= v9</strong>.</p>
         </div>
       </section>
     </div>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.10.0/prism.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.10.0/components/prism-bash.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.10.0/components/prism-json.min.js"></script>
+    <script src="prism.js"></script>
    </body>
 </html>

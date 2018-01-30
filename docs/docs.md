@@ -7,9 +7,11 @@ This is the fastest way to setup *schnack*.
 - npm (>= v5)
 
 Clone or download schnack:
+
 ```bash
 git clone https://github.com/gka/schnack
 ```
+
 Go to the schnack directory:
 ```bash
 cd schnack
@@ -19,7 +21,9 @@ Install dependencies:
 ```bash
 npm install
 ```
+
 Copy and edit the config file according to [configuration](#configuration) section:
+
 ```bash
 cp config.tpl.json config.json
 vim config.json                 # or open with any editor of your choice
@@ -31,6 +35,7 @@ npm start
 ```
 
 Embed in your HTML page:
+
 ```html
 <div class="comments-go-here"></div>
 <script src="https://comments.yoursite.com/embed.js"
@@ -119,9 +124,11 @@ Web-push is a [protocol](https://tools.ietf.org/html/draft-ietf-webpush-protocol
 
 In order to configure web-pushes, you should follow these steps:
 - Generate a VAPID key pairs using the web-push package:
-```
+
+```bash
 node_modules/.bin/web-push generate-vapid-keys
 ```
+
 - Copy the VAPID keys in `config.json`
 - Add your user ID to the *admin* array in `config.json`
 - Copy the [sw.js](https://github.com/gka/schnack/blob/master/sw.js) into your website's root path, so that this will be accessible at https://comments.mysite.com/sw.js
@@ -183,6 +190,7 @@ The importer requires **Node.js >= v9**.
 ## Wordpress
 
 You can export you data from Wordpress following [this guide](https://en.blog.wordpress.com/2006/06/12/xml-import-export/). Then you can run the following to import the comments into schnack's database:
+
 ```bash
 npm run import -- wordpress.xml
 ```
@@ -190,6 +198,7 @@ npm run import -- wordpress.xml
 ## Disqus
 
 You can [export](https://help.disqus.com/customer/portal/articles/472149-comments-export) your disqus comments and import them into schnack running:
+
 ```bash
 npm run import -- disqus.xml
 ```
