@@ -31,12 +31,13 @@ table td {
   max-width: 1000px;
   margin: 0 auto;
   display: flex;
-  padding: 1em 0;
+  padding: 1.5em 0;
 }
 
 header h1 {
   margin: 0;
-  font-size: 3em;
+  font-size: 3.25em;
+  line-height: 1;
 }
 
 header h1 span {
@@ -44,7 +45,9 @@ header h1 span {
 }
 
 header p {
-  margin:0
+  margin: 0;
+  font-size: 1.2em;
+  color: #555;
 }
 
 aside {
@@ -55,6 +58,10 @@ aside {
   display: block;
   color: #222;
   font-size: 0.95em;
+}
+
+.nav__item:hover {
+  color: #FFB962
 }
 
 .nav__item-1:first-child {
@@ -69,6 +76,7 @@ aside {
 
 .nav__item-2 {
   margin-top: .2em;
+  color: #555;
 }
 
 .docs {
@@ -90,6 +98,19 @@ aside {
 .docs ul a {
   color: #222;
   border-bottom: 1px solid #FFB962;
+}
+
+.content h1 {
+  margin-top: 2rem;
+  font-size: 1.7em;
+}
+
+.content h1:first-child {
+  margin-top: 1rem;
+}
+
+.content h2 {
+  margin-top: 1rem;
 }
 
 .docs h1 a {
@@ -179,6 +200,18 @@ aside {
 
   .docs {
     padding-right: 1em;
+  }
+
+  .content h1 {
+    margin-top: 4rem;
+  }
+
+  .content h1:first-child {
+    margin-top: 2rem;
+  }
+
+  .content h2 {
+    margin-top: 2rem;
   }
 
   .github-corner svg {
