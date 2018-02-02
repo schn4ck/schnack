@@ -239,6 +239,7 @@ blockquote.schnack-body {
 ul.schnack-comments {
   list-style: none;
   padding-left: 0;
+  margin-top: 2em;
 }
 
 .schnack-dateline {
@@ -254,7 +255,7 @@ ul.schnack-comments {
   font-size: 12px;
 }
 
-.schnack-date a {
+.docs .schnack-dateline a {
   border: none;
 }
 
