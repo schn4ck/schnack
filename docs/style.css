@@ -205,6 +205,48 @@ aside {
   box-shadow: 0 0 2px 1px rgba(0,0,0,.125)
 }
 
+.schack-login-status {
+  margin: .5em 0 0 0;
+  fonts-ize 12px;
+  color: #555;
+}
+
+.schack-login-status a {
+  color: #222;
+  border-bottom: 1px solid #FFB962;
+}
+
+.schnack-comment {
+  border-top: 1px solid #FFB962;
+}
+
+blockquote.schnack-body {
+  margin: 0;
+  font-size: 15px;
+}
+
+.schnack-comments {
+  list-style: none;
+  padding-left: 0;
+}
+
+.schnack-dateline {
+  line-height: 1.1;
+}
+
+.schnack-author {
+  display: block;
+  font-weight: 700;
+}
+
+.schnack-date {
+  font-size: 12px;
+}
+
+.schnack-date a {
+  border: none;
+}
+
 @media (max-width:500px) {
   .github-corner:hover .octo-arm {
     animation:none
