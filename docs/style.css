@@ -175,6 +175,36 @@ aside {
   }
 }
 
+.schnack-form {
+  font-size: 15px;
+}
+
+.schnack-form textarea{
+  width: 100%;
+  font-family: 'Roboto', sans-serif;
+  color: #555;
+  font-size: 14px;
+  padding: .25em .5em;
+  margin: 1em 0 .5em 0;
+  border: 1px solid #b0b0b0;
+  border-radius: 1px;
+}
+
+.schnack-form button {
+  background: #FFB962;
+  color: #fff;
+  font-size: 15px;
+  padding: .5em 1em;
+  border: none;
+  border-radius: 2px;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.schnack-form button:hover {
+  box-shadow: 0 0 2px 1px rgba(0,0,0,.125)
+}
+
 @media (max-width:500px) {
   .github-corner:hover .octo-arm {
     animation:none
