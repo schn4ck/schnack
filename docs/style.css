@@ -223,8 +223,12 @@ aside {
 }
 
 .schnack-comment {
-  border-top: 1px solid #FFB962;
+  border-top: 2px solid #FFB962;
   padding: 1em;
+}
+
+.schnack-comments .schnack-comments .schnack-comment {
+  border-top: 1px solid #e0e0e0;
 }
 
 .schnack-dateline a {
