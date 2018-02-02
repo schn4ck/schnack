@@ -226,3 +226,7 @@ docker run -p 3000:3000 -v $(pwd):/usr/src/app -d gka/schnack
 # How it works ?
 
 # Development
+
+# Try schnack
+
+Here you can leave us some comments. Let us know what you think about schnack!
