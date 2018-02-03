@@ -192,7 +192,10 @@ aside {
 }
 
 .schnack-form button,
-.schnack-reply {
+.schnack-reply,
+.schnack-signin-twitter,
+.schnack-signin-github,
+.schnack-signin-google {
   background: #FFB962;
   color: #fff;
   font-size: 15px;
@@ -203,7 +206,10 @@ aside {
   cursor: pointer;
 }
 
-.schnack-reply {
+.schnack-reply,
+.schnack-signin-twitter,
+.schnack-signin-github,
+.schnack-signin-google {
   font-size: 12px;
 }
 
@@ -229,6 +235,7 @@ aside {
 
 .schnack-comments .schnack-comments .schnack-comment {
   border-top: 1px solid #e0e0e0;
+  padding-right: 0;
 }
 
 .schnack-dateline a {
