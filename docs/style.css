@@ -213,7 +213,11 @@ aside {
   font-size: 12px;
 }
 
-.schnack-form button:hover {
+.schnack-form button:hover,
+.schnack-reply:hover,
+.schnack-signin-twitter:hover,
+.schnack-signin-github:hover,
+.schnack-signin-google:hover {
   box-shadow: 0 0 2px 1px rgba(0,0,0,.125)
 }
 
