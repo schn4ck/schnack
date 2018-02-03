@@ -40,14 +40,6 @@
 
       <a
         class="nav__item nav__item-2"
-        href="#general"
-      >
-        General
-      </a>
-    
-
-      <a
-        class="nav__item nav__item-2"
         href="#authentication"
       >
         Authentication
@@ -330,12 +322,6 @@ The fields <em>schnack_host</em> and <em>page_url</em> should be hosted on the <
 </tbody>
 </table>
 
-    <h2 id="general">
-      <a class="anchor" href="#general">
-        General
-      </a>
-    </h2>
-  
     <h2 id="authentication">
       <a class="anchor" href="#authentication">
         Authentication
@@ -351,7 +337,7 @@ When an user login through an OAuth provider, the session informations are store
       </a>
     </h3>
   <ul>
-<li>Create a new OAuth App on <a href="https://apps.twitter.com/">apps.twitter.com</a> <ul>
+<li>Create a new OAuth App on <a href="https://apps.twitter.com/">apps.twitter.com</a><ul>
 <li><em>Name</em>: the name of your blog</li>
 <li><em>Description</em>: the description of your blog</li>
 <li><em>Website</em>: the URL of your <em>schnack</em> instance (e.g. <a href="https://schnack.mysite.com">https://schnack.mysite.com</a>)</li>
@@ -452,7 +438,7 @@ When an user login through an OAuth provider, the session informations are store
     </h2>
   <p>It is possible to approve or reject single comments, but it is also possible to trust or block a certain user.
 An approved comment will be displayed to all users visiting your site, while a rejected comment will be deleted. Comments posted by a trusted users are approved automatically, while comments posted by blocked users will be automatically deleted.</p>
-<p><em>schnack</em> also prevent users from posting the same comment twice.</p>
+<p><em>schnack</em> also prevents users from posting the same comment twice.</p>
 
     <h2 id="trust-your-friends">
       <a class="anchor" href="#trust-your-friends">
@@ -492,7 +478,7 @@ The importer requires <strong>Node.js &gt;= v9</strong>.</p>
         Wordpress
       </a>
     </h2>
-  <p>You can export you data from Wordpress following <a href="https://en.blog.wordpress.com/2006/06/12/xml-import-export/">this guide</a>. Then you can run the following to import the comments into schnack&#39;s database:</p>
+  <p>You can export your data from Wordpress following <a href="https://en.blog.wordpress.com/2006/06/12/xml-import-export/">this guide</a>. Then you can run the following to import the comments into schnack&#39;s database:</p>
 <pre><code class="lang-bash">npm run import -- wordpress.xml
 </code></pre>
 
@@ -525,13 +511,15 @@ The importer requires <strong>Node.js &gt;= v9</strong>.</p>
         How it works ?
       </a>
     </h1>
-  
+  <p><em>schnack</em> is based on Node.JS and uses SQLite as a database.</p>
+
     <h1 id="development">
       <a class="anchor" href="#development">
         Development
       </a>
     </h1>
-  
+  <p>If you want to help us to improve schnack we are happy about contributions on <a href="https://github.com/schn4ck/schnack">GitHub</a>.</p>
+
     <h1 id="try-schnack">
       <a class="anchor" href="#try-schnack">
         Try schnack

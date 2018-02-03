@@ -83,7 +83,6 @@ The fields *schnack_host* and *page_url* should be hosted on the **same domain**
 | date_format                               | how to display dates (e.g. *MMMM DD, YYYY - h:mm a*)                                                                                                      |
 | trust                                     | a list of trusted users (see [Trust your friends](#trust-your-friends))                                                                                   |
 
-## General
 
 ## Authentication
 
@@ -94,7 +93,7 @@ The `secret` provided in `config.json` will be used by [express-session](https:/
 
 ### Twitter
 
-- Create a new OAuth App on [apps.twitter.com](https://apps.twitter.com/) 
+- Create a new OAuth App on [apps.twitter.com](https://apps.twitter.com/)
     - *Name*: the name of your blog
     - *Description*: the description of your blog
     - *Website*: the URL of your *schnack* instance (e.g. https://schnack.mysite.com)
@@ -159,7 +158,7 @@ Administrators are managed adding or removing their *schnack* user ID to the `ad
 It is possible to approve or reject single comments, but it is also possible to trust or block a certain user.
 An approved comment will be displayed to all users visiting your site, while a rejected comment will be deleted. Comments posted by a trusted users are approved automatically, while comments posted by blocked users will be automatically deleted.
 
-*schnack* also prevent users from posting the same comment twice.
+*schnack* also prevents users from posting the same comment twice.
 
 ## Trust your friends
 
@@ -189,7 +188,7 @@ The importer requires **Node.js >= v9**.
 
 ## Wordpress
 
-You can export you data from Wordpress following [this guide](https://en.blog.wordpress.com/2006/06/12/xml-import-export/). Then you can run the following to import the comments into schnack's database:
+You can export your data from Wordpress following [this guide](https://en.blog.wordpress.com/2006/06/12/xml-import-export/). Then you can run the following to import the comments into schnack's database:
 
 ```bash
 npm run import -- wordpress.xml
@@ -225,7 +224,11 @@ docker run -p 3000:3000 -v $(pwd):/usr/src/app -d gka/schnack
 
 # How it works ?
 
+*schnack* is based on Node.JS and uses SQLite as a database.
+
 # Development
+
+If you want to help us to improve schnack we are happy about contributions on [GitHub](https://github.com/schn4ck/schnack).
 
 # Try schnack
 
