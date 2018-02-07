@@ -1,6 +1,3 @@
-<%
-console.log('comments tpl', data);
-%>
 <ul class="schnack-comments">
     <% data.comments.forEach((comment) => { %>
         <li id="comment-<%= comment.id %>" data-id="<%= comment.id %>" class="schnack-comment<% if (!comment.approved && !comment.trusted) { %> schnack-not-approved<% } %>">

@@ -61,7 +61,6 @@ import comments_tpl from './comments.jst.html';
                     })
                     .then( r => r.json() )
                     .then((res) => {
-                        console.log(res);
                         textarea.value = '';
                         window.localStorage.setItem(`schnack-draft-${slug}`, textarea.value);
                         if (res.id) {
@@ -86,7 +85,6 @@ import comments_tpl from './comments.jst.html';
                     })
                     .then( r => r.json() )
                     .then((res) => {
-                        console.log(res);
                         preview.innerHTML = res.html;
                         // refresh();
                     });
@@ -127,7 +125,6 @@ import comments_tpl from './comments.jst.html';
                     })
                     .then( r => r.json() )
                     .then((res) => {
-                        console.log(res);
                         refresh();
                     });
                 });
@@ -165,7 +162,6 @@ import comments_tpl from './comments.jst.html';
                     })
                     .then( r => r.json() )
                     .then((res) => {
-                        console.log(res);
                         refresh();
                     });
                 };
