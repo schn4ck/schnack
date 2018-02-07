@@ -1,3 +1,13 @@
+# What the schnack?
+
+Schnack is an open source commenting system written in JavaScript. 
+- Tiny! It takes only ~**8 KB!!!** to embed Schnack.
+- **Open source** and **self-hosted**.
+- Ad-free and Tracking-free. Schnack will **not disturb your users**.
+- It's simpy to moderate, with a **minimal** and **slick UI** to allow/reject comments or trust/block users.
+- **[webpush protocol](https://tools.ietf.org/html/draft-ietf-webpush-protocol-12) to notify the site owner** about new comments awaiting for moderation.
+- **Third party providers for authentication** like Github, Twitter, Google and Facebook. Users are not required to register a new account on your system and you don't need to manage a user management system.
+
 # Quickstart
 
 This is the fastest way to setup *schnack*.
@@ -9,7 +19,7 @@ This is the fastest way to setup *schnack*.
 Clone or download schnack:
 
 ```bash
-git clone https://github.com/gka/schnack
+git clone https://github.com/schn4ck/schnack
 ```
 
 Go to the schnack directory:
@@ -76,8 +86,8 @@ The fields *schnack_host* and *page_url* should be hosted on the **same domain**
 | &nbsp;&nbsp;&nbsp;&nbsp;app_token         | the Pushover app token                                                                                                                                    |
 | &nbsp;&nbsp;&nbsp;&nbsp;user_key          | the Pushover user key                                                                                                                                     |
 | &nbsp;&nbsp;webpush                       |                                                                                                                                                           |
-| &nbsp;&nbsp;&nbsp;&nbsp;vapid_public_key  | the [webpush](https://github.com/gka/schnack#push-notifications-for-new-comments) public key                                                              |
-| &nbsp;&nbsp;&nbsp;&nbsp;vapid_private_key | the [webpush](https://github.com/gka/schnack#push-notifications-for-new-comments) private key                                                             |
+| &nbsp;&nbsp;&nbsp;&nbsp;vapid_public_key  | the [webpush](https://github.com/schn4ck/schnack#push-notifications-for-new-comments) public key                                                              |
+| &nbsp;&nbsp;&nbsp;&nbsp;vapid_private_key | the [webpush](https://github.com/schn4ck/schnack#push-notifications-for-new-comments) private key                                                             |
 | &nbsp;&nbsp;slack                         |                                                                                                                                                           |
 | &nbsp;&nbsp;&nbsp;&nbsp;webhook_url       | the Slack webhook URL                                                                                                                                     |
 | date_format                               | how to display dates (e.g. *MMMM DD, YYYY - h:mm a*)                                                                                                      |
@@ -130,7 +140,7 @@ node_modules/.bin/web-push generate-vapid-keys
 
 - Copy the VAPID keys in `config.json`
 - Add your user ID to the *admin* array in `config.json`
-- Copy the [sw.js](https://github.com/gka/schnack/blob/master/sw.js) into your website's root path, so that this will be accessible at https://comments.mysite.com/sw.js
+- Copy the [sw.js](https://github.com/schn4ck/schnack/blob/master/sw.js) into your website's root path, so that this will be accessible at https://comments.mysite.com/sw.js
 - Login to your *schnack* instance and you will be asked to grant the permission for push notifications.
 
 When a new comment is posted, you will be notified with a notification. In order to avoid flooding, *schnack* will send only a notification every 5 minutes, highlighting the number of comments awaiting for approval.
@@ -207,29 +217,20 @@ npm run import -- disqus.xml
 You can build a Docker image for the schnack server running:
 
 ```bash
-docker build -t gka/schnack .
+docker build -t schn4ck/schnack .
 ```
 
 The image will contain everything in the project folder and can be started with:
 
 ```bash
-docker run -p 3000:3000 -d gka/schnack
+docker run -p 3000:3000 -d schn4ck/schnack
 ```
 
 In order to be able to edit your config file and your SQL database files, you may want to share the project folder with the docker container:
 
 ```bash
-docker run -p 3000:3000 -v $(pwd):/usr/src/app -d gka/schnack
+docker run -p 3000:3000 -v $(pwd):/usr/src/app -d schn4ck/schnack
 ```
-
-# How it works ?
-
-*schnack* is based on Node.JS and uses SQLite as a database.
-
-# Development
-
-If you want to help us to improve schnack we are happy about contributions on [GitHub](https://github.com/schn4ck/schnack).
-
 # Try schnack
 
 Here you can leave us some comments. Let us know what you think about schnack!

@@ -24,6 +24,14 @@
         <nav>
       <a
         class="nav__item nav__item-1"
+        href="#what-the-schnack-"
+      >
+        What the schnack?
+      </a>
+    
+
+      <a
+        class="nav__item nav__item-1"
         href="#quickstart"
       >
         Quickstart
@@ -120,22 +128,6 @@
 
       <a
         class="nav__item nav__item-1"
-        href="#how-it-works-"
-      >
-        How it works ?
-      </a>
-    
-
-      <a
-        class="nav__item nav__item-1"
-        href="#development"
-      >
-        Development
-      </a>
-    
-
-      <a
-        class="nav__item nav__item-1"
         href="#try-schnack"
       >
         Try schnack
@@ -149,6 +141,21 @@
         </header>
         <div class="content">
           
+    <h1 id="what-the-schnack-">
+      <a class="anchor" href="#what-the-schnack-">
+        What the schnack?
+      </a>
+    </h1>
+  <p>Schnack is an open source commenting system written in JavaScript. </p>
+<ul>
+<li>Tiny! It takes only ~<strong>8 KB!!!</strong> to embed Schnack.</li>
+<li><strong>Open source</strong> and <strong>self-hosted</strong>.</li>
+<li>Ad-free and Tracking-free. Schnack will <strong>not disturb your users</strong>.</li>
+<li>It&#39;s simpy to moderate, with a <strong>minimal</strong> and <strong>slick UI</strong> to allow/reject comments or trust/block users.</li>
+<li><strong><a href="https://tools.ietf.org/html/draft-ietf-webpush-protocol-12">webpush protocol</a> to notify the site owner</strong> about new comments awaiting for moderation.</li>
+<li><strong>Third party providers for authentication</strong> like Github, Twitter, Google and Facebook. Users are not required to register a new account on your system and you don&#39;t need to manage a user management system.</li>
+</ul>
+
     <h1 id="quickstart">
       <a class="anchor" href="#quickstart">
         Quickstart
@@ -161,7 +168,7 @@
 <li>npm (&gt;= v5)</li>
 </ul>
 <p>Clone or download schnack:</p>
-<pre><code class="lang-bash">git clone https://github.com/gka/schnack
+<pre><code class="lang-bash">git clone https://github.com/schn4ck/schnack
 </code></pre>
 <p>Go to the schnack directory:</p>
 <pre><code class="lang-bash">cd schnack
@@ -297,11 +304,11 @@ The fields <em>schnack_host</em> and <em>page_url</em> should be hosted on the <
 </tr>
 <tr>
 <td>&nbsp;&nbsp;&nbsp;&nbsp;vapid_public_key</td>
-<td>the <a href="https://github.com/gka/schnack#push-notifications-for-new-comments">webpush</a> public key</td>
+<td>the <a href="https://github.com/schn4ck/schnack#push-notifications-for-new-comments">webpush</a> public key</td>
 </tr>
 <tr>
 <td>&nbsp;&nbsp;&nbsp;&nbsp;vapid_private_key</td>
-<td>the <a href="https://github.com/gka/schnack#push-notifications-for-new-comments">webpush</a> private key</td>
+<td>the <a href="https://github.com/schn4ck/schnack#push-notifications-for-new-comments">webpush</a> private key</td>
 </tr>
 <tr>
 <td>&nbsp;&nbsp;slack</td>
@@ -397,7 +404,7 @@ When an user login through an OAuth provider, the session informations are store
 <ul>
 <li>Copy the VAPID keys in <code>config.json</code></li>
 <li>Add your user ID to the <em>admin</em> array in <code>config.json</code></li>
-<li>Copy the <a href="https://github.com/gka/schnack/blob/master/sw.js">sw.js</a> into your website&#39;s root path, so that this will be accessible at <a href="https://comments.mysite.com/sw.js">https://comments.mysite.com/sw.js</a></li>
+<li>Copy the <a href="https://github.com/schn4ck/schnack/blob/master/sw.js">sw.js</a> into your website&#39;s root path, so that this will be accessible at <a href="https://comments.mysite.com/sw.js">https://comments.mysite.com/sw.js</a></li>
 <li>Login to your <em>schnack</em> instance and you will be asked to grant the permission for push notifications.</li>
 </ul>
 <p>When a new comment is posted, you will be notified with a notification. In order to avoid flooding, <em>schnack</em> will send only a notification every 5 minutes, highlighting the number of comments awaiting for approval.</p>
@@ -497,28 +504,14 @@ The importer requires <strong>Node.js &gt;= v9</strong>.</p>
       </a>
     </h1>
   <p>You can build a Docker image for the schnack server running:</p>
-<pre><code class="lang-bash">docker build -t gka/schnack .
+<pre><code class="lang-bash">docker build -t schn4ck/schnack .
 </code></pre>
 <p>The image will contain everything in the project folder and can be started with:</p>
-<pre><code class="lang-bash">docker run -p 3000:3000 -d gka/schnack
+<pre><code class="lang-bash">docker run -p 3000:3000 -d schn4ck/schnack
 </code></pre>
 <p>In order to be able to edit your config file and your SQL database files, you may want to share the project folder with the docker container:</p>
-<pre><code class="lang-bash">docker run -p 3000:3000 -v $(pwd):/usr/src/app -d gka/schnack
+<pre><code class="lang-bash">docker run -p 3000:3000 -v $(pwd):/usr/src/app -d schn4ck/schnack
 </code></pre>
-
-    <h1 id="how-it-works-">
-      <a class="anchor" href="#how-it-works-">
-        How it works ?
-      </a>
-    </h1>
-  <p><em>schnack</em> is based on Node.JS and uses SQLite as a database.</p>
-
-    <h1 id="development">
-      <a class="anchor" href="#development">
-        Development
-      </a>
-    </h1>
-  <p>If you want to help us to improve schnack we are happy about contributions on <a href="https://github.com/schn4ck/schnack">GitHub</a>.</p>
 
     <h1 id="try-schnack">
       <a class="anchor" href="#try-schnack">
