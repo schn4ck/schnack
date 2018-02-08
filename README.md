@@ -40,7 +40,7 @@ Install dependencies:
 npm install
 ```
 
-Copy and edit the config file according to [configuration](#configuration) section:
+Copy and edit the config file according to [configuration](https://schnack.cool/#configuration) section:
 
 ```bash
 cp config.tpl.json config.json
