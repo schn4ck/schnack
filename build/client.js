@@ -1,5 +1,8 @@
-(function () {
-'use strict';
+(function (global, factory) {
+	typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
+	typeof define === 'function' && define.amd ? define(factory) :
+	(global.Schnack = factory());
+}(this, (function () { 'use strict';
 
 var index = typeof fetch=='function' ? fetch.bind() : function(url, options) {
 	options = options || {};
@@ -365,24 +368,6 @@ Schnack.prototype.refresh = function refresh () {
         });
 };
 
-(function() {
-    var script = document.querySelector('script[data-schnack-target]');
-    if (!script) { return console.warn('schnack script tag needs some data attributes'); }
+return Schnack;
 
-    var opts = script.dataset;
-    var slug = opts.schnackSlug;
-    var url = new URL(script.getAttribute('src'));
-    var host = (url.protocol) + "//" + (url.host);
-
-    if (url.hostname !== 'localhost') {
-        document.domain = url.hostname.split('.').slice(1).join('.');
-    }
-
-    new Schnack({
-        target: opts.schnackTarget,
-        slug: slug,
-        host: host
-    });
-})();
-
-}());
+})));

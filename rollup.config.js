@@ -5,20 +5,29 @@ import buble from 'rollup-plugin-buble';
 import uglify from 'rollup-plugin-uglify';
 import jst from 'rollup-plugin-jst';
 
-export default {
+const plugins = [
+    jst({
+      extensions: ['.html'],
+      include: 'src/embed/**.html'
+    }),
+    commonjs(),
+    resolve(),
+    buble(),
+];
+
+export default [{
     input: 'src/embed/index.js',
     output: {
         file: 'build/embed.js',
         format: 'iife'
     },
-    plugins: [
-        jst({
-          extensions: ['.html'],
-          include: 'src/embed/**.html'
-        }),
-        commonjs(),
-        resolve(),
-        buble(),
-        uglify()
-    ]
-};
+    plugins
+}, {
+    input: 'src/embed/client.js',
+    output: {
+        file: 'build/client.js',
+        format: 'umd',
+        name: 'Schnack'
+    },
+    plugins
+}];

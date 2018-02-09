@@ -7,12 +7,25 @@
   <link rel="stylesheet" type="text/css" href="schnack-icons.css">
 </head>
 <body>
-    <script type="text/javascript"
-        src="http://localhost:3000/embed.js"
-        data-schnack-host="//localhost:3000"
+    <script
+        src="http://localhost:8080/embed.js"
         data-schnack-slug="foo"
         data-schnack-target="#my-comments">
     </script>
     <div id="my-comments"></div>
+
+
+    <!-- here we are using schnack programmatically -->
+
+    <div id="my-comments-client"></div>
+
+    <script src="http://localhost:8080/client.js"></script>
+    <script>
+        new Schnack({
+            target: '#my-comments-client',
+            slug: 'foo-client',
+            host: 'http://localhost:8080'
+        });
+    </script>
 </body>
 </html>
