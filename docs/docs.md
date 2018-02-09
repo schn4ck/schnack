@@ -161,7 +161,7 @@ If none of the notification services fits your needs, you can still use the RSS 
 
 # Administration
 
-Administrators are managed adding or removing their *schnack* user ID to the `admins` array in `config.js`. When a user logs in as administrator, the moderation UI will appear.
+Administrators are managed adding or removing their *schnack* user ID to the `admins` array in `config.js`. When a user logs in as administrator, the moderation UI will appear in the certain comment section. By default it's set to `[1]`. So the first user will be an admin.
 
 ## Moderation
 
