@@ -13,6 +13,7 @@ const plugins = [
     commonjs(),
     resolve(),
     buble(),
+    uglify()
 ];
 
 export default [{
