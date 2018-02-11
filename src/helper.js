@@ -1,6 +1,7 @@
 const fs = require('fs');
 const url = require('url');
-const config = require('../config.json');
+const path = require('path');
+const config = require(path.resolve(process.cwd(), 'config.json'));
 const queries = require('./db/queries');
 
 const schnack_domain = getSchnackDomain();

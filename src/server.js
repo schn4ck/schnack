@@ -1,4 +1,5 @@
 const url = require('url');
+const path = require('path');
 const express = require('express');
 const app = express();
 const cors = require('cors');
@@ -22,7 +23,7 @@ const {
     getSchnackDomain
  } = require('./helper');
 
-const config = require('../config.json');
+const config = require(path.resolve(process.cwd(), 'config.json'));
 const awaiting_moderation = [];
 
 marked.setOptions({ sanitize: true });

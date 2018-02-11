@@ -7,7 +7,8 @@ const GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
 const FacebookStrategy = require('passport-facebook').Strategy;
 
 const queries = require('./db/queries');
-const config = require('../config.json');
+const path = require('path');
+const config = require(path.resolve(process.cwd(), 'config.json'));
 
 const providers = [];
 

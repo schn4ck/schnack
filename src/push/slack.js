@@ -1,6 +1,7 @@
 
 const request = require('request');
-const config = require('../../config.json');
+const path = require('path');
+const config = require(path.resolve(process.cwd(), 'config.json'));
 const schnackEvents = require('../events');
 
 if (config.notify.slack) {

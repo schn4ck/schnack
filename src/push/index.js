@@ -1,8 +1,9 @@
 const fs = require('fs');
+const path = require('path');
 const countBy = require('lodash.countby');
 const webpush = require('web-push');
 const Pushover = require('pushover-notifications');
-const config = require('../../config.json');
+const config = require(path.resolve(process.cwd(), 'config.json'));
 const queries = require('../db/queries');
 const slack = require('./slack');
 const {
@@ -79,9 +80,9 @@ function init(app, db, awaiting_moderation) {
     }, config.notification_interval || 300000); // five minutes
 
     // serve static js files
-    app.use('/embed.js', send_file('build/embed.js'));
-    app.use('/client.js', send_file('build/client.js'));
-    app.use('/push.js', send_string(fs.readFileSync('src/embed/push.js', 'utf-8')
+    app.use('/embed.js', send_file(path.resolve(__dirname, '..', '..', 'build', 'embed.js')));
+    app.use('/client.js', send_file(path.resolve(__dirname, '..', '..', 'build', 'client.js')));
+    app.use('/push.js', send_string(fs.readFileSync(path.resolve(__dirname, '..', '..', 'src', 'embed', 'push.js'), 'utf-8')
         .replace('%VAPID_PUBLIC_KEY%', config.notify.webpush.vapid_public_key)
         .replace('%SCHNACK_HOST%', config.schnack_host), true));
 
