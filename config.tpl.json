@@ -1,6 +1,6 @@
 {
-    "schnack_host": "https://schnack.mysite.com",
-    "page_url": "https://blog.mysite.com/posts/%SLUG%",
+    "schnack_host": "https://schnack.example.com",
+    "page_url": "https://blog.example.com/posts/%SLUG%",
     "database": "comments.db",
     "port": 3000,
     "admins": [1],
