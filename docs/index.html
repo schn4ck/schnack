@@ -145,7 +145,7 @@
         What the schnack?
       </a>
     </h1>
-  <p>Schnack is an open source commenting system written in JavaScript. </p>
+  <p>Schnack is an open source commenting system written in JavaScript.</p>
 <ul>
 <li>Tiny! It takes only ~<strong>8 KB!!!</strong> to embed Schnack.</li>
 <li><strong>Open source</strong> and <strong>self-hosted</strong>.</li>
@@ -196,7 +196,7 @@ vim config.json                 # or open with any editor of your choice
       </a>
     </h1>
   <p><em>schnack</em> will try to read the configuration from the <code>config.json</code> file. The minimal configuration requires the following fields: <em>schnack_host</em>, <em>admins</em>, <em>oauth.secret</em>  and at least one oauth provider (id and secret key) and one notification provider.
-The fields <em>schnack_host</em> and <em>page_url</em> should be hosted on the <strong>same domain</strong>. If your blog is running at <em><a href="https://blog.mysite.com">https://blog.mysite.com</a></em>, then your <em>schnack</em> instance should be reachable at any <strong>subdomain</strong> of <em>mysite.com</em>.</p>
+The fields <em>schnack_host</em> and <em>page_url</em> should be hosted on the <strong>same domain</strong>. If your blog is running at <em><a href="https://blog.example.com">https://blog.example.com</a></em>, then your <em>schnack</em> instance should be reachable at any <strong>subdomain</strong> of <em>example.com</em>.</p>
 <table>
 <thead>
 <tr>
@@ -207,15 +207,23 @@ The fields <em>schnack_host</em> and <em>page_url</em> should be hosted on the <
 <tbody>
 <tr>
 <td>schnack_host</td>
-<td>the hostname where the schnack server runs (e.g. <em><a href="https://schnack.mysite.com">https://schnack.mysite.com</a></em>)</td>
+<td>the hostname where the schnack server runs (e.g. <em><a href="https://schnack.example.com">https://schnack.example.com</a></em>)</td>
 </tr>
 <tr>
 <td>page_url</td>
-<td>the page where schnack is going to be embeded. The <code>%SLUG%</code> placeholder should be replaceable with you tags (e.g. <em><a href="https://blog.mysite.com/posts/%SLUG%">https://blog.mysite.com/posts/%SLUG%</a></em>)</td>
+<td>the page where schnack is going to be embeded. The <code>%SLUG%</code> placeholder should be replaceable with you tags (e.g. <em><a href="https://blog.example.com/posts/%SLUG%">https://blog.example.com/posts/%SLUG%</a></em>)</td>
 </tr>
 <tr>
 <td>database</td>
-<td>the filename of the embeded SQLite database where data is going to be stored (e.g. <em>comments.db</em>)</td>
+<td></td>
+</tr>
+<tr>
+<td>&nbsp;&nbsp;comments</td>
+<td>the filename of the embeded SQLite database where the user comments are going to be stored (e.g. <em>comments.db</em>)</td>
+</tr>
+<tr>
+<td>&nbsp;&nbsp;sessions</td>
+<td>the filename of the embeded SQLite database where OAuth session data is going to be stored (e.g. <em>sessions.db</em>)</td>
 </tr>
 <tr>
 <td>port</td>
@@ -346,8 +354,8 @@ When an user login through an OAuth provider, the session informations are store
 <li>Create a new OAuth App on <a href="https://apps.twitter.com/">apps.twitter.com</a><ul>
 <li><em>Name</em>: the name of your blog</li>
 <li><em>Description</em>: the description of your blog</li>
-<li><em>Website</em>: the URL of your <em>schnack</em> instance (e.g. <a href="https://schnack.mysite.com">https://schnack.mysite.com</a>)</li>
-<li><em>Callback URL</em>: the URL of your <em>schnack</em> instance followed by <code>/auth/twitter/callback</code> (e.g. <a href="https://schnack.mysite.com/auth/twitter/callback">https://schnack.mysite.com/auth/twitter/callback</a>)</li>
+<li><em>Website</em>: the URL of your <em>schnack</em> instance (e.g. <a href="https://schnack.example.com">https://schnack.example.com</a>)</li>
+<li><em>Callback URL</em>: the URL of your <em>schnack</em> instance followed by <code>/auth/twitter/callback</code> (e.g. <a href="https://schnack.example.com/auth/twitter/callback">https://schnack.example.com/auth/twitter/callback</a>)</li>
 <li>Check the checkbox &quot;Allow this application to be used to Sign in with Twitter&quot;</li>
 </ul>
 </li>
@@ -362,9 +370,9 @@ When an user login through an OAuth provider, the session informations are store
   <ul>
 <li>Create a new GitHub <a href="https://github.com/settings/applications/new">OAuth App</a><ul>
 <li><em>Application name</em>: the name of your blog</li>
-<li><em>Homepage URL</em>: the URL of your <em>schnack</em> instance (e.g. <a href="https://schnack.mysite.com">https://schnack.mysite.com</a>)</li>
+<li><em>Homepage URL</em>: the URL of your <em>schnack</em> instance (e.g. <a href="https://schnack.example.com">https://schnack.example.com</a>)</li>
 <li><em>Application description</em>: the description of your blog</li>
-<li><em>Authorization callack URL</em>: the URL of your <em>schnack</em> instance followed by <code>/auth/github/callback</code> (e.g. <a href="https://schnack.mysite.com/auth/github/callback">https://schnack.mysite.com/auth/github/callback</a>)</li>
+<li><em>Authorization callack URL</em>: the URL of your <em>schnack</em> instance followed by <code>/auth/github/callback</code> (e.g. <a href="https://schnack.example.com/auth/github/callback">https://schnack.example.com/auth/github/callback</a>)</li>
 </ul>
 </li>
 </ul>
@@ -403,7 +411,7 @@ When an user login through an OAuth provider, the session informations are store
 <ul>
 <li>Copy the VAPID keys in <code>config.json</code></li>
 <li>Add your user ID to the <em>admin</em> array in <code>config.json</code></li>
-<li>Copy the <a href="https://github.com/schn4ck/schnack/blob/master/sw.js">sw.js</a> into your website&#39;s root path, so that this will be accessible at <a href="https://comments.mysite.com/sw.js">https://comments.mysite.com/sw.js</a></li>
+<li>Copy the <a href="https://github.com/schn4ck/schnack/blob/master/sw.js">sw.js</a> into your website&#39;s root path, so that this will be accessible at <a href="https://comments.example.com/sw.js">https://comments.example.com/sw.js</a></li>
 <li>Login to your <em>schnack</em> instance and you will be asked to grant the permission for push notifications.</li>
 </ul>
 <p>When a new comment is posted, you will be notified with a notification. In order to avoid flooding, <em>schnack</em> will send only a notification every 5 minutes, highlighting the number of comments awaiting for approval.</p>
@@ -435,7 +443,7 @@ When an user login through an OAuth provider, the session informations are store
         Administration
       </a>
     </h1>
-  <p>Administrators are managed adding or removing their <em>schnack</em> user ID to the <code>admins</code> array in <code>config.js</code>. When a user logs in as administrator, the moderation UI will appear.</p>
+  <p>Administrators are managed adding or removing their <em>schnack</em> user ID to the <code>admins</code> array in <code>config.js</code>. When a user logs in as administrator, the moderation UI will appear in the certain comment section. By default it&#39;s set to <code>[1]</code>. So the first user will be an admin.</p>
 
     <h2 id="moderation">
       <a class="anchor" href="#moderation">
@@ -468,7 +476,7 @@ An approved comment will be displayed to all users visiting your site, while a r
         Backups
       </a>
     </h2>
-  <p>The most effective way to keep a backup of your data is to take a copy of your <code>comments.db</code> file, which is actually including all necessary data. If you cannot find this file then you probably set another name to <code>database</code> in <code>config.json</code>.</p>
+  <p>The most effective way to keep a backup of your data is to take a copy of your <code>comments.db</code> file, which is actually including all necessary data. If you cannot find this file then you probably set another name to <code>database.comments</code> in <code>config.json</code>.</p>
 
     <h1 id="import-comments">
       <a class="anchor" href="#import-comments">

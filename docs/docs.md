@@ -1,6 +1,6 @@
 # What the schnack?
 
-Schnack is an open source commenting system written in JavaScript. 
+Schnack is an open source commenting system written in JavaScript.
 - Tiny! It takes only ~**8 KB!!!** to embed Schnack.
 - **Open source** and **self-hosted**.
 - Ad-free and Tracking-free. Schnack will **not disturb your users**.
@@ -57,14 +57,16 @@ Embed in your HTML page:
 # Configuration
 
 *schnack* will try to read the configuration from the `config.json` file. The minimal configuration requires the following fields: *schnack_host*, *admins*, *oauth.secret*  and at least one oauth provider (id and secret key) and one notification provider.
-The fields *schnack_host* and *page_url* should be hosted on the **same domain**. If your blog is running at *https://blog.mysite.com*, then your *schnack* instance should be reachable at any **subdomain** of *mysite.com*.
+The fields *schnack_host* and *page_url* should be hosted on the **same domain**. If your blog is running at *https://blog.example.com*, then your *schnack* instance should be reachable at any **subdomain** of *example.com*.
 
 
 | option                                    | description                                                                                                                                               |
 |-------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------|
-| schnack_host                              | the hostname where the schnack server runs (e.g. *https://schnack.mysite.com*)                                                                            |
-| page_url                                  | the page where schnack is going to be embeded. The `%SLUG%` placeholder should be replaceable with you tags (e.g. *https://blog.mysite.com/posts/%SLUG%*) |
-| database                                  | the filename of the embeded SQLite database where data is going to be stored (e.g. *comments.db*)                                                         |
+| schnack_host                              | the hostname where the schnack server runs (e.g. *https://schnack.example.com*)                                                                            |
+| page_url                                  | the page where schnack is going to be embeded. The `%SLUG%` placeholder should be replaceable with you tags (e.g. *https://blog.example.com/posts/%SLUG%*) |
+| database                                  |                                                       |
+| &nbsp;&nbsp;comments                                  | the filename of the embeded SQLite database where the user comments are going to be stored (e.g. *comments.db*)                                                         |
+|  &nbsp;&nbsp;sessions                                  | the filename of the embeded SQLite database where OAuth session data is going to be stored (e.g. *sessions.db*)                                                         |
 | port                                      | the port where the schnack server is going to run (e.g. 3000)                                                                                             |
 | admins                                    | an array of userIDs which can login as admin (e.g. *[1, 245]*)                                                                                            |
 | oauth                                     |                                                                                                                                                           |
@@ -106,8 +108,8 @@ The `secret` provided in `config.json` will be used by [express-session](https:/
 - Create a new OAuth App on [apps.twitter.com](https://apps.twitter.com/)
     - *Name*: the name of your blog
     - *Description*: the description of your blog
-    - *Website*: the URL of your *schnack* instance (e.g. https://schnack.mysite.com)
-    - *Callback URL*: the URL of your *schnack* instance followed by `/auth/twitter/callback` (e.g. https://schnack.mysite.com/auth/twitter/callback)
+    - *Website*: the URL of your *schnack* instance (e.g. https://schnack.example.com)
+    - *Callback URL*: the URL of your *schnack* instance followed by `/auth/twitter/callback` (e.g. https://schnack.example.com/auth/twitter/callback)
     - Check the checkbox "Allow this application to be used to Sign in with Twitter"
 - Copy the Consumer Key and the Consumer Secret from "Keys and Access Tokens" to `oauth.twitter.consumer_key` and `oauth.twitter.consumer_secret` in `config.json`
 
@@ -115,9 +117,9 @@ The `secret` provided in `config.json` will be used by [express-session](https:/
 
 - Create a new GitHub [OAuth App](https://github.com/settings/applications/new)
     - *Application name*: the name of your blog
-    - *Homepage URL*: the URL of your *schnack* instance (e.g. https://schnack.mysite.com)
+    - *Homepage URL*: the URL of your *schnack* instance (e.g. https://schnack.example.com)
     - *Application description*: the description of your blog
-    - *Authorization callack URL*: the URL of your *schnack* instance followed by `/auth/github/callback` (e.g. https://schnack.mysite.com/auth/github/callback)
+    - *Authorization callack URL*: the URL of your *schnack* instance followed by `/auth/github/callback` (e.g. https://schnack.example.com/auth/github/callback)
 
 ### Google
 
@@ -140,7 +142,7 @@ node_modules/.bin/web-push generate-vapid-keys
 
 - Copy the VAPID keys in `config.json`
 - Add your user ID to the *admin* array in `config.json`
-- Copy the [sw.js](https://github.com/schn4ck/schnack/blob/master/sw.js) into your website's root path, so that this will be accessible at https://comments.mysite.com/sw.js
+- Copy the [sw.js](https://github.com/schn4ck/schnack/blob/master/sw.js) into your website's root path, so that this will be accessible at https://comments.example.com/sw.js
 - Login to your *schnack* instance and you will be asked to grant the permission for push notifications.
 
 When a new comment is posted, you will be notified with a notification. In order to avoid flooding, *schnack* will send only a notification every 5 minutes, highlighting the number of comments awaiting for approval.
@@ -188,7 +190,7 @@ You can provide a list of user IDs of people you trust for each authentication p
 
 ## Backups
 
-The most effective way to keep a backup of your data is to take a copy of your `comments.db` file, which is actually including all necessary data. If you cannot find this file then you probably set another name to `database` in `config.json`.
+The most effective way to keep a backup of your data is to take a copy of your `comments.db` file, which is actually including all necessary data. If you cannot find this file then you probably set another name to `database.comments` in `config.json`.
 
 # Import comments
 
