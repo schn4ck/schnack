@@ -1,7 +1,10 @@
 {
     "schnack_host": "https://schnack.example.com",
     "page_url": "https://blog.example.com/posts/%SLUG%",
-    "database": "comments.db",
+    "database": {
+        "comments": "comments.db",
+        "sessions": "sessions.db"
+    },
     "port": 3000,
     "admins": [1],
     "oauth": {

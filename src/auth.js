@@ -17,7 +17,7 @@ function init(app, db, domain) {
         saveUninitialized: false,
         secret: config.oauth.secret,
         cookie: { domain: `.${domain}` },
-        store: new SQLiteStore({ db: 'sessions.db' })
+        store: new SQLiteStore({ db: config.database.sessions || 'sessions.db' })
     }));
 
     app.use(passport.initialize());

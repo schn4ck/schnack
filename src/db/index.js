@@ -2,7 +2,7 @@ const fs = require('fs');
 const path = require('path');
 const db = require('sqlite');
 const config = require('../../config.json');
-const dbname = config.database || 'comments.db';
+const dbname = (typeof config.database == 'string' ? config.database : config.database.comments) || 'comments.db';
 const dbpath = path.resolve(__dirname, `../../${dbname}`);
 
 // returns promise that passes db obj
