@@ -80,6 +80,7 @@ function init(app, db, awaiting_moderation) {
 
     // serve static js files
     app.use('/embed.js', send_file('build/embed.js'));
+    app.use('/client.js', send_file('build/client.js'));
     app.use('/push.js', send_string(fs.readFileSync('src/embed/push.js', 'utf-8')
         .replace('%VAPID_PUBLIC_KEY%', config.notify.webpush.vapid_public_key)
         .replace('%SCHNACK_HOST%', config.schnack_host), true));
