@@ -9,10 +9,6 @@ import Schnack from './client';
     const url = new URL(script.getAttribute('src'));
     const host = `${url.protocol}//${url.host}`;
 
-    if (url.hostname !== 'localhost') {
-        document.domain = url.hostname.split('.').slice(1).join('.');
-    }
-
     new Schnack({
         target: opts.schnackTarget,
         slug,

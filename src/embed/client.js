@@ -12,6 +12,12 @@ export default class Schnack {
         this.initialized = false;
         this.firstLoad = true;
 
+        const url = new URL(options.host)
+
+        if (url.hostname !== 'localhost') {
+            document.domain = url.hostname.split('.').slice(1).join('.');
+        }
+
         this.refresh();
     }
 
