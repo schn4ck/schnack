@@ -31,12 +31,18 @@
           {{content}}
         </div>
         <div class="comments-go-here"></div>
-        <script src="https://schnick.schnack.cool/embed.js"
-            data-schnack-slug="post-slug"
-            data-schnack-target=".comments-go-here">
-        </script>
       </section>
     </div>
     <script src="prism.js"></script>
+
+    <script src="https://schnick.schnack.cool/client.js"></script>
+    <script>
+        new Schnack({
+          host: 'https://schnick.schnack.cool',
+          slug: 'post-slug',
+          target: '.comments-go-here'
+        });
+    </script>
+
    </body>
 </html>
