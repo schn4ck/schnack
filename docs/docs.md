@@ -4,7 +4,7 @@ Schnack is an open source commenting system written in JavaScript.
 - Tiny! It takes only ~**8 KB!!!** to embed Schnack.
 - **Open source** and **self-hosted**.
 - Ad-free and Tracking-free. Schnack will **not disturb your users**.
-- It's simpy to moderate, with a **minimal** and **slick UI** to allow/reject comments or trust/block users.
+- It's simple to moderate, with a **minimal** and **slick UI** to allow/reject comments or trust/block users.
 - **[webpush protocol](https://tools.ietf.org/html/draft-ietf-webpush-protocol-12) to notify the site owner** about new comments awaiting for moderation.
 - **Third party providers for authentication** like Github, Twitter, Google and Facebook. Users are not required to register a new account on your system and you don't need to manage a user management system.
 
