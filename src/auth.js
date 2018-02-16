@@ -7,17 +7,19 @@ const GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
 const FacebookStrategy = require('passport-facebook').Strategy;
 
 const queries = require('./db/queries');
-const config = require('../config.json');
 
 const providers = [];
 
-function init(app, db, domain) {
+function init(config, app, db, domain) {
+    const authConfig = config.get('oauth');
+    const trustConfig = config.get('trust');
+
     app.use(session({
         resave: false,
         saveUninitialized: false,
-        secret: config.oauth.secret,
+        secret: authConfig.secret,
         cookie: { domain: `.${domain}` },
-        store: new SQLiteStore({ db: config.database.sessions || 'sessions.db' })
+        store: new SQLiteStore({ db: config.get('database').sessions || 'sessions.db' })
     }));
 
     app.use(passport.initialize());
@@ -28,9 +30,9 @@ function init(app, db, domain) {
             if (row) return done(null, row); // welcome back
             // nice to meet you, new user!
             // check if id shows up in auto-trust config
-            var trusted = config.trust &&
-                    config.trust[user.provider] &&
-                    config.trust[user.provider].indexOf(user.id) > -1 ? 1 : 0;
+            var trusted = trustConfig &&
+                    trustConfig[user.provider] &&
+                    trustConfig[user.provider].indexOf(user.id) > -1 ? 1 : 0;
             const c_args = [user.provider, user.id, user.displayName, user.username || user.displayName, trusted];
             db.run(queries.create_user, c_args, (err, res) => {
                 if (err) return console.error(err);
@@ -50,11 +52,11 @@ function init(app, db, domain) {
     });
 
     // twitter auth
-    if (config.oauth.twitter) {
+    if (authConfig.twitter) {
         providers.push({ id: 'twitter', name: 'Twitter' });
         passport.use(new TwitterStrategy({
-            consumerKey: config.oauth.twitter.consumer_key,
-            consumerSecret: config.oauth.twitter.consumer_secret,
+            consumerKey: authConfig.twitter.consumer_key,
+            consumerSecret: authConfig.twitter.consumer_secret,
             callbackURL: `${config.schnack_host}/auth/twitter/callback`
         }, (token, tokenSecret, profile, done) => {
             done(null, profile);
@@ -74,11 +76,11 @@ function init(app, db, domain) {
     }
 
     // github auth
-    if (config.oauth.github) {
+    if (authConfig.github) {
         providers.push({ id: 'github', name: 'Github' });
         passport.use(new GitHubStrategy({
-            clientID: config.oauth.github.client_id,
-            clientSecret: config.oauth.github.client_secret,
+            clientID: authConfig.github.client_id,
+            clientSecret: authConfig.github.client_secret,
             callbackURL: `${config.schnack_host}/auth/github/callback`
         }, (accessToken, refreshToken, profile, done) => {
             done(null, profile);
@@ -100,11 +102,11 @@ function init(app, db, domain) {
     }
 
     // google oauth
-    if (config.oauth.google) {
+    if (authConfig.google) {
         providers.push({ id: 'google', name: 'Google' });
         passport.use(new GoogleStrategy({
-            clientID: config.oauth.google.client_id,
-            clientSecret: config.oauth.google.client_secret,
+            clientID: authConfig.google.client_id,
+            clientSecret: authConfig.google.client_secret,
             callbackURL: `${config.schnack_host}/auth/google/callback`
         }, (accessToken, refreshToken, profile, done) => {
             done(null, profile);
@@ -126,11 +128,11 @@ function init(app, db, domain) {
     }
 
     // facebook oauth
-    if (config.oauth.facebook) {
+    if (authConfig.facebook) {
         providers.push({ id: 'facebook', name: 'Facebook' });
         passport.use(new FacebookStrategy({
-            clientID: client.oauth.facebook.client_id,
-            clientSecret: config.oauth.facebook.client_secret,
+            clientID: authConfig.facebook.client_id,
+            clientSecret: authConfig.facebook.client_secret,
             callbackURL: `${config.schnack_host}/auth/facebook/callback`
         }, (accessToken, refreshToken, profile, done) => {
               done(null, profile);

@@ -2,7 +2,6 @@ const fs = require('fs');
 const countBy = require('lodash.countby');
 const webpush = require('web-push');
 const Pushover = require('pushover-notifications');
-const config = require('../../config.json');
 const queries = require('../db/queries');
 const slack = require('./slack');
 const {
@@ -11,7 +10,7 @@ const {
     error
 } = require('../helper');
 
-function init(app, db, awaiting_moderation) {
+function init(config, app, db, awaiting_moderation) {
     // push notification apps
     const notifier = [];
 
