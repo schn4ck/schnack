@@ -9,26 +9,29 @@ const {
     send_string,
     error
 } = require('../helper');
+const config = require('../config');
+const notify = config.get('notify');
+const schnack_host = config.get('schnack_host');
 
-function init(config, app, db, awaiting_moderation) {
+function init(app, db, awaiting_moderation) {
     // push notification apps
     const notifier = [];
 
     // each notification app could hook into the
     // the notifier array
-    if (config.notify.pushover) {
+    if (notify.pushover) {
         const push = new Pushover({
-            token: config.notify.pushover.app_token,
-            user: config.notify.pushover.user_key
+            token: notify.pushover.app_token,
+            user: notify.pushover.user_key
         });
         notifier.push((msg, callback) => push.send(msg, callback));
     }
 
-    if (config.notify.webpush) {
+    if (notify.webpush) {
         webpush.setVapidDetails(
-            config.schnack_host,
-            config.notify.webpush.vapid_public_key,
-            config.notify.webpush.vapid_private_key
+            schnack_host,
+            notify.webpush.vapid_public_key,
+            notify.webpush.vapid_private_key
         );
 
         notifier.push((msg, callback) => {
@@ -75,14 +78,14 @@ function init(config, app, db, awaiting_moderation) {
                 }, 1000);
             });
         }
-    }, config.notification_interval || 300000); // five minutes
+    }, config.get('notification_interval'));
 
     // serve static js files
     app.use('/embed.js', send_file('build/embed.js'));
     app.use('/client.js', send_file('build/client.js'));
     app.use('/push.js', send_string(fs.readFileSync('src/embed/push.js', 'utf-8')
-        .replace('%VAPID_PUBLIC_KEY%', config.notify.webpush.vapid_public_key)
-        .replace('%SCHNACK_HOST%', config.schnack_host), true));
+        .replace('%VAPID_PUBLIC_KEY%', notify.webpush.vapid_public_key)
+        .replace('%SCHNACK_HOST%', schnack_host), true));
 
    // push notifications
    app.post('/subscribe', (request, reply) => {

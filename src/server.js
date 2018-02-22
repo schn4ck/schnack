@@ -7,7 +7,6 @@ const moment = require('moment');
 
 const RSS = require('rss');
 const marked = require('marked');
-const nconf = require('nconf');
 
 const dbHandler = require('./db');
 const queries = require('./db/queries');
@@ -23,20 +22,13 @@ const {
     getSchnackDomain
  } = require('./helper');
 
-const config = nconf.argv()
-    .defaults({
-        database: {
-            comments: 'comments.db'
-        }
-    })
-    .env()
-    .file({ file: 'config.json' });
+const config = require('./config');
 
 const awaiting_moderation = [];
 
 marked.setOptions({ sanitize: true });
 
-dbHandler.init(config)
+dbHandler.init()
     .then(db => run(db))
     .catch(err => console.error(err.message));
 
@@ -50,8 +42,8 @@ function run(db) {
     app.use(bodyParser.urlencoded({ extended: true }));
 
     // init session + passport middleware and auth routes
-    auth.init(config, app, db, getSchnackDomain());
-    pushHandler.init(config, app, db, awaiting_moderation);
+    auth.init(app, db, getSchnackDomain());
+    pushHandler.init(app, db, awaiting_moderation);
 
     const date_format = config.get('date_format');
     app.get('/comments/:slug', (request, reply) => {

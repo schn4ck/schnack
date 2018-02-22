@@ -1,10 +1,11 @@
 const fs = require('fs');
 const path = require('path');
 const db = require('sqlite');
+const config = require('../config');
+const conf = config.get('database');
 
 // returns promise that passes db obj
-function init(config) {
-  const conf = config.get('database');
+function init() {
   const dbname = conf.comments || conf;
   const dbpath = path.resolve(process.cwd(), dbname);
 

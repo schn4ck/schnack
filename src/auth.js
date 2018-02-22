@@ -7,19 +7,20 @@ const GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
 const FacebookStrategy = require('passport-facebook').Strategy;
 
 const queries = require('./db/queries');
+const config = require('./config');
+const authConfig = config.get('oauth');
+const trustConfig = config.get('trust');
+const schnack_host = config.get('schnack_host');
 
 const providers = [];
 
-function init(config, app, db, domain) {
-    const authConfig = config.get('oauth');
-    const trustConfig = config.get('trust');
-
+function init(app, db, domain) {
     app.use(session({
         resave: false,
         saveUninitialized: false,
         secret: authConfig.secret,
         cookie: { domain: `.${domain}` },
-        store: new SQLiteStore({ db: config.get('database').sessions || 'sessions.db' })
+        store: new SQLiteStore({ db: config.get('database').sessions })
     }));
 
     app.use(passport.initialize());
@@ -57,7 +58,7 @@ function init(config, app, db, domain) {
         passport.use(new TwitterStrategy({
             consumerKey: authConfig.twitter.consumer_key,
             consumerSecret: authConfig.twitter.consumer_secret,
-            callbackURL: `${config.schnack_host}/auth/twitter/callback`
+            callbackURL: `${schnack_host}/auth/twitter/callback`
         }, (token, tokenSecret, profile, done) => {
             done(null, profile);
         }));
@@ -81,7 +82,7 @@ function init(config, app, db, domain) {
         passport.use(new GitHubStrategy({
             clientID: authConfig.github.client_id,
             clientSecret: authConfig.github.client_secret,
-            callbackURL: `${config.schnack_host}/auth/github/callback`
+            callbackURL: `${schnack_host}/auth/github/callback`
         }, (accessToken, refreshToken, profile, done) => {
             done(null, profile);
         }));
@@ -107,7 +108,7 @@ function init(config, app, db, domain) {
         passport.use(new GoogleStrategy({
             clientID: authConfig.google.client_id,
             clientSecret: authConfig.google.client_secret,
-            callbackURL: `${config.schnack_host}/auth/google/callback`
+            callbackURL: `${schnack_host}/auth/google/callback`
         }, (accessToken, refreshToken, profile, done) => {
             done(null, profile);
         }));
@@ -133,7 +134,7 @@ function init(config, app, db, domain) {
         passport.use(new FacebookStrategy({
             clientID: authConfig.facebook.client_id,
             clientSecret: authConfig.facebook.client_secret,
-            callbackURL: `${config.schnack_host}/auth/facebook/callback`
+            callbackURL: `${schnack_host}/auth/facebook/callback`
         }, (accessToken, refreshToken, profile, done) => {
               done(null, profile);
         }));
