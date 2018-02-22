@@ -189,6 +189,18 @@ vim config.json                 # or open with any editor of your choice
     data-schnack-target=&quot;.comments-go-here&quot;&gt;
 &lt;/script&gt;
 </code></pre>
+<p><strong>or</strong> initialize <em>schnack</em> programmatically:</p>
+<pre><code class="lang-html">&lt;div id=&quot;comments-go-here&quot;&gt;&lt;/div&gt;
+
+&lt;script src=&quot;http://comments.example.com/client.js&quot;&gt;&lt;/script&gt;
+&lt;script&gt;
+    new Schnack({
+        target: &#39;.comments-go-here&#39;,
+        slug: &#39;post-slug&#39;,
+        host: &#39;http://comments.example.com&#39;
+    });
+&lt;/script&gt;
+</code></pre>
 
     <h1 id="configuration">
       <a class="anchor" href="#configuration">

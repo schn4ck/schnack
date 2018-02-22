@@ -54,6 +54,21 @@ Embed in your HTML page:
 </script>
 ```
 
+**or** initialize *schnack* programmatically:
+
+```html
+<div id="comments-go-here"></div>
+
+<script src="http://comments.example.com/client.js"></script>
+<script>
+    new Schnack({
+        target: '.comments-go-here',
+        slug: 'post-slug',
+        host: 'http://comments.example.com'
+    });
+</script>
+```
+
 # Configuration
 
 *schnack* will try to read the configuration from the `config.json` file. The minimal configuration requires the following fields: *schnack_host*, *admins*, *oauth.secret*  and at least one oauth provider (id and secret key) and one notification provider.

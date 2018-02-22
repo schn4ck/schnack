@@ -56,9 +56,24 @@ Embed in your HTML page:
 
 ```html
 <div class="comments-go-here"></div>
-<script src="https://comments.yoursite.com/embed.js"
+<script src="https://comments.example.com/embed.js"
     data-schnack-slug="post-slug"
     data-schnack-target=".comments-go-here">
+</script>
+```
+
+**or** initialize *schnack* programmatically:
+
+```html
+<div id="comments-go-here"></div>
+
+<script src="http://comments.example.com/client.js"></script>
+<script>
+    new Schnack({
+        target: '.comments-go-here',
+        slug: 'post-slug',
+        host: 'http://comments.example.com'
+    });
 </script>
 ```
 
