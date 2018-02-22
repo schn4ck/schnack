@@ -45,7 +45,6 @@ function run(db) {
     auth.init(app, db, getSchnackDomain());
     pushHandler.init(app, db, awaiting_moderation);
 
-    const date_format = config.get('date_format');
     app.get('/comments/:slug', (request, reply) => {
         const { slug } = request.params;
         const user = getUser(request);
@@ -60,6 +59,7 @@ function run(db) {
             args.length = 1;
         }
 
+        const date_format = config.get('date_format');        
         db.all(query, args, (err, comments) => {
             if (error(err, request, reply)) return;
             comments.forEach((c) => {
