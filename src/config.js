@@ -10,7 +10,7 @@ nconf.argv()
     .file({ file: './config.json' })
     .env()
     .defaults({
-        admins:[1],
+        admins: [1],
         schnack_host: `http://localhost`,
         database: {
             comments: 'comments.db',
