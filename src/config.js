@@ -7,6 +7,8 @@ const os = require('os');
 const vapidKeys = webpush.generateVAPIDKeys();
 
 nconf.argv()
+    .file({ file: './config.json' })
+    .env()
     .defaults({
         admins:[1],
         schnack_host: `http://localhost`,
@@ -26,8 +28,6 @@ nconf.argv()
                 vapid_private_key: vapidKeys.privateKey
             }
         }
-    })
-    .env()
-    .file({ file: 'config.json' });
+    });
 
 module.exports = nconf;
