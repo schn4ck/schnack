@@ -1,7 +1,7 @@
 const fs = require('fs');
 const url = require('url');
-const config = require('../config.json');
 const queries = require('./db/queries');
+const config = require('./config');
 
 const schnack_domain = getSchnackDomain();
 function send_file(file, admin_only) {
@@ -34,13 +34,13 @@ function error(err, request, reply, code) {
 }
 
 function getUser(request) {
-    if (config.dev) return { id: 1, name: 'Dev', display_name: 'Dev', admin: true, trusted: 1};
+    if (config.get('dev')) return { id: 1, name: 'Dev', display_name: 'Dev', admin: true, trusted: 1};
     const { user } = request.session.passport || {};
     return user;
 }
 
 function isAdmin(user) {
-  return user && user.id && config.admins.indexOf(user.id) > -1;
+  return user && user.id && config.get('admins').indexOf(user.id) > -1;
 }
 
 function checkOrigin(origin, callback) {
@@ -66,18 +66,21 @@ function checkValidComment(db, slug, user_id, comment, replyTo, callback) {
 }
 
 function getSchnackDomain() {
-    const schnack_url = url.parse(config.schnack_host);
-    if (!schnack_url.hostname) {
-        console.error(`"${config.schnack_host}" doesn't appear to be a proper URL. Did you forget "http://"?`);
+    const schnack_host = config.get('schnack_host');
+    try {
+        const schnack_url = url.parse(schnack_host);
+
+        if (schnack_url.hostname === 'localhost') {
+            return schnack_url.hostname;
+        } else {
+            const schnack_domain = schnack_url.hostname.split('.').slice(1).join('.');
+            return schnack_domain;
+        }
+    } catch (error) {
+        console.error(`The schnack_host value "${schnack_host}" doesn't appear to be a proper URL. Did you forget "http://"?`);
         process.exit(-1);
     }
 
-    if (schnack_url.hostname === 'localhost') {
-        return schnack_url.hostname;
-    } else {
-        const schnack_domain = schnack_url.hostname.split('.').slice(1).join('.');
-        return schnack_domain;
-    }
 }
 
 module.exports = {

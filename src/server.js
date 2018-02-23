@@ -22,7 +22,8 @@ const {
     getSchnackDomain
  } = require('./helper');
 
-const config = require('../config.json');
+const config = require('./config');
+
 const awaiting_moderation = [];
 
 marked.setOptions({ sanitize: true });
@@ -58,11 +59,12 @@ function run(db) {
             args.length = 1;
         }
 
+        const date_format = config.get('date_format');        
         db.all(query, args, (err, comments) => {
             if (error(err, request, reply)) return;
             comments.forEach((c) => {
                 const m = moment.utc(c.created_at);
-                c.created_at_s = config.date_format ? m.format(config.date_format) : m.fromNow();
+                c.created_at_s = date_format ? m.format(date_format) : m.fromNow();
                 c.comment = marked(c.comment.trim());
                 c.author_url = auth.getAuthorUrl(c);
             });
@@ -124,7 +126,7 @@ function run(db) {
     app.get('/feed', (request, reply) => {
         var feed = new RSS({
             title: 'Awaiting moderation',
-            site_url: config.allow_origin[0]
+            site_url: config.allow_origin[0] // @FIXME
         });
         db.each(queries.awaiting_moderation, (err, row) => {
             if (err) console.error(err.message);
@@ -158,15 +160,12 @@ function run(db) {
         });
     });
 
-    if (config.dev) {
+    if (config.get('dev')) {
         // create dev user for testing purposes
         db.run('INSERT OR IGNORE INTO user (id,name,blocked,trusted,created_at) VALUES (1,"dev",0,1,datetime())');
     }
 
-    const port = config.port || process.env.PORT || 3000;
-    const host = config.host || process.env.HOST || "127.0.0.1";
-
-    var server = app.listen(port, host, (err) => {
+    var server = app.listen(config.get('port'), config.get('host'), (err) => {
         if (err) throw err;
         console.log(`server listening on ${server.address().port}`);
     });
