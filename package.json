@@ -26,7 +26,6 @@
   },
   "scripts": {
     "start": "node index.js",
-    "docs": "node docs/generate.js",
     "build": "rollup -cw",
     "test-server": "http-server test -o 'http://localhost:8080/' -P 'http://localhost:3000/'",
     "server": "NODE_ENV=development nodemon index.js",
