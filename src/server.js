@@ -112,8 +112,9 @@ function run(db) {
     });
 
     app.get('/success', (request, reply) => {
+        const schnackDomain = getSchnackDomain();
         reply.send(`<script>
-            document.domain = document.domain.split('.').slice(1).join('.');
+            document.domain = '${schnackDomain}';
             window.opener.__schnack_wait_for_oauth();
         </script>`);
     });
