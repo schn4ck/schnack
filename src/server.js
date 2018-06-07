@@ -125,9 +125,11 @@ function run(db) {
 
     // rss feed of comments in need of moderation
     app.get('/feed', (request, reply) => {
+        const user = getUser(request);
+        if (!isAdmin(user)) return reply.status(403).send({error: 'Forbidden'});
         var feed = new RSS({
             title: 'Awaiting moderation',
-            site_url: config.allow_origin[0] // @FIXME
+            site_url: config.get('schnack_host')
         });
         db.each(queries.awaiting_moderation, (err, row) => {
             if (err) console.error(err.message);
