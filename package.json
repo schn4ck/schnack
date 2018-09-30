@@ -3,7 +3,7 @@
   "version": "0.1.4",
   "dependencies": {
     "body-parser": "^1.18.2",
-    "connect-sqlite3": "^0.9.10",
+    "connect-sqlite3": "^0.9.11",
     "cors": "^2.8.4",
     "express": "^4.16.1",
     "express-session": "^1.15.6",
@@ -19,8 +19,8 @@
     "pushover-notifications": "^0.2.4",
     "request": "^2.83.0",
     "rss": "^1.2.2",
-    "sqlite": "^2.8.0",
-    "sqlite3": "^3.1.13",
+    "sqlite": "^3.0.0",
+    "sqlite3": "^4.0.2",
     "unfetch": "^3.0.0",
     "web-push": "^3.2.3"
   },

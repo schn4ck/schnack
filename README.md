@@ -1,6 +1,6 @@
 # schnack.js
 
-[Schnack](https://dict.leo.org/englisch-deutsch/schnack) is a simple Disqus-like drop-in commenting system written in JavaScript. 
+[Schnack](https://dict.leo.org/englisch-deutsch/schnack) is a simple Disqus-like drop-in commenting system written in JavaScript.
 
 * [Documentation](https://schnack.cool/)
 * [Say hello to Schnack.js](https://www.vis4.net/blog/2017/10/hello-schnack/)
@@ -78,6 +78,16 @@ Embed in your HTML page:
 ```
 
 You will find further information on the [schnack page](https://schnack.cool/).
+
+### Configuration
+
+**Notify Providers:**
+
+* pushover
+* webpush
+* slack
+* rss
+* sendmail
 
 ### Who is behind Schnack?
 
