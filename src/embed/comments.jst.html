@@ -7,7 +7,7 @@
                 ['trust', 'block'].forEach((action) => { %>
                 <button class="schnack-action" data-target="<%= comment.user_id %>" data-class="user" data-action="<%= action %>"><i class="icon schnack-icon-<%= action %>"></i> <span><%= action %></span></button>
                 <% }); } %>
-                <span class="schnack-date"><a href="#comment-<%= comment.id %>"><%= comment.created_at_s %></a></span>
+                <span class="schnack-date"><a href="#comment-<%= comment.id %>"><%= data.formatDate(comment.created_at + 'Z') %></a></span>
             </div>
             <blockquote class="schnack-body">
                 <%= comment.comment %>

@@ -1,4 +1,5 @@
 import fetch from 'unfetch';
+import dateFnFormat from 'date-fns/format';
 import schnack_tpl from './schnack.jst.html';
 import comments_tpl from './comments.jst.html';
 
@@ -33,6 +34,7 @@ export default class Schnack {
             .then(r => r.json())
             .then((data) => {
                 data.comments_tpl = comments_tpl;
+                data.formatDate = (d) => dateFnFormat(d, this.options.dateFormat);
                 $(target).innerHTML = schnack_tpl(data);
 
                 const above = $(`${target} div.schnack-above`);
