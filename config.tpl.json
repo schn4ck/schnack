@@ -38,6 +38,5 @@
         "slack": {
             "webhook_url": "xxxxx"
         }
-    },
-    "date_format": "MMMM DD, YYYY - h:mm a"
+    }
 }

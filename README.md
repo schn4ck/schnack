@@ -9,7 +9,7 @@
 ## What the schnack?
 
 Features:
-- Tiny! It takes only ~**8 KB!!!** to embed Schnack.
+- Tiny! It takes only ~**16 KB!!!** to embed Schnack.
 - **Open source** and **self-hosted**.
 - Ad-free and Tracking-free. Schnack will **not disturb your users**.
 - It's simpy to moderate, with a **minimal** and **slick UI** to allow/reject comments or trust/block users.
@@ -58,6 +58,7 @@ Embed in your HTML page:
 <div class="comments-go-here"></div>
 <script src="https://comments.example.com/embed.js"
     data-schnack-slug="post-slug"
+    data-date-format="MMMM DD, YYYY - h:mm a"
     data-schnack-target=".comments-go-here">
 </script>
 ```
@@ -72,6 +73,7 @@ Embed in your HTML page:
     new Schnack({
         target: '.comments-go-here',
         slug: 'post-slug',
+        dateFormat: 'MMMM DD, YYYY - h:mm a',
         host: 'http://comments.example.com'
     });
 </script>

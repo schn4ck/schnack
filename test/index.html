@@ -10,6 +10,7 @@
     <script
         src="http://localhost:8080/embed.js"
         data-schnack-slug="foo"
+        data-date-format="MMMM DD, YYYY - hh:mm"
         data-schnack-target="#my-comments">
     </script>
     <div id="my-comments"></div>
@@ -23,6 +24,7 @@
     <script>
         new Schnack({
             target: '#my-comments-client',
+            dateFormat: 'MMMM DD, YYYY',
             slug: 'foo-client',
             host: 'http://localhost:8080'
         });
