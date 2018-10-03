@@ -69,7 +69,7 @@ function init(app, db, awaiting_moderation) {
                 const cnt = bySlug[k],
                     msg = {
                         message: `${cnt} new comment${cnt>1?'s':''} on "${k}" are awaiting moderation.`,
-                        url: `/${k}`,
+                        url: config.get('page_url').replace('%SLUG%', k),
                         sound: !!row.active ? 'pushover' : 'none'
                     };
                 delete bySlug[k];
