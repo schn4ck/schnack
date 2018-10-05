@@ -6,12 +6,14 @@ import Schnack from './client';
 
     const opts = script.dataset;
     const slug = opts.schnackSlug;
+    const dateFormat = opts.dateFormat || 'MMMM DD, YYYY - h:mm a';
     const url = new URL(script.getAttribute('src'));
     const host = `${url.protocol}//${url.host}`;
 
     new Schnack({
         target: opts.schnackTarget,
         slug,
+        dateFormat,
         host
     });
 })();

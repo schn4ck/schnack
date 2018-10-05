@@ -3,7 +3,6 @@ const express = require('express');
 const app = express();
 const cors = require('cors');
 const bodyParser = require('body-parser');
-const moment = require('moment');
 
 const RSS = require('rss');
 const marked = require('marked');
@@ -59,12 +58,9 @@ function run(db) {
             args.length = 1;
         }
 
-        const date_format = config.get('date_format');        
         db.all(query, args, (err, comments) => {
             if (error(err, request, reply)) return;
             comments.forEach((c) => {
-                const m = moment.utc(c.created_at);
-                c.created_at_s = date_format ? m.format(date_format) : m.fromNow();
                 c.comment = marked(c.comment.trim());
                 c.author_url = auth.getAuthorUrl(c);
             });
