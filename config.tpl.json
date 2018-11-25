@@ -24,6 +24,10 @@
         "facebook": {
             "client_id": "xxxxx",
             "client_secret": "xxxxx"
+        },
+        "mastodon": {
+            "app_name": "your website name",
+            "app_website": "https://blog.example.com/"
         }
     },
     "notify": {
