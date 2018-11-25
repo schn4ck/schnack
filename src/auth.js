@@ -5,6 +5,7 @@ const TwitterStrategy = require('passport-twitter').Strategy;
 const GitHubStrategy = require('passport-github2').Strategy;
 const GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
 const FacebookStrategy = require('passport-facebook').Strategy;
+const MastodonStrategy = require('passport-mastodon').Strategy;
 
 const queries = require('./db/queries');
 const config = require('./config');
@@ -151,10 +152,42 @@ function init(app, db, domain) {
             }
         );
     }
+
+    // mastodon oauth
+    if (authConfig.mastodon) {
+        providers.push({ id: 'mastodon', name: 'Mastodon' });
+        passport.use(new MastodonStrategy({
+            clientID: authConfig.mastodon.client_key,
+            clientSecret: authConfig.mastodon.client_secret,
+            domain: authConfig.mastodon.domain,
+            callbackURL: `${schnack_host}/auth/mastodon/callback`
+        }, (accessToken, refreshToken, profile, cb) => {
+            console.log({accessToken});
+            console.log({refreshToken});
+            console.log(profile);
+            done(null, profile);
+            // User.findOrCreate({ exampleId: profile.id }, function (err, user) {
+            //   return cb(err, user);
+            // });
+        }));
+
+        app.get('/auth/mastodon',
+            passport.authenticate('mastodon')
+        );
+
+        app.get('/auth/mastodon/callback',
+            passport.authenticate('mastodon', {
+                failureRedirect: '/login'
+            }), (request, reply) => {
+                reply.redirect('/success')
+            }
+        );
+    }
 }
 
 function getAuthorUrl(comment) {
     switch (comment.provider) {
+        case 'mastodon': return 'https://twitter.com/'+comment.name;
         case 'twitter': return 'https://twitter.com/'+comment.name;
         case 'github': return 'https://github.com/'+comment.name;
         default: return;
