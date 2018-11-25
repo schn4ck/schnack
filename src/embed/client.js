@@ -160,7 +160,7 @@ export default class Schnack {
                                     .then(res => {
                                         if (res.uri == masto_domain) {
                                             // instance seems to be fine!
-                                            console.log('signin', masto_domain);
+                                            signin(masto_domain);
                                         } else {
                                             alert(`We could not find a Mastodon instance at "${masto_domain}". Please try again.`);
                                         }
