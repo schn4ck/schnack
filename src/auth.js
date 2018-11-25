@@ -35,7 +35,8 @@ function init(app, db, domain) {
             var trusted = trustConfig &&
                     trustConfig[user.provider] &&
                     trustConfig[user.provider].indexOf(user.id) > -1 ? 1 : 0;
-            const c_args = [user.provider, user.id, user.displayName, user.username || user.displayName, trusted];
+            const c_args = [user.provider, user.id, user.displayName || user.display_name,
+                user.username || user.displayName, user.url || '', trusted];
             db.run(queries.create_user, c_args, (err, res) => {
                 if (err) return console.error(err);
                 db.get(queries.find_user, [user.provider, user.id], (err, row) => {

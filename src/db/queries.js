@@ -55,9 +55,9 @@ module.exports = {
 
   create_user:
       `INSERT INTO user
-      (provider, provider_id, display_name, name,
+      (provider, provider_id, display_name, name, url,
        created_at, trusted, blocked)
-      VALUES (?, ?, ?, ?, datetime(), ?, 0)`,
+      VALUES (?, ?, ?, ?, ?, datetime(), ?, 0)`,
 
   set_settings:
       `INSERT OR REPLACE INTO setting (name, active)
