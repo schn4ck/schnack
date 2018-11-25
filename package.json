@@ -1,6 +1,6 @@
 {
   "name": "schnack",
-  "version": "0.1.6",
+  "version": "0.2.1",
   "dependencies": {
     "body-parser": "^1.18.3",
     "connect-sqlite3": "^0.9.11",

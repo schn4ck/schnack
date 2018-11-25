@@ -84,7 +84,7 @@ module.exports = {
 
   create_oauth_provider:
       `INSERT INTO oauth_provider
-      (provider, domain, prodiver_app_id, client_id, client_secret, created_at)
+      (provider, domain, provider_app_id, client_id, client_secret, created_at)
       VALUES (?, ?, ?, ?, ?, datetime())`
 
 };

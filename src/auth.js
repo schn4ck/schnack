@@ -190,12 +190,13 @@ function init(app, db, domain) {
                         body: JSON.stringify({
                             client_name: authConfig.mastodon.app_name,
                             website: authConfig.mastodon.app_website,
-                            redirect_uris: config.schnack_host+'/auth/mastodon/callback',
+                            redirect_uris: `${schnack_host}/auth/mastodon/callback`,
                             scopes: 'read'
                         })
                     })
                     .then(res => res.json())
                     .then(res => {
+                        if (!res.client_id) return console.error('could not create app', res);
                         // store client_key and client_secret away in db
                         db.get(queries.create_oauth_provider, [
                             'mastodon',
@@ -205,7 +206,7 @@ function init(app, db, domain) {
                             res.client_secret
                         ], (err, row) => {
                             if (err) return console.error(err);
-                            mastodonAuth({`
+                            mastodonAuth({
                                 domain,
                                 client_id: res.client_id,
                                 client_secret: res.client_secret
