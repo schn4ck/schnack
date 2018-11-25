@@ -59,7 +59,7 @@ function run(db) {
             args.length = 1;
         }
 
-        const date_format = config.get('date_format');        
+        const date_format = config.get('date_format');
         db.all(query, args, (err, comments) => {
             if (error(err, request, reply)) return;
             comments.forEach((c) => {

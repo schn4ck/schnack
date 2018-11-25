@@ -181,6 +181,7 @@ function init(app, db, domain) {
 }
 
 function getAuthorUrl(comment) {
+    if (comment.user_url) return comment.user_url;
     switch (comment.provider) {
         case 'mastodon': return 'https://twitter.com/'+comment.name;
         case 'twitter': return 'https://twitter.com/'+comment.name;
