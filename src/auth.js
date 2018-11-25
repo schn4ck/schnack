@@ -161,7 +161,7 @@ function init(app, db, domain) {
             clientSecret: authConfig.mastodon.client_secret,
             domain: authConfig.mastodon.domain,
             callbackURL: `${schnack_host}/auth/mastodon/callback`
-        }, (accessToken, refreshToken, profile, cb) => {
+        }, (accessToken, refreshToken, profile, done) => {
             console.log({accessToken});
             console.log({refreshToken});
             console.log(profile);
