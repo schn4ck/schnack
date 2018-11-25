@@ -6,6 +6,7 @@ const GitHubStrategy = require('passport-github2').Strategy;
 const GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
 const FacebookStrategy = require('passport-facebook').Strategy;
 const MastodonStrategy = require('passport-mastodon').Strategy;
+const fetch = require('node-fetch');
 
 const queries = require('./db/queries');
 const config = require('./config');
@@ -204,7 +205,7 @@ function init(app, db, domain) {
                             res.client_secret
                         ], (err, row) => {
                             if (err) return console.error(err);
-                            mastodonAuth({
+                            mastodonAuth({`
                                 domain,
                                 client_id: res.client_id,
                                 client_secret: res.client_secret

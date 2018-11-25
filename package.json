@@ -11,6 +11,7 @@
     "marked": "^0.3.19",
     "moment": "^2.22.2",
     "nconf": "^0.10.0",
+    "node-fetch": "^2.3.0",
     "passport": "^0.4.0",
     "passport-facebook": "^2.1.1",
     "passport-github2": "^0.1.11",
