@@ -139,13 +139,38 @@ export default class Schnack {
                     data.auth.forEach((provider) => {
                         const btn = $(target + ' .schnack-signin-' + provider.id);
                         if (btn) btn.addEventListener('click', (d) => {
-                            let windowRef = window.open(
-                                `${host}/auth/${provider.id}`, provider.name + ' Sign-In', 'resizable,scrollbars,status,width=600,height=500'
-                            );
-                            window.__schnack_wait_for_oauth = () => {
-                                windowRef.close();
-                                this.refresh();
-                            };
+                            const signin = (provider_domain='') => {
+                                let windowRef = window.open(
+                                    `${host}/auth/${provider.id}`
+                                        + (provider_domain ? `/d/${provider_domain}` : ''),
+                                    provider.name + ' Sign-In',
+                                    'resizable,scrollbars,status,width=600,height=500'
+                                );
+                                window.__schnack_wait_for_oauth = () => {
+                                    windowRef.close();
+                                    this.refresh();
+                                };
+                            }
+                            if (provider.id == 'mastodon') {
+                                // we need to ask the user what instance they want to sign on
+                                const masto_domain = window.prompt('Please enter the domain name of the Mastodon instance you want to sign in with:', 'mastodon.social');
+                                // test if the instance is correct
+                                fetch(`https://${masto_domain}/api/v1/instance`)
+                                    .then(r => r.json())
+                                    .then(res => {
+                                        if (res.uri == masto_domain) {
+                                            // instance seems to be fine!
+                                            console.log('signin', masto_domain);
+                                        } else {
+                                            alert(`We could not find a Mastodon instance at "${masto_domain}". Please try again.`);
+                                        }
+                                    })
+                                    .catch(err => {
+                                        alert(`We could not find a Mastodon instance at "${masto_domain}". Please try again.`);
+                                    })
+                            } else {
+                                signin();
+                            }
                         });
                     });
                 }

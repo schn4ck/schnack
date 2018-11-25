@@ -76,6 +76,15 @@ module.exports = {
       WHERE endpoint = ?`,
 
   get_subscriptions:
-      `SELECT endpoint, publicKey, auth FROM subscription`
+      `SELECT endpoint, publicKey, auth FROM subscription`,
+
+  find_oauth_provider:
+      `SELECT id, provider, domain, client_id, client_secret FROM oauth_provider
+       WHERE provider = ? AND domain = ?`,
+
+  create_oauth_provider:
+      `INSERT INTO oauth_provider
+      (provider, domain, prodiver_app_id, client_id, client_secret, created_at)
+      VALUES (?, ?, ?, ?, ?, datetime())`
 
 };
