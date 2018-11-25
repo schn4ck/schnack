@@ -163,13 +163,7 @@ function init(app, db, domain) {
             domain: authConfig.mastodon.domain,
             callbackURL: `${schnack_host}/auth/mastodon/callback`
         }, (accessToken, refreshToken, profile, done) => {
-            console.log({accessToken});
-            console.log({refreshToken});
-            console.log(profile);
             done(null, profile);
-            // User.findOrCreate({ exampleId: profile.id }, function (err, user) {
-            //   return cb(err, user);
-            // });
         }));
 
         app.get('/auth/mastodon',
