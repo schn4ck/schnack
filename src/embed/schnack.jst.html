@@ -1,28 +1,28 @@
 <% if (data.user) { %>
     <% if (data.user.admin) { %>
     <div class="schnack-settings">
-        <button class="schnack-action" data-target="notification" data-class="setting" data-action="true">un</button>
-        <button class="schnack-action" data-target="notification" data-class="setting" data-action="false">mute notifications</button>
+        <button class="schnack-action" data-target="notification" data-class="setting" data-action="true"><%= data.partials.UnMute %></button>
+        <button class="schnack-action" data-target="notification" data-class="setting" data-action="false"><%= data.partials.Mute %></button>
     </div>
     <% } %>
 <div class="schnack-login-status">
-    (signed in as <span class="schnack-user">@<%= data.user.name %></span> :: <a class="schnack-signout" href="#">sign out</a>)
+    <%= data.partials.LoginStatus.replace('%USER%', data.user.name) %>
 </div>
 <div class="schnack-above">
     <div class="schnack-form">
-        <textarea class="schnack-body" placeholder="Post a comment. Markdown is supported!"></textarea>
+        <textarea class="schnack-body" placeholder="<%= data.partials.PostComment %>"></textarea>
         <blockquote class="schnack-body" style="display:none"></blockquote>
         <br>
-        <button class="schnack-preview">Preview</button>
-        <button style="display:none" class="schnack-write">Edit</button>&nbsp;
-        <button class="schnack-button">Send comment</button>&nbsp;
-        <button class="schnack-cancel-reply" style="display:none">Cancel</button>
+        <button class="schnack-preview"><%= data.partials.Preview %></button>
+        <button style="display:none" class="schnack-write"><%= data.partials.Edit %></button>&nbsp;
+        <button class="schnack-button"><%= data.partials.SendComment %></button>&nbsp;
+        <button class="schnack-cancel-reply" style="display:none"><%= data.partials.Cancel %></button>
     </div>
 </div>
 <% } else { %>
-To post a comment you need to sign in via<br>
+<%= data.partials.SignInVia %><br>
 <% data.auth.forEach((provider, i) => {  %>
-    <%= i ? ' or ' : '' %><button class="schnack-signin-<%= provider.id %>"><i class="icon schnack-icon-<%= provider.id %>"></i> <%= provider.name %></button>
+    <%= i ? data.partials.Or : '' %><button class="schnack-signin-<%= provider.id %>"><i class="icon schnack-icon-<%= provider.id %>"></i> <%= provider.name %></button>
 <% }) %>
 <% } %>
 <%

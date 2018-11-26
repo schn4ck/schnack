@@ -1,28 +1,30 @@
 <ul class="schnack-comments">
     <% data.comments.forEach((comment) => { %>
         <li id="comment-<%= comment.id %>" data-id="<%= comment.id %>" class="schnack-comment<% if (!comment.approved && !comment.trusted) { %> schnack-not-approved<% } %>">
-            <div class="schnack-dateline">
-                <span class="schnack-author"><% if (comment.author_url) { %><a href="<%= comment.author_url %>" target="_blank"><% } %><%= comment.display_name || comment.name %><% if (comment.author_url) { %></a><% } %></span>
-                <% if (data.user && data.user.admin &&!comment.trusted) {
-                ['trust', 'block'].forEach((action) => { %>
-                <button class="schnack-action" data-target="<%= comment.user_id %>" data-class="user" data-action="<%= action %>"><i class="icon schnack-icon-<%= action %>"></i> <span><%= action %></span></button>
-                <% }); } %>
-                <span class="schnack-date"><a href="#comment-<%= comment.id %>"><%= comment.created_at_s %></a></span>
+            <div class="schnack-comment-inner">
+                <div class="schnack-dateline">
+                    <span class="schnack-author"><% if (comment.author_url) { %><a href="<%= comment.author_url %>" target="_blank"><% } %><%= comment.display_name || comment.name %><% if (comment.author_url) { %></a><% } %></span>
+                    <% if (data.user && data.user.admin &&!comment.trusted) {
+                    ['trust', 'block'].forEach((action) => { %>
+                    <button class="schnack-action" data-target="<%= comment.user_id %>" data-class="user" data-action="<%= action %>"><i class="icon schnack-icon-<%= action %>"></i> <span><%= action %></span></button>
+                    <% }); } %>
+                    <span class="schnack-date"><a href="#comment-<%= comment.id %>"><%= comment.created_at_s %></a></span>
+                </div>
+                <blockquote class="schnack-body">
+                    <%= comment.comment %>
+                </blockquote>
+                <% if (!comment.approved && !comment.trusted) { %>
+                <div class="schnack-awaiting-approval">
+                    <% if (data.user && data.user.admin) {
+                    ['approve', 'reject'].forEach((action) => { %>
+                    <button class="schnack-action" data-target="<%= comment.id %>" data-class="comment" data-action="<%= action %>"><i class="icon schnack-icon-<%= action %>"></i> <span><%= action %></span></button>
+                    <% }); } %>
+                    <%= data.user.admin ? data.partials.AdminApproval : data.partials.WaitingForApproval %>
+                </div>
+                <% } else if (data.user) { %>
+                <button class="schnack-reply" data-reply-to="<%= comment.id %>"><%= data.partials.Reply %></button>
+                <% } %>
             </div>
-            <blockquote class="schnack-body">
-                <%= comment.comment %>
-            </blockquote>
-            <% if (!comment.approved && !comment.trusted) { %>
-            <div class="schnack-awaiting-approval">
-                <% if (data.user && data.user.admin) {
-                ['approve', 'reject'].forEach((action) => { %>
-                <button class="schnack-action" data-target="<%= comment.id %>" data-class="comment" data-action="<%= action %>"><i class="icon schnack-icon-<%= action %>"></i> <span><%= action %></span></button>
-                <% }); } %>
-                <%= data.user.admin ? 'This' : 'Your' %> comment is still waiting for <%= data.user.admin ? 'your ' : '' %>approval<%= !data.user.admin ? ' by the site owner' : ''%>.
-            </div>
-            <% } else if (data.user) { %>
-            <button class="schnack-reply" data-reply-to="<%= comment.id %>">reply</button>
-            <% } %>
             <% if (data.replies[comment.id]) {
             data.comments = data.replies[comment.id];
             %>

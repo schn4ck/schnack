@@ -3,29 +3,22 @@
 <head>
   <meta charset="utf-8">
   <title>schnack.js test page</title>
-  <link rel="stylesheet" type="text/css" href="schnack.css">
+  <style>
+
+  </style>
   <link rel="stylesheet" type="text/css" href="schnack-icons.css">
 </head>
 <body>
-    <script
-        src="http://localhost:8080/embed.js"
+    <script type="text/javascript"
+        src="http://localhost:3000/embed.js"
+        data-schnack-host="//localhost:3000"
         data-schnack-slug="foo"
-        data-schnack-target="#my-comments">
-    </script>
+        data-schnack-target="#my-comments"
+        data-schnack-partial-reply="Answer to this comment"
+        data-schnack-partial-post-comment="Write your comment here. But remember to be nice :)"
+        data-schnack-partial-login-status="You are signed in as <b>%USER%</b> (<a class='schnack-signout' href='#'>sign out</a>)"
+    ></script>
+    Comments:
     <div id="my-comments"></div>
-
-
-    <!-- here we are using schnack programmatically -->
-
-    <div id="my-comments-client"></div>
-
-    <script src="http://localhost:8080/client.js"></script>
-    <script>
-        new Schnack({
-            target: '#my-comments-client',
-            slug: 'foo-client',
-            host: 'http://localhost:8080'
-        });
-    </script>
 </body>
 </html>

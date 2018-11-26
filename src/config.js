@@ -17,6 +17,9 @@ nconf.argv()
             sessions: 'sessions.db'
         },
         port: 3000,
+        template: {
+            login_status: '(signed in as %USER% :: <a class="schnack-signout" href="#">sign out</a>)'
+        },
         date_format: 'MMMM DD, YYYY - h:mm a',
         notification_interval: 300000,
         oauth: {

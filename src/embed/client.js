@@ -22,7 +22,7 @@ export default class Schnack {
     }
 
     refresh() {
-        const { target, slug, host, endpoint } = this.options;
+        const { target, slug, host, endpoint, partials } = this.options;
 
         fetch(endpoint, {
                 credentials: 'include',
@@ -33,7 +33,9 @@ export default class Schnack {
             .then(r => r.json())
             .then((data) => {
                 data.comments_tpl = comments_tpl;
+                data.partials = partials;
                 $(target).innerHTML = schnack_tpl(data);
+                // console.log('data', data);
 
                 const above = $(`${target} div.schnack-above`);
                 const form = $(`${target} div.schnack-form`);
