@@ -65,7 +65,7 @@ Embed in your HTML page:
 **or** initialize *schnack* programmatically:
 
 ```html
-<div id="comments-go-here"></div>
+<div class="comments-go-here"></div>
 
 <script src="http://comments.example.com/client.js"></script>
 <script>
