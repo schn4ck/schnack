@@ -97,6 +97,7 @@ Schnack is [yet another](https://github.com/gka/canvid/) happy collaboration bet
 
 Schnack will never track who is using it, so we don't know! If you are a Schnack user, [let us know](https://twitter.com/schnackjs) and we'll add your website here. So far Schnack is being used on:
 
+* https://schnack.cool (scroll all the day down)
 * https://vis4.net/blog
 * https://blog.datawrapper.de
 * https://blog.webkid.io
