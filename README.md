@@ -110,3 +110,4 @@ This is not a new idea, so there are a few projects that are doing almost the sa
 * [Discourse](https://github.com/discourse/discourse) - Ruby on Rails + PostgreSQL + Redis
 * [Commento](https://github.com/adtac/commento) - Go + Node
 * [Isso](https://github.com/posativ/isso/) - Python + SQLite3
+* [Mouthful](https://mouthful.dizzy.zone) – Go + Preact
