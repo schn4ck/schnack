@@ -8,6 +8,7 @@
     "express": "^4.16.4",
     "express-session": "^1.15.6",
     "lodash.countby": "^4.6",
+    "mailgun-js": "^0.22.0",
     "marked": "^0.3.19",
     "moment": "^2.22.2",
     "nconf": "^0.10.0",

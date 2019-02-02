@@ -5,6 +5,7 @@ const Pushover = require('pushover-notifications');
 const queries = require('../db/queries');
 const slack = require('./slack');
 const sendmail = require('./sendmail');
+const mailgun = require('./mailgun');
 const {
     send_file,
     send_string,
@@ -111,4 +112,3 @@ function init(app, db, awaiting_moderation) {
 module.exports = {
     init
 };
-
