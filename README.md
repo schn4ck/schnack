@@ -88,6 +88,7 @@ You will find further information on the [schnack page](https://schnack.cool/).
 * slack
 * rss
 * sendmail
+* mailgun
 
 ### Who is behind Schnack?
 
