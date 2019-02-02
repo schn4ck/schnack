@@ -31,8 +31,7 @@ if (notify.mailgun) {
       Permalink: ${postUrl}#comment-${event.id}
       `.split(/\n/).join('\r\n').trim();
       client.messages().send({ from, to, subject, text }, function (err, body) {
-        console.log(err);
-        console.log(body);
+        console.error(err);
       });
     });
 }
