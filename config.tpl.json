@@ -41,6 +41,12 @@
         },
         "slack": {
             "webhook_url": "xxxxx"
+        },
+        "mailgun": {
+          "api_key": "xxxxx",
+          "domain": "xxxxx",
+          "from": "xxxxx",
+          "to": "xxxxx"
         }
     },
     "date_format": "MMMM DD, YYYY - h:mm a"
