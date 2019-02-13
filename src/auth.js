@@ -6,6 +6,7 @@ const GitHubStrategy = require('passport-github2').Strategy;
 const GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
 const FacebookStrategy = require('passport-facebook').Strategy;
 const MastodonStrategy = require('passport-mastodon').Strategy;
+const CognitoStrategy = require('passport-cognito').Strategy;
 const fetch = require('node-fetch');
 
 const queries = require('./db/queries');
@@ -219,6 +220,31 @@ function init(app, db, domain) {
 
         app.get('/auth/mastodon/callback',
             passport.authenticate('mastodon', {
+                failureRedirect: '/login'
+            }), (request, reply) => {
+                reply.redirect('/success')
+            }
+        );
+    }
+
+    // Amazon Cognito oAuth
+    if (authConfig.cognito) {
+
+        providers.push({ id: 'cognito', name: 'Amazon Cognito' });
+        passport.use(new CognitoStrategy({
+            userPoolId: authConfig.cognito.userPoolId,
+            clientId: authConfig.cognito.clientId,
+            region: authConfig.cognito.region
+        }, (accessToken, refreshToken, profile, done) => {
+            done(null, profile);
+        }));
+
+        app.get('/auth/cognito',
+            passport.authenticate('cognito')
+        );
+
+        app.get('/auth/cognito/callback',
+            passport.authenticate('cognito', {
                 failureRedirect: '/login'
             }), (request, reply) => {
                 reply.redirect('/success')
