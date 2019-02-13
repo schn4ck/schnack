@@ -230,26 +230,30 @@ function init(app, db, domain) {
     // Amazon Cognito oAuth
     if (authConfig.cognito) {
 
-        providers.push({ id: 'cognito', name: 'Amazon Cognito' });
-        passport.use(new CognitoStrategy({
-            userPoolId: authConfig.cognito.userPoolId,
-            clientId: authConfig.cognito.clientId,
-            region: authConfig.cognito.region
-        }, (accessToken, refreshToken, profile, done) => {
-            done(null, profile);
-        }));
+        if (authConfig.cognito.userPoolId.length > 7) {
+            providers.push({ id: 'cognito', name: 'Amazon Cognito' });
+            passport.use(new CognitoStrategy({
+                userPoolId: authConfig.cognito.userPoolId,
+                clientId: authConfig.cognito.clientId,
+                region: authConfig.cognito.region
+            }, (accessToken, refreshToken, profile, done) => {
+                done(null, profile);
+            }));
 
-        app.get('/auth/cognito',
-            passport.authenticate('cognito')
-        );
+            app.get('/auth/cognito',
+                passport.authenticate('cognito')
+            );
 
-        app.get('/auth/cognito/callback',
-            passport.authenticate('cognito', {
-                failureRedirect: '/login'
-            }), (request, reply) => {
-                reply.redirect('/success')
-            }
-        );
+            app.get('/auth/cognito/callback',
+                passport.authenticate('cognito', {
+                    failureRedirect: '/login'
+                }), (request, reply) => {
+                    reply.redirect('/success')
+                }
+            );
+        } else {
+            console.error("Amazon Cognito's config doesn't look right", authConfig.cognito);
+        }
     }
 }
 

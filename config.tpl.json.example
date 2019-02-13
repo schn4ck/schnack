@@ -1,0 +1,56 @@
+{
+    "schnack_host": "https://schnack.example.com",
+    "page_url": "https://blog.example.com/posts/%SLUG%",
+    "database": {
+        "comments": "comments.db",
+        "sessions": "sessions.db"
+    },
+    "port": 3000,
+    "admins": [1],
+    "oauth": {
+        "secret": "xxxxx",
+        "twitter": {
+            "consumer_key": "xxxxx",
+            "consumer_secret": "xxxxx"
+        },
+        "github": {
+            "client_id": "xxxxx",
+            "client_secret": "xxxxx"
+        },
+        "google": {
+            "client_id": "xxxxx",
+            "client_secret": "xxxxx"
+        },
+        "facebook": {
+            "client_id": "xxxxx",
+            "client_secret": "xxxxx"
+        },
+        "mastodon": {
+            "app_name": "your website name",
+            "app_website": "https://blog.example.com/"
+        },
+        "cognito": {
+            "userPoolId": "xxxxx",
+            "region": "xxxxx",
+            "clientId": "xxxxx",
+            "credentials": {
+                "accessKeyId": "xxxxx",
+                "secretAccessKey": "xxxxx"
+            }
+        }
+    },
+    "notify": {
+        "pushover": {
+            "app_token": "xxxxx",
+            "user_key": "xxxxx"
+        },
+        "webpush": {
+            "vapid_public_key": "xxxxx",
+            "vapid_private_key": "xxxxx"
+        },
+        "slack": {
+            "webhook_url": "xxxxx"
+        }
+    },
+    "date_format": "MMMM DD, YYYY - h:mm a"
+}
