@@ -7,6 +7,7 @@
     "cors": "^2.8.5",
     "express": "^4.16.4",
     "express-session": "^1.15.6",
+    "jira-connector": "^2.10.0",
     "lodash.countby": "^4.6",
     "marked": "^0.3.19",
     "moment": "^2.22.2",
@@ -30,9 +31,10 @@
     "start": "node index.js",
     "build": "rollup -cw",
     "test-server": "http-server test -o 'http://localhost:8080/' -P 'http://localhost:3000/'",
-    "server": "NODE_ENV=development nodemon index.js",
+    "server": "set NODE_ENV=development&& nodemon index.js",
     "import": "node src/importer.js",
-    "dev": "test/run"
+    "dev": "test/run",
+    "jira-boards": "node src/jira/boards.js"
   },
   "description": "a simple node app for disqus-like drop-in commenting on static websites",
   "main": "index.js",
