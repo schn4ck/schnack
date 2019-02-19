@@ -1,15 +1,14 @@
-const config = require("../config");
-const notifyConfig  = config.get("notify");
-var JiraClient = require('jira-connector');
+const { notifyConfig, JiraClient } = require('./config.js');
 
-var jira = new JiraClient( {
+const jira = new JiraClient({
     host: notifyConfig.jira.host,
     basic_auth: {
         base64: notifyConfig.jira.basic_auth.base64
     }
 });
 
-jira.board.getAllBoards({}, function callback(no, data, response) {
+jira.board.getAllBoards({}, function callback(empty, data, response) {
+
     if ((data != null) && (data != undefined) && (typeof data !== "undefined")) {
         console.log(data.values);
     } else {

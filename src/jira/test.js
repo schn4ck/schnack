@@ -1,15 +1,13 @@
-const config = require("../config");
-const notifyConfig  = config.get("notify");
-var JiraClient = require('jira-connector');
+const { notifyConfig, JiraClient } = require('./config.js');
 
-var jira = new JiraClient( {
+const jira = new JiraClient({
     host: notifyConfig.jira.host,
     basic_auth: {
         base64: notifyConfig.jira.basic_auth.base64
     }
 });
 
-var issue = {
+const issue = {
     "fields": {
         "project":{
             "key": notifyConfig.jira.project_key
@@ -20,8 +18,9 @@ var issue = {
             "name": notifyConfig.jira.issue_type
         }
     }
-}
-jira.issue.createIssue(issue, function callback(no, data, response) {
+};
+
+jira.issue.createIssue(issue, function callback(empty, data, response) {
 
     if ((data != null) && (data != undefined) && (typeof data !== "undefined")) {
         console.log("It worked! Please check the Jira Project's backlog for a new ticket");
