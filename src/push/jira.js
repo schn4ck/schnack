@@ -17,7 +17,7 @@ if (notifyConfig.jira) {
             const comment = `\n\n----\n\n` + event.comment;
             const description = `A [new comment|${post_url}] was posted by ${event.user.display_name || event.user.name} under *${event.slug}*:\n\n${comment}`;
 
-            var issue = {
+            const issue = {
                 "fields": {
                     "project":{
                         "key": notifyConfig.jira.project_key
