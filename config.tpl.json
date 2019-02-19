@@ -50,6 +50,14 @@
         },
         "slack": {
             "webhook_url": "xxxxx"
+        },
+        "jira": {
+            "host": "myhost.atlassian.net",
+            "project_key": "xxxxx",
+            "issue_type": "Story",
+            "basic_auth": {
+                "base64": "xxxxx"
+            }
         }
     },
     "date_format": "MMMM DD, YYYY - h:mm a"
