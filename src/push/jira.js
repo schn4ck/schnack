@@ -1,15 +1,9 @@
-const { notifyConfig, JiraClient } = require('../jira/config.js');
-const config = require("../config");
-const schnackEvents = require('../events');
+const { notifyConfig, jira } = require('../jira/config.js');
 
 if (notifyConfig.jira) {
 
-    const jira = new JiraClient({
-        host: notifyConfig.jira.host,
-        basic_auth: {
-            base64: notifyConfig.jira.basic_auth.base64
-        }
-    });
+    const config = require("../config");
+    const schnackEvents = require('../events');
 
     schnackEvents.on('new-comment', (event) => {
         try {

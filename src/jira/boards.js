@@ -1,19 +1,16 @@
-const { notifyConfig, JiraClient } = require('./config.js');
+const { notifyConfig, jira } = require('./config.js');
 
-const jira = new JiraClient({
-    host: notifyConfig.jira.host,
-    basic_auth: {
-        base64: notifyConfig.jira.basic_auth.base64
-    }
-});
+if (notifyConfig.jira) {
+    jira.board.getAllBoards({}, function callback(empty, data, response) {
 
-jira.board.getAllBoards({}, function callback(empty, data, response) {
-
-    if ((data != null) && (data != undefined) && (typeof data !== "undefined")) {
-        console.log(data.values);
-    } else {
-        console.log(response);
-        console.log("")
-        console.log("NOTICE: Could not retrieve a list of boards. Above is the response received from Jira.");
-    }
-});
+        if ((data != null) && (data != undefined) && (typeof data !== "undefined")) {
+            console.log(data.values);
+        } else {
+            console.log(response);
+            console.log("")
+            console.log("NOTICE: Could not retrieve a list of boards. Above is the response received from Jira.");
+        }
+    });
+} else {
+    console.log("NOTICE: Jira does not appear to be configured. Please check the README for instructions on how to setup Jira Notifications.");
+}
