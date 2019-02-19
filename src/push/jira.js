@@ -1,11 +1,10 @@
+const { notifyConfig, JiraClient } = require('../jira/config.js');
 const config = require("../config");
-const notifyConfig  = config.get("notify");
 const schnackEvents = require('../events');
 
 if (notifyConfig.jira) {
 
-    var JiraClient = require('jira-connector');
-    var jira = new JiraClient({
+    const jira = new JiraClient({
         host: notifyConfig.jira.host,
         basic_auth: {
             base64: notifyConfig.jira.basic_auth.base64
