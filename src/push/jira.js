@@ -1,6 +1,6 @@
 const { notifyConfig, jira } = require('../jira/config.js');
 
-if (notifyConfig.jira) {
+if (jira) {
 
     const config = require("../config");
     const schnackEvents = require('../events');

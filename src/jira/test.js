@@ -1,6 +1,6 @@
-const { notifyConfig, jira } = require('./config.js');
+const { jira } = require('./config.js');
 
-if (notifyConfig.jira) {
+if (jira) {
     const issue = {
         "fields": {
             "project":{

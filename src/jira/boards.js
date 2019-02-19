@@ -1,6 +1,6 @@
-const { notifyConfig, jira } = require('./config.js');
+const { jira } = require('./config.js');
 
-if (notifyConfig.jira) {
+if (jira) {
     jira.board.getAllBoards({}, function callback(empty, data, response) {
 
         if ((data != null) && (data != undefined) && (typeof data !== "undefined")) {
