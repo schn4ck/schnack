@@ -1,4 +1,4 @@
-const { jira } = require('./config.js');
+const { notifyConfig, jira } = require('./config.js');
 
 if (jira) {
     const issue = {
