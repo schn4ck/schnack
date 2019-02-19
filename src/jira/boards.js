@@ -10,9 +10,11 @@ var jira = new JiraClient( {
 });
 
 jira.board.getAllBoards({}, function callback(no, data, response) {
-    if (data.values) {
+    if ((data != null) && (data != undefined) && (typeof data !== "undefined")) {
         console.log(data.values);
     } else {
         console.log(response);
+        console.log("")
+        console.log("NOTICE: Could not retrieve a list of boards. Above is the response received from Jira.");
     }
 });

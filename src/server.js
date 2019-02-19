@@ -113,9 +113,13 @@ function run(db) {
 
     app.get('/success', (request, reply) => {
         const schnackDomain = getSchnackDomain();
+        console.log(request);
+        console.log(reply);
         reply.send(`<script>
-            document.domain = '${schnackDomain}';
-            window.opener.__schnack_wait_for_oauth();
+            setTimeout(function () {
+                document.domain = '${schnackDomain}';
+                window.opener.__schnack_wait_for_oauth();
+            },10000);            
         </script>`);
     });
 

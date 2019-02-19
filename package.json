@@ -30,11 +30,12 @@
   "scripts": {
     "start": "node index.js",
     "build": "rollup -cw",
-    "test-server": "http-server test -o 'http://localhost:8080/' -P 'http://localhost:3000/'",
-    "server": "set NODE_ENV=development&& nodemon index.js",
+    "test-server": "http-server test",
+    "server": "NODE_ENV=development nodemon index.js",
     "import": "node src/importer.js",
     "dev": "test/run",
-    "jira-boards": "node src/jira/boards.js"
+    "jira-boards": "node src/jira/boards.js",
+    "jira-test": "node src/jira/test.js"
   },
   "description": "a simple node app for disqus-like drop-in commenting on static websites",
   "main": "index.js",

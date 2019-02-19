@@ -53,7 +53,8 @@
         },
         "jira": {
             "host": "myhost.atlassian.net",
-            "board_id": "1",
+            "project_key": "xxxxx",
+            "issue_type": "Story",
             "basic_auth": {
                 "base64": "xxxxx"
             }

@@ -92,34 +92,9 @@ You will find further information on the [schnack page](https://schnack.cool/).
 
 #### Setting up Jira
 
-The implementation of the Jira notifier (using the `jira-connector` package) creates a new job in the board of your choice, whenever a new comment is submitted. This allows your team to assign a workflow to the moderation / approval process.
+The Jira notifier adds a task to the backlog of your nominated project. This allows your team to assign a workflow to the moderation / approval process.
 
-**1: Generate an RSA Public / Private Key Pair**
-
-Run these commands in _Terminal_ or _Bash_, **individually**; following all on-screen propmpts:
-
-```
-openssl genrsa -out jira_privatekey.pem 1024
-```
-```
-openssl req -newkey rsa:1024 -x509 -key jira_privatekey.pem -out jira_publickey.cer -days 365
-```
-```
-openssl pkcs8 -topk8 -nocrypt -in jira_privatekey.pem -out jira_privatekey.pcks8
-```
-```
-openssl x509 -pubkey -noout -in jira_publickey.cer  > jira_publickey.pem
-```
-
-**2: Copy the certificate**
-
-Copy the contents of the private key file, `_privatekey.pcks8`, to the `notify.jira.oauth.private_key` property, in the `confg.json` file, in the root folder of this application. An example can be found in `config.tpl.json`.
-
-**3: Add a host name**
-
-Add / copy / insert the your Jira host name to the `notify.jira.host` property, in the `confg.json` file, in the root folder of this application. An example can be found in `config.tpl.json`.
-
-**4: Setup the Application in Jira**
+**1: Setup the Application in Jira**
 
 1. Log into Jira using a privileged account, then visit [Atlassian Account API Token Manager](https://id.atlassian.com/manage/api-tokens)
 1. Click _Create API Token_ and enter a label
@@ -127,11 +102,16 @@ Add / copy / insert the your Jira host name to the `notify.jira.host` property, 
 1. Using [your favourite Base64 Encoding tool](https://www.base64decode.org/), create the Base64 encoded string `my-email@example.com:my-copied-atlassian-token`
 1. Copy the resulting string to the `notify.jira.basic_auth.base64` property
 
-**5: Assign a board to receive notifications**
+**2: Assign a board to receive notifications**
 
 1. Collect a list of the boards available by running `npm run jira-boards`
-2. Find the board you'd like to push notifications to, and note the `id`
-3. Add the `id` to the `notify.jira.board_id`
+2. Find the board you'd like to push notifications to, and note the `projectKey`
+3. Add the `projectKey` to the `notify.jira.project_key`
+
+**3: Test**
+
+1. Send a test task to the board, by running `npm run jira-test`
+
 
 ### Who is behind Schnack?
 
