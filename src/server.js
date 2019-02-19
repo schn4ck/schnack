@@ -115,7 +115,7 @@ function run(db) {
         const schnackDomain = getSchnackDomain();
         reply.send(`<script>
             document.domain = '${schnackDomain}';
-            window.opener.__schnack_wait_for_oauth();           
+            window.opener.__schnack_wait_for_oauth();
         </script>`);
     });
 
