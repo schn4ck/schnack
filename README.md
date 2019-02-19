@@ -88,7 +88,7 @@ You will find further information on the [schnack page](https://schnack.cool/).
 * slack
 * rss
 * sendmail
-* [Jira](https://developer.atlassian.com/cloud/jira/platform/rest/v3/)
+* [Jira Cloud](https://developer.atlassian.com/cloud/jira/platform/rest/v3/)
 
 #### Setting up Jira
 
