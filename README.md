@@ -89,6 +89,64 @@ You will find further information on the [schnack page](https://schnack.cool/).
 * rss
 * sendmail
 
+**Authentication Providers:**
+
+* Twitter
+* GitHub
+* Google Accounts
+* Facebook
+* Mastodon
+* [AWS Cognito](https://aws.amazon.com/cognito/)
+
+#### Setting up Cognito
+
+**Set up a user pool**
+
+1. Log in to your Amazon AWS Account, and find the Cognito service
+1. Sign up for Cognito if you have not already
+1. Click _Manage User Pools_
+1. Click _Create a user pool_
+1. Create a pool name (can be anything you like)
+1. Click _Step Through Settings_ and follow the wizard to set up the new user pool
+
+**Set up an authentication app**
+
+1. From the main  screen / control panel for your new user pool, click _App Integration=> App client settings_
+1. Check _Enabled Identity Providers => Select All_ (making sure _Cognito User Pool_ is also checked)
+1. Enter your Sign-in URL (`http://mydomain/auth/cognito/callback`)
+1. Check _OAuth 2.0 => Authorization code grant_
+1. Check **at least** _Allowed OAuth Scopes => aws.cognito.signin.user.admin_ (others can be used, if required)
+1. Note the _App client => ID_, and copy to the `oauth.cognito.client_id` property in the `config.json` file
+
+**Get / create a domain prefix**
+
+1. From the main  screen / control panel for your new user pool, click _App Integration=> Domain name_
+1. If there isn't one already, create a new domain prefix
+1. Note the domain prefix, and copy to the `oauth.cognito.domain_prefix` property in the `config.json` file
+1. Note the region (between the `auth` and the `amazoncognito` parts of the domain, eg `eu-west-1`) and copy to the `oauth.cognito.region` property in the `config.json` file
+
+**Get the client secret**
+
+1. From the main  screen / control panel for your new user pool, click _General settings => App clients_
+1. Find the app you'd like to integrate (or create a new app client, if needed)
+1. Click the _Show Details_ button
+1. Note the App client secret, and copy and copy to the `oauth.cognito.client_secret` property in the `config.json` file
+
+#### CORS Issues
+
+If you bump into CORS issues when attempting authentication across different ports **during development**, you may need to use a proxy tunnel to pipe requests from one port to another. Eg:
+
+`https://comments.localhost.lcl` => `https://localhost:8080`
+`https://schnack.localhost.lcl` => `https://localhost:3000`
+
+This can be achieved using third party servers like Apache or Nginx, combined with _Proxy Pass_ to forward traffic from a neutral port (like `443`), to the server ports.
+
+If you do this, you will also need to update `test/index.html` with the address of the proxied Schnack server.
+
+### Included SSL Certificates
+
+The SSL Certificates included in the `/certs` directory are for **development purposes only**. These are used to make it possible to fetch data and perform authentication over SSL, on `localhost`. **DO NOT** use them in a production environment. 
+
 ### Who is behind Schnack?
 
 Schnack is [yet another](https://github.com/gka/canvid/) happy collaboration between [Webkid](https://webkid.io/) and [Gregor Aisch](https://www.vis4.net).

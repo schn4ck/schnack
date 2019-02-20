@@ -17,6 +17,7 @@
     "passport-github2": "^0.1.11",
     "passport-google-oauth": "^1.0.0",
     "passport-mastodon": "^0.1.3",
+    "passport-oauth2-cognito": "^0.1.0",
     "passport-twitter": "^1.0.4",
     "pushover-notifications": "^0.2.4",
     "request": "^2.88.0",
@@ -29,7 +30,7 @@
   "scripts": {
     "start": "node index.js",
     "build": "rollup -cw",
-    "test-server": "http-server test",
+    "test-server": "http-server test -p 8080 -a localhost -S --cert ./certs/local.crt --key ./certs/local.key",
     "server": "cross-env NODE_ENV=development nodemon index.js",
     "import": "node src/importer.js",
     "dev": "test/run"
@@ -61,7 +62,6 @@
     "cross-env": "^5.2.0",
     "http-server": "^0.10.0",
     "nodemon": "^1.18.10",
-    "passport-cognito": "^0.1.13",
     "rollup": "^0.55.4",
     "rollup-plugin-buble": "^0.16.0",
     "rollup-plugin-commonjs": "^8.4.1",

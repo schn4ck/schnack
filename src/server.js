@@ -24,6 +24,19 @@ const {
 
 const config = require('./config');
 
+configSsl = config.get("ssl");
+if (configSsl && configSsl.certificate_path) {
+    var https = require('https');
+    var fs = require('fs');
+
+    var sslOptions = {
+        key: fs.readFileSync(configSsl.certificate_key),
+        cert: fs.readFileSync(configSsl.certificate_path),
+        requestCert: false,
+        rejectUnauthorized: false
+    };
+}
+
 const awaiting_moderation = [];
 
 marked.setOptions({ sanitize: true });
@@ -168,8 +181,16 @@ function run(db) {
         db.run('INSERT OR IGNORE INTO user (id,name,blocked,trusted,created_at) VALUES (1,"dev",0,1,datetime())');
     }
 
-    var server = app.listen(config.get('port'), config.get('host'), (err) => {
-        if (err) throw err;
-        console.log(`server listening on ${server.address().port}`);
-    });
+    if (configSsl && configSsl.certificate_path) {
+        server = https.createServer( sslOptions, app );
+        server.listen( config.get('port'), () => {
+            console.log(`server listening on ${server.address().port}`);
+        } );
+    } else {
+        var server = app.listen(config.get('port'), config.get('host'), (err) => {
+            if (err) throw err;
+            console.log(`server listening on ${server.address().port}`);
+        });
+    }
+
 }

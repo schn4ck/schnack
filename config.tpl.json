@@ -30,13 +30,10 @@
             "app_website": "https://blog.example.com/"
         },
         "cognito": {
-            "userPoolId": "xxxxx",
-            "region": "Region ID (eg, ca-central-1)",
-            "clientId": "xxxxx",
-            "credentials": {
-                "accessKeyId": "xxxxx",
-                "secretAccessKey": "xxxxx"
-            }
+            "domain_prefix": "xxxxx",
+            "region": "xxxxx",
+            "client_id": "xxxxx",
+            "client_secret": "xxxxx"
         }
     },
     "notify": {
