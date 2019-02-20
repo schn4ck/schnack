@@ -49,5 +49,9 @@
             "webhook_url": "xxxxx"
         }
     },
+    "ssl": {
+        "certificate_path": "./certs/local.crt",
+        "certificate_key": "./certs/local.key"
+    },
     "date_format": "MMMM DD, YYYY - h:mm a"
 }
