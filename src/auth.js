@@ -30,9 +30,6 @@ function init(app, db, domain) {
     app.use(passport.session());
 
     passport.serializeUser((user, done) => {
-
-        console.log("User",user);
-        console.log("Done", done);
         db.get(queries.find_user, [user.provider, user.id], (err, row) => {
             if (row) return done(null, row); // welcome back
             // nice to meet you, new user!
