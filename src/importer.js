@@ -38,9 +38,15 @@ async function parse(file) {
 }
 
 function getWPAuthor(comment) {
+
+    let provider_id = comment['wp:comment_author'];
+    if (comment['wp:comment_user_id'].toString().length && !isNaN(comment['wp:comment_user_id'] * 1)) {
+        provider_id = comment['wp:comment_user_id']
+    }
+
     return [
         'wordpress',
-        comment['wp:comment_author'],
+        provider_id,
         comment['wp:comment_author'],
         comment['wp:comment_author'],
         0                   
