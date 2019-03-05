@@ -33,7 +33,9 @@
     "test-server": "http-server test -p 8080 -a localhost -S --cert ./certs/local.crt --key ./certs/local.key",
     "server": "cross-env NODE_ENV=development nodemon index.js",
     "import": "node src/importer.js",
-    "dev": "test/run"
+    "dev": "test/run",
+    "jira-boards": "node src/jira/boards.js",
+    "jira-test": "node src/jira/test.js"
   },
   "description": "a simple node app for disqus-like drop-in commenting on static websites",
   "main": "index.js",
@@ -61,6 +63,7 @@
   "devDependencies": {
     "cross-env": "^5.2.0",
     "http-server": "^0.10.0",
+    "jira-connector": "^2.10.0",
     "nodemon": "^1.18.10",
     "rollup": "^0.55.4",
     "rollup-plugin-buble": "^0.16.0",

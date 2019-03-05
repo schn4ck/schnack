@@ -88,6 +88,30 @@ You will find further information on the [schnack page](https://schnack.cool/).
 * slack
 * rss
 * sendmail
+* [Jira Cloud](https://developer.atlassian.com/cloud/jira/platform/rest/v3/)
+
+#### Setting up Jira
+
+The Jira notifier adds a task to the backlog of your nominated project. This allows your team to assign a workflow to the moderation / approval process.
+
+**1: Setup the Application in Jira**
+
+1. Log into Jira using a privileged account, then visit [Atlassian Account API Token Manager](https://id.atlassian.com/manage/api-tokens)
+1. Click _Create API Token_ and enter a label
+1. When the [Your new API token](https://confluence.atlassian.com/cloud/files/938839638/938839639/1/1507010022324/Screen+Shot+2017-09-25+at+5.09.09+pm.png) modal is shown, click the _Copy to clipboard_ button
+1. Using [your favourite Base64 Encoding tool](https://www.base64decode.org/), create the Base64 encoded string `my-email@example.com:my-copied-atlassian-token`
+1. Copy the resulting string to the `notify.jira.basic_auth.base64` property
+
+**2: Assign a board to receive notifications**
+
+1. Collect a list of the boards available by running `npm run jira-boards`
+2. Find the board you'd like to push notifications to, and note the `projectKey`
+3. Add the `projectKey` to the `notify.jira.project_key`
+
+**3: Test**
+
+1. Send a test task to the board, by running `npm run jira-test`
+
 
 **Authentication Providers:**
 
@@ -149,7 +173,7 @@ The SSL Certificates included in the `/certs` directory are for **development pu
 
 ### Who is behind Schnack?
 
-Schnack is [yet another](https://github.com/gka/canvid/) happy collaboration between [Webkid](https://webkid.io/) and [Gregor Aisch](https://www.vis4.net).
+Schnack is [yet another](https://github.com/gka/canvid/) happy collaboration between [Webkid](https://webkid.io/) and [Gregor Aisch](https://www.vis4.net), with a few minor additions from [Jerram Digital](https://jerram.co.uk/).
 
 ### Who is using Schnack?
 

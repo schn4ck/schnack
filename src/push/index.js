@@ -4,6 +4,7 @@ const webpush = require('web-push');
 const Pushover = require('pushover-notifications');
 const queries = require('../db/queries');
 const slack = require('./slack');
+const jira = require('./jira');
 const sendmail = require('./sendmail');
 const {
     send_file,
