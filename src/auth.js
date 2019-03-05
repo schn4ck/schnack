@@ -32,6 +32,7 @@ function init(app, db, domain) {
 
     passport.serializeUser((user, done) => {
         db.get(queries.find_user, [user.provider, user.id], (err, row) => {
+            if (err) return console.error('could not find user', err);
             if (row) return done(null, row); // welcome back
             // nice to meet you, new user!
             // check if id shows up in auto-trust config
@@ -50,8 +51,9 @@ function init(app, db, domain) {
                 trusted
             ];
             db.run(queries.create_user, c_args, (err, res) => {
-                if (err) return console.error(err);
+                if (err) return console.error('could not create user', err);
                 db.get(queries.find_user, [user.provider, user.id], (err, row) => {
+                    if (err) return console.error('could not find user', err);
                     if (row) return done(null, row);
                     console.error('no user found after insert');
                 });
@@ -219,6 +221,7 @@ function init(app, db, domain) {
             };
             // check if that domain is already known
             db.get(queries.find_oauth_provider, ['mastodon', domain], (err, row) => {
+                if (err) return console.error('could not find oauth provider', err);
                 if (row) {
                     // we know this domain already, let's re-use the existing app!
                     mastodonAuth(row);
@@ -278,8 +281,6 @@ function getAuthorUrl(comment) {
             return 'https://twitter.com/' + comment.name;
         case 'github':
             return 'https://github.com/' + comment.name;
-        default:
-            return;
     }
 }
 
