@@ -44,9 +44,11 @@ function isAdmin(user) {
 }
 
 function checkOrigin(origin, callback) {
-    const parsedUrl = new URL(origin);
     // origin is allowed
-    if (typeof origin === 'undefined' || `.${parsedUrl.hostname}`.endsWith(`.${schnack_domain}`)) {
+    if (
+        typeof origin === 'undefined' ||
+        `.${new URL(origin).hostname}`.endsWith(`.${schnack_domain}`)
+    ) {
         return callback(null, true);
     }
 
