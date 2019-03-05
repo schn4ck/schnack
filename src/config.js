@@ -1,7 +1,6 @@
 const nconf = require('nconf');
 const crypto = require('crypto');
 const webpush = require('web-push');
-const os = require('os');
 
 // VAPID keys should only be generated only once.
 const vapidKeys = webpush.generateVAPIDKeys();
