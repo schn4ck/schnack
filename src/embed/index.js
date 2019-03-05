@@ -30,6 +30,7 @@ import Schnack from './client';
             partials[k] = script.dataset[`schnackPartial${k}`];
     });
 
+    // eslint-disable-next-line no-new
     new Schnack({
         target: opts.schnackTarget,
         slug,

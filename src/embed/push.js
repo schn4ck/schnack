@@ -1,4 +1,5 @@
-//Vapid public key.
+/* globals btoa, fetch, Notification */
+// Vapid public key.
 const applicationServerPublicKey = '%VAPID_PUBLIC_KEY%';
 const schnack_host = '%SCHNACK_HOST%';
 
@@ -22,7 +23,7 @@ function initialiseServiceWorker() {
             .then(handleSWRegistration)
             .catch(err => console.error(err));
     } else {
-        console.log("Service workers aren't supported in this browser.");
+        console.error("Service workers aren't supported in this browser.");
     }
 }
 
@@ -35,13 +36,13 @@ function handleSWRegistration(reg) {
 function initialiseState(reg) {
     // Are Notifications supported in the service worker?
     if (!reg.showNotification) {
-        console.log("Notifications aren't supported on service workers.");
+        console.error("Notifications aren't supported on service workers.");
         return;
     }
 
     // Check if push messaging is supported
     if (!('PushManager' in window)) {
-        console.log("Push messaging isn't supported.");
+        console.error("Push messaging isn't supported.");
         return;
     }
 
@@ -61,7 +62,7 @@ function initialiseState(reg) {
                 }
             })
             .catch(err => {
-                console.log('Error during getSubscription()', err);
+                console.error('Error during getSubscription()', err);
             });
     });
 }
@@ -70,7 +71,7 @@ function subscribe() {
     navigator.serviceWorker.ready.then(function(reg) {
         const subscribeParams = { userVisibleOnly: true };
 
-        //Setting the public key of our VAPID key pair.
+        // Setting the public key of our VAPID key pair.
         const applicationServerKey = urlB64ToUint8Array(applicationServerPublicKey);
         subscribeParams.applicationServerKey = applicationServerKey;
 
@@ -87,7 +88,7 @@ function subscribe() {
             })
             .catch(err => {
                 // A problem occurred with the subscription.
-                console.log('Unable to subscribe to push.', e);
+                console.error('Unable to subscribe to push.', err);
             });
     });
 }
@@ -103,12 +104,12 @@ function unsubscribe() {
             }
         })
         .catch(error => {
-            console.log('Error unsubscribing', error);
+            console.error('Error unsubscribing', error);
         })
         .then(() => {
             removeSubscriptionFromServer(endpoint);
 
-            console.log('User is unsubscribed.');
+            console.error('User is unsubscribed.');
             isSubscribed = false;
         });
 }
@@ -122,6 +123,7 @@ function sendSubscriptionToServer(endpoint, key, auth) {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ publicKey: encodedKey, auth: encodedAuth, endpoint })
     }).then(res => {
+        // eslint-disable-next-line no-console
         console.log('Subscribed successfully! ' + JSON.stringify(res));
     });
 }
@@ -135,13 +137,14 @@ function removeSubscriptionFromServer(endpoint) {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ publicKey: encodedKey, auth: encodedAuth, endpoint })
     }).then(res => {
+        // eslint-disable-next-line no-console
         console.log('Unsubscribed successfully! ' + JSON.stringify(res));
     });
 }
 
 function urlB64ToUint8Array(base64String) {
     const padding = '='.repeat((4 - (base64String.length % 4)) % 4);
-    const base64 = (base64String + padding).replace(/\-/g, '+').replace(/_/g, '/');
+    const base64 = (base64String + padding).replace(/-/g, '+').replace(/_/g, '/');
 
     const rawData = window.atob(base64);
     const outputArray = new Uint8Array(rawData.length);

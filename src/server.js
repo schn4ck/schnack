@@ -156,6 +156,7 @@ function run(db) {
                 });
             },
             err => {
+                console.error(err);
                 reply.send(feed.xml({ indent: true }));
             }
         );
@@ -188,6 +189,6 @@ function run(db) {
 
     var server = app.listen(config.get('port'), config.get('host'), err => {
         if (err) throw err;
-        console.log(`server listening on ${server.address().port}`);
+        console.error(`server listening on ${server.address().port}`);
     });
 }

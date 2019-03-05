@@ -160,7 +160,7 @@ export default class Schnack {
                                         this.refresh();
                                     };
                                 };
-                                if (provider.id == 'mastodon') {
+                                if (provider.id === 'mastodon') {
                                     // we need to ask the user what instance they want to sign on
                                     const masto_domain = window.prompt(
                                         'Please enter the domain name of the Mastodon instance you want to sign in with:',
@@ -170,17 +170,18 @@ export default class Schnack {
                                     fetch(`https://${masto_domain}/api/v1/instance`)
                                         .then(r => r.json())
                                         .then(res => {
-                                            if (res.uri == masto_domain) {
+                                            if (res.uri === masto_domain) {
                                                 // instance seems to be fine!
                                                 signin(masto_domain);
                                             } else {
-                                                alert(
+                                                window.alert(
                                                     `We could not find a Mastodon instance at "${masto_domain}". Please try again.`
                                                 );
                                             }
                                         })
                                         .catch(err => {
-                                            alert(
+                                            console.error(err);
+                                            window.alert(
                                                 `We could not find a Mastodon instance at "${masto_domain}". Please try again.`
                                             );
                                         });

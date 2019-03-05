@@ -67,15 +67,15 @@ function formatWPComment(comment, thread) {
 
 async function parseWP(data) {
     const threads = data.rss.channel.item;
-    for (thread of threads) {
+    for (let thread of threads) {
         const comments = thread['wp:comment'];
         if (comments) {
             if (comments.length) {
                 const formatted = comments.map(comment => formatWPComment(comment, thread));
-                const result = await saveComments(formatted);
+                await saveComments(formatted);
             } else {
                 const formatted = formatWPComment(comments, thread);
-                const result = await saveComments([formatted]);
+                await saveComments([formatted]);
             }
         }
     }
@@ -106,20 +106,17 @@ async function saveComment(post) {
 }
 
 async function saveComments(posts) {
-    for (post of posts) {
+    for (let post of posts) {
         const newComment = await saveComment(post);
         post.new_id = newComment;
     }
 
-    for (post of posts) {
+    for (let post of posts) {
         const replies = posts.filter(p => p.comment[3] === post.id); // replies to current post
         if (replies) {
-            for (reply of replies) {
+            for (let reply of replies) {
                 const { id, new_id } = post;
-                const res = await db.run(`UPDATE comment SET reply_to = ? WHERE reply_to = ?`, [
-                    new_id,
-                    id
-                ]);
+                await db.run(`UPDATE comment SET reply_to = ? WHERE reply_to = ?`, [new_id, id]);
             }
         }
     }
@@ -145,7 +142,7 @@ async function parseDisqus(data) {
     const threads = data.disqus.thread;
     const posts = data.disqus.post.map(comment => getDisqusComments(threads, comment));
 
-    const result = await saveComments(posts);
+    await saveComments(posts);
 }
 
 // Main
