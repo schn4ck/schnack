@@ -1,5 +1,5 @@
 const fs = require('fs');
-const url = require('url');
+const { URL } = require('url');
 const queries = require('./db/queries');
 const config = require('./config');
 
@@ -44,11 +44,9 @@ function isAdmin(user) {
 }
 
 function checkOrigin(origin, callback) {
+    const parsedUrl = new URL(origin);
     // origin is allowed
-    if (
-        typeof origin === 'undefined' ||
-        `.${url.parse(origin).hostname}`.endsWith(`.${schnack_domain}`)
-    ) {
+    if (typeof origin === 'undefined' || `.${parsedUrl.hostname}`.endsWith(`.${schnack_domain}`)) {
         return callback(null, true);
     }
 
@@ -56,12 +54,12 @@ function checkOrigin(origin, callback) {
 }
 
 function checkValidComment(db, slug, user_id, comment, replyTo, callback) {
-    if (comment.trim() === '') return callback("the comment can't be empty");
+    if (comment.trim() === '') return callback(new Error("the comment can't be empty"));
     // check duplicate comment
     db.get(queries.get_last_comment, [slug], (err, row) => {
         if (err) return callback(err);
-        if (row && row.comment.trim() == comment && row.user_id == user_id) {
-            return callback('the exact comment has been entered before');
+        if (row && row.comment.trim() === comment && row.user_id === user_id) {
+            return callback(new Error('the exact comment has been entered before'));
         }
         // @todo: check for cyclic replies
         callback(null);
@@ -71,7 +69,7 @@ function checkValidComment(db, slug, user_id, comment, replyTo, callback) {
 function getSchnackDomain() {
     const schnack_host = config.get('schnack_host');
     try {
-        const schnack_url = url.parse(schnack_host);
+        const schnack_url = new URL(schnack_host);
 
         if (schnack_url.hostname === 'localhost') {
             return schnack_url.hostname;
