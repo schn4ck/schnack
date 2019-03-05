@@ -1,4 +1,4 @@
 #!/bin/sh
 yarn test-server &
 yarn server &
-yarn build
+yarn build-watch
