@@ -15,37 +15,40 @@ function send_string(body, admin_only) {
             if (!user.admin) return next();
         }
         if (request.baseUrl.endsWith('.js')) {
-            reply.header("Content-Type", "application/javascript");
+            reply.header('Content-Type', 'application/javascript');
         }
         reply.send(body);
     };
 }
 
-
 function error(err, request, reply, code) {
-  if (err) {
-      console.error(err.message);
-      reply.status(code || 500).send({ error: err.message });
+    if (err) {
+        console.error(err.message);
+        reply.status(code || 500).send({ error: err.message });
 
-      return true;
-  }
+        return true;
+    }
 
-  return false;
+    return false;
 }
 
 function getUser(request) {
-    if (config.get('dev')) return { id: 1, name: 'Dev', display_name: 'Dev', admin: true, trusted: 1};
-    const { user } = request.session.passport || {};
+    if (config.get('dev'))
+        return { id: 1, name: 'Dev', display_name: 'Dev', admin: true, trusted: 1 };
+    const { user } = request.session.passport || {};
     return user;
 }
 
 function isAdmin(user) {
-  return user && user.id && config.get('admins').indexOf(user.id) > -1;
+    return user && user.id && config.get('admins').indexOf(user.id) > -1;
 }
 
 function checkOrigin(origin, callback) {
     // origin is allowed
-    if (typeof origin === 'undefined' || `.${url.parse(origin).hostname}`.endsWith(`.${schnack_domain}`)) {
+    if (
+        typeof origin === 'undefined' ||
+        `.${url.parse(origin).hostname}`.endsWith(`.${schnack_domain}`)
+    ) {
         return callback(null, true);
     }
 
@@ -53,7 +56,7 @@ function checkOrigin(origin, callback) {
 }
 
 function checkValidComment(db, slug, user_id, comment, replyTo, callback) {
-    if (comment.trim() === '') return callback('the comment can\'t be empty');
+    if (comment.trim() === '') return callback("the comment can't be empty");
     // check duplicate comment
     db.get(queries.get_last_comment, [slug], (err, row) => {
         if (err) return callback(err);
@@ -73,14 +76,18 @@ function getSchnackDomain() {
         if (schnack_url.hostname === 'localhost') {
             return schnack_url.hostname;
         } else {
-            const schnack_domain = schnack_url.hostname.split('.').slice(1).join('.');
+            const schnack_domain = schnack_url.hostname
+                .split('.')
+                .slice(1)
+                .join('.');
             return schnack_domain;
         }
     } catch (error) {
-        console.error(`The schnack_host value "${schnack_host}" doesn't appear to be a proper URL. Did you forget "http://"?`);
+        console.error(
+            `The schnack_host value "${schnack_host}" doesn't appear to be a proper URL. Did you forget "http://"?`
+        );
         process.exit(-1);
     }
-
 }
 
 module.exports = {
@@ -92,4 +99,4 @@ module.exports = {
     checkOrigin,
     checkValidComment,
     getSchnackDomain
-}
+};
