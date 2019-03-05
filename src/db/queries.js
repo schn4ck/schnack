@@ -54,7 +54,7 @@ module.exports = {
        WHERE provider = ? AND provider_id = ?`,
 
   create_user:
-      `INSERT INTO user
+      `INSERT OR IGNORE INTO user
       (provider, provider_id, display_name, name, url,
        created_at, trusted, blocked)
       VALUES (?, ?, ?, ?, ?, datetime(), ?, 0)`,
