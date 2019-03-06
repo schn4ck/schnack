@@ -27,23 +27,21 @@
         "auth-mastodon": {
             "app_name": "your website name",
             "app_website": "https://blog.example.com/"
+        },
+        "notify-pushover": {
+            "app_token": "xxxxx",
+            "user_key": "xxxxx"
+        },
+        "notify-webpush": {
+            "vapid_public_key": "xxxxx",
+            "vapid_private_key": "xxxxx"
+        },
+        "notify-slack": {
+            "webhook_url": "xxxxx"
         }
     },
     "oauth": {
         "secret": "xxxxx"
-    },
-    "notify": {
-        "pushover": {
-            "app_token": "xxxxx",
-            "user_key": "xxxxx"
-        },
-        "webpush": {
-            "vapid_public_key": "xxxxx",
-            "vapid_private_key": "xxxxx"
-        },
-        "slack": {
-            "webhook_url": "xxxxx"
-        }
     },
     "date_format": "MMMM DD, YYYY - h:mm a"
 }
