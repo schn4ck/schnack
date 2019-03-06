@@ -10,7 +10,7 @@ const marked = require('marked');
 const dbHandler = require('./db');
 const queries = require('./db/queries');
 const auth = require('./auth');
-const pushHandler = require('./push');
+const notify = require('./notify');
 const schnackEvents = require('./events');
 const {
     error,
@@ -45,7 +45,8 @@ function run(db) {
 
     // init session + passport middleware and auth routes
     auth.init(app, db, getSchnackDomain());
-    pushHandler.init(app, db, awaiting_moderation);
+    // init push notification plugins
+    notify.init(app, db, awaiting_moderation);
 
     app.get('/comments/:slug', (request, reply) => {
         const { slug } = request.params;
