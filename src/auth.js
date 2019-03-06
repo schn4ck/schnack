@@ -1,10 +1,9 @@
-const fs = require('fs');
-const path = require('path');
 const passport = require('passport');
 const session = require('express-session');
 const SQLiteStore = require('connect-sqlite3')(session);
 
 const queries = require('./db/queries');
+const { loadPlugin } = require('./helper');
 const config = require('./config');
 const pluginConfig = config.get('plugins');
 const authConfig = config.get('oauth');
@@ -67,18 +66,8 @@ function init(app, db, domain) {
 
     // initialize auth plugins
     Object.keys(pluginConfig).forEach(pluginId => {
-        let plugin;
-        if (fs.existsSync(path.join(__dirname, `./plugins/${pluginId}/index.js`))) {
-            // local plugin
-            plugin = require(`./plugins/${pluginId}`);
-        } else {
-            // npm requrie
-            try {
-                plugin = require(`schnack-plugin-${pluginId}`);
-            } catch (err) {
-                console.warn(`could not load plugin ${pluginId}`);
-            }
-        }
+        const plugin = loadPlugin(pluginId);
+
         if (plugin && typeof plugin.auth === 'function') {
             // eslint-disable-next-line no-console
             console.log(`successfully loaded plugin ${pluginId}`);

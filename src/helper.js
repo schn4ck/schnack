@@ -1,4 +1,5 @@
 const fs = require('fs');
+const path = require('path');
 const { URL } = require('url');
 const queries = require('./db/queries');
 const config = require('./config');
@@ -90,6 +91,20 @@ function getSchnackDomain() {
     }
 }
 
+function loadPlugin(pluginId) {
+    if (fs.existsSync(path.join(__dirname, `./plugins/${pluginId}/index.js`))) {
+        // local plugin
+        return require(`./plugins/${pluginId}`);
+    } else {
+        // npm require (plugin need to be installed via npm first)
+        try {
+            return require(`schnack-plugin-${pluginId}`);
+        } catch (err) {
+            console.warn(`could not load plugin ${pluginId}`);
+        }
+    }
+}
+
 module.exports = {
     send_file,
     send_string,
@@ -98,5 +113,6 @@ module.exports = {
     isAdmin,
     checkOrigin,
     checkValidComment,
-    getSchnackDomain
+    getSchnackDomain,
+    loadPlugin
 };
