@@ -7,28 +7,30 @@
     },
     "port": 3000,
     "admins": [1],
-    "oauth": {
-        "secret": "xxxxx",
-        "twitter": {
+    "plugins": {
+        "auth-twitter": {
             "consumer_key": "xxxxx",
             "consumer_secret": "xxxxx"
         },
-        "github": {
+        "auth-github": {
             "client_id": "xxxxx",
             "client_secret": "xxxxx"
         },
-        "google": {
+        "auth-google": {
             "client_id": "xxxxx",
             "client_secret": "xxxxx"
         },
-        "facebook": {
+        "auth-facebook": {
             "client_id": "xxxxx",
             "client_secret": "xxxxx"
         },
-        "mastodon": {
+        "auth-mastodon": {
             "app_name": "your website name",
             "app_website": "https://blog.example.com/"
         }
+    },
+    "oauth": {
+        "secret": "xxxxx"
     },
     "notify": {
         "pushover": {
