@@ -2,8 +2,8 @@ import fetch from 'unfetch';
 import schnack_tpl from './schnack.jst.html';
 import comments_tpl from './comments.jst.html';
 
-const $ = (sel) => document.querySelector(sel);
-const $$ = (sel) => document.querySelectorAll(sel);
+const $ = sel => document.querySelector(sel);
+const $$ = sel => document.querySelectorAll(sel);
 
 export default class Schnack {
     constructor(options) {
@@ -12,10 +12,13 @@ export default class Schnack {
         this.initialized = false;
         this.firstLoad = true;
 
-        const url = new URL(options.host)
+        const url = new URL(options.host);
 
         if (url.hostname !== 'localhost') {
-            document.domain = url.hostname.split('.').slice(1).join('.');
+            document.domain = url.hostname
+                .split('.')
+                .slice(1)
+                .join('.');
         }
 
         this.refresh();
@@ -25,13 +28,13 @@ export default class Schnack {
         const { target, slug, host, endpoint, partials } = this.options;
 
         fetch(endpoint, {
-                credentials: 'include',
-                headers: {
-                    'Content-Type': 'application/json'
-                }
-            })
+            credentials: 'include',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
             .then(r => r.json())
-            .then((data) => {
+            .then(data => {
                 data.comments_tpl = comments_tpl;
                 data.partials = partials;
                 $(target).innerHTML = schnack_tpl(data);
@@ -52,23 +55,26 @@ export default class Schnack {
                 const replyBtns = $$(target + ' .schnack-reply');
 
                 if (postBtn) {
-                    postBtn.addEventListener('click', (d) => {
+                    postBtn.addEventListener('click', d => {
                         const body = textarea.value;
                         fetch(endpoint, {
-                                credentials: 'include',
-                                method: 'POST',
-                                headers: {
-                                    'Content-Type': 'application/json'
-                                },
-                                body: JSON.stringify({
-                                    comment: body,
-                                    replyTo: form.dataset.reply
-                                })
+                            credentials: 'include',
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify({
+                                comment: body,
+                                replyTo: form.dataset.reply
                             })
+                        })
                             .then(r => r.json())
-                            .then((res) => {
+                            .then(res => {
                                 textarea.value = '';
-                                window.localStorage.setItem(`schnack-draft-${slug}`, textarea.value);
+                                window.localStorage.setItem(
+                                    `schnack-draft-${slug}`,
+                                    textarea.value
+                                );
                                 if (res.id) {
                                     this.firstLoad = true;
                                     window.location.hash = '#comment-' + res.id;
@@ -77,30 +83,30 @@ export default class Schnack {
                             });
                     });
 
-                    previewBtn.addEventListener('click', (d) => {
+                    previewBtn.addEventListener('click', d => {
                         const body = textarea.value;
                         textarea.style.display = 'none';
                         previewBtn.style.display = 'none';
                         preview.style.display = 'block';
                         writeBtn.style.display = 'inline';
                         fetch(`${host}/markdown`, {
-                                credentials: 'include',
-                                method: 'POST',
-                                headers: {
-                                    'Content-Type': 'application/json'
-                                },
-                                body: JSON.stringify({
-                                    comment: body
-                                })
+                            credentials: 'include',
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify({
+                                comment: body
                             })
+                        })
                             .then(r => r.json())
-                            .then((res) => {
+                            .then(res => {
                                 preview.innerHTML = res.html;
                                 // refresh();
                             });
                     });
 
-                    writeBtn.addEventListener('click', (d) => {
+                    writeBtn.addEventListener('click', d => {
                         textarea.style.display = 'inline';
                         previewBtn.style.display = 'inline';
                         preview.style.display = 'none';
@@ -111,7 +117,7 @@ export default class Schnack {
                         window.localStorage.setItem(`schnack-draft-${slug}`, textarea.value);
                     });
 
-                    replyBtns.forEach((btn) => {
+                    replyBtns.forEach(btn => {
                         btn.addEventListener('click', () => {
                             form.dataset.reply = btn.dataset.replyTo;
                             cancelReplyBtn.style.display = 'inline-block';
@@ -127,53 +133,62 @@ export default class Schnack {
                 }
                 if (data.user) {
                     const signout = $('a.schnack-signout');
-                    if (signout) signout.addEventListener('click', (e) => {
-                        e.preventDefault();
-                        fetch(`${host}/signout`, {
+                    if (signout)
+                        signout.addEventListener('click', e => {
+                            e.preventDefault();
+                            fetch(`${host}/signout`, {
                                 credentials: 'include',
                                 headers: {
                                     'Content-Type': 'application/json'
-                                },
-                            })
-                            .then(() => this.refresh());
-                    });
-                } else {
-                    data.auth.forEach((provider) => {
-                        const btn = $(target + ' .schnack-signin-' + provider.id);
-                        if (btn) btn.addEventListener('click', (d) => {
-                            const signin = (provider_domain='') => {
-                                let windowRef = window.open(
-                                    `${host}/auth/${provider.id}`
-                                        + (provider_domain ? `/d/${provider_domain}` : ''),
-                                    provider.name + ' Sign-In',
-                                    'resizable,scrollbars,status,width=600,height=500'
-                                );
-                                window.__schnack_wait_for_oauth = () => {
-                                    windowRef.close();
-                                    this.refresh();
-                                };
-                            }
-                            if (provider.id == 'mastodon') {
-                                // we need to ask the user what instance they want to sign on
-                                const masto_domain = window.prompt('Please enter the domain name of the Mastodon instance you want to sign in with:', 'mastodon.social');
-                                // test if the instance is correct
-                                fetch(`https://${masto_domain}/api/v1/instance`)
-                                    .then(r => r.json())
-                                    .then(res => {
-                                        if (res.uri == masto_domain) {
-                                            // instance seems to be fine!
-                                            signin(masto_domain);
-                                        } else {
-                                            alert(`We could not find a Mastodon instance at "${masto_domain}". Please try again.`);
-                                        }
-                                    })
-                                    .catch(err => {
-                                        alert(`We could not find a Mastodon instance at "${masto_domain}". Please try again.`);
-                                    })
-                            } else {
-                                signin();
-                            }
+                                }
+                            }).then(() => this.refresh());
                         });
+                } else {
+                    data.auth.forEach(provider => {
+                        const btn = $(target + ' .schnack-signin-' + provider.id);
+                        if (btn)
+                            btn.addEventListener('click', d => {
+                                const signin = (provider_domain = '') => {
+                                    let windowRef = window.open(
+                                        `${host}/auth/${provider.id}` +
+                                            (provider_domain ? `/d/${provider_domain}` : ''),
+                                        provider.name + ' Sign-In',
+                                        'resizable,scrollbars,status,width=600,height=500'
+                                    );
+                                    window.__schnack_wait_for_oauth = () => {
+                                        windowRef.close();
+                                        this.refresh();
+                                    };
+                                };
+                                if (provider.id === 'mastodon') {
+                                    // we need to ask the user what instance they want to sign on
+                                    const masto_domain = window.prompt(
+                                        'Please enter the domain name of the Mastodon instance you want to sign in with:',
+                                        'mastodon.social'
+                                    );
+                                    // test if the instance is correct
+                                    fetch(`https://${masto_domain}/api/v1/instance`)
+                                        .then(r => r.json())
+                                        .then(res => {
+                                            if (res.uri === masto_domain) {
+                                                // instance seems to be fine!
+                                                signin(masto_domain);
+                                            } else {
+                                                window.alert(
+                                                    `We could not find a Mastodon instance at "${masto_domain}". Please try again.`
+                                                );
+                                            }
+                                        })
+                                        .catch(err => {
+                                            console.error(err);
+                                            window.alert(
+                                                `We could not find a Mastodon instance at "${masto_domain}". Please try again.`
+                                            );
+                                        });
+                                } else {
+                                    signin();
+                                }
+                            });
                     });
                 }
 
@@ -185,20 +200,19 @@ export default class Schnack {
                         this.initialized = true;
                     }
 
-                    const action = (evt) => {
+                    const action = evt => {
                         const btn = evt.target;
                         const data = btn.dataset;
                         fetch(`${host}/${data.class}/${data.target}/${data.action}`, {
-                                credentials: 'include',
-                                method: 'POST',
-                                headers: {
-                                    'Content-Type': 'application/json'
-                                },
-                                body: ''
-                            })
-                            .then(() => this.refresh());
+                            credentials: 'include',
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                            body: ''
+                        }).then(() => this.refresh());
                     };
-                    document.querySelectorAll('.schnack-action').forEach((btn) => {
+                    document.querySelectorAll('.schnack-action').forEach(btn => {
                         btn.addEventListener('click', action);
                     });
                 }

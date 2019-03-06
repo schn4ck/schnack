@@ -21,13 +21,16 @@ import Schnack from './client';
         WaitingForApproval: `Your comment is still waiting for approval by the site owner`,
         SignInVia: `To post a comment you need to sign in via`,
         Reply: `<i class='icon schnack-icon-reply'></i> reply`,
-        LoginStatus: "(signed in as <span class='schnack-user'>@%USER%</span> :: <a class='schnack-signout' href='#'>sign out</a>)"
+        LoginStatus:
+            "(signed in as <span class='schnack-user'>@%USER%</span> :: <a class='schnack-signout' href='#'>sign out</a>)"
     };
 
     Object.keys(partials).forEach(k => {
-        if (script.dataset[`schnackPartial${k}`]) partials[k] = script.dataset[`schnackPartial${k}`];
+        if (script.dataset[`schnackPartial${k}`])
+            partials[k] = script.dataset[`schnackPartial${k}`];
     });
 
+    // eslint-disable-next-line no-new
     new Schnack({
         target: opts.schnackTarget,
         slug,

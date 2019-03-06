@@ -18,30 +18,43 @@ const schnack_host = config.get('schnack_host');
 const providers = [];
 
 function init(app, db, domain) {
-    app.use(session({
-        resave: false,
-        saveUninitialized: false,
-        secret: authConfig.secret,
-        cookie: { domain: `.${domain}` },
-        store: new SQLiteStore({ db: config.get('database').sessions })
-    }));
+    app.use(
+        session({
+            resave: false,
+            saveUninitialized: false,
+            secret: authConfig.secret,
+            cookie: { domain: `.${domain}` },
+            store: new SQLiteStore({ db: config.get('database').sessions })
+        })
+    );
 
     app.use(passport.initialize());
     app.use(passport.session());
 
     passport.serializeUser((user, done) => {
         db.get(queries.find_user, [user.provider, user.id], (err, row) => {
+            if (err) return console.error('could not find user', err);
             if (row) return done(null, row); // welcome back
             // nice to meet you, new user!
             // check if id shows up in auto-trust config
-            var trusted = trustConfig &&
-                    trustConfig[user.provider] &&
-                    trustConfig[user.provider].indexOf(user.id) > -1 ? 1 : 0;
-            const c_args = [user.provider, user.id, user.displayName,
-                user.username || user.displayName, user.profileUrl || '', trusted];
+            var trusted =
+                trustConfig &&
+                trustConfig[user.provider] &&
+                trustConfig[user.provider].indexOf(user.id) > -1
+                    ? 1
+                    : 0;
+            const c_args = [
+                user.provider,
+                user.id,
+                user.displayName,
+                user.username || user.displayName,
+                user.profileUrl || '',
+                trusted
+            ];
             db.run(queries.create_user, c_args, (err, res) => {
-                if (err) return console.error(err);
+                if (err) return console.error('could not create user', err);
                 db.get(queries.find_user, [user.provider, user.id], (err, row) => {
+                    if (err) return console.error('could not find user', err);
                     if (row) return done(null, row);
                     console.error('no user found after insert');
                 });
@@ -59,22 +72,27 @@ function init(app, db, domain) {
     // twitter auth
     if (authConfig.twitter) {
         providers.push({ id: 'twitter', name: 'Twitter' });
-        passport.use(new TwitterStrategy({
-            consumerKey: authConfig.twitter.consumer_key,
-            consumerSecret: authConfig.twitter.consumer_secret,
-            callbackURL: `${schnack_host}/auth/twitter/callback`
-        }, (token, tokenSecret, profile, done) => {
-            done(null, profile);
-        }));
-
-        app.get('/auth/twitter',
-            passport.authenticate('twitter')
+        passport.use(
+            new TwitterStrategy(
+                {
+                    consumerKey: authConfig.twitter.consumer_key,
+                    consumerSecret: authConfig.twitter.consumer_secret,
+                    callbackURL: `${schnack_host}/auth/twitter/callback`
+                },
+                (token, tokenSecret, profile, done) => {
+                    done(null, profile);
+                }
+            )
         );
 
-        app.get('/auth/twitter/callback',
+        app.get('/auth/twitter', passport.authenticate('twitter'));
+
+        app.get(
+            '/auth/twitter/callback',
             passport.authenticate('twitter', {
                 failureRedirect: '/login'
-            }), (request, reply) => {
+            }),
+            (request, reply) => {
                 reply.redirect('/success');
             }
         );
@@ -83,24 +101,32 @@ function init(app, db, domain) {
     // github auth
     if (authConfig.github) {
         providers.push({ id: 'github', name: 'Github' });
-        passport.use(new GitHubStrategy({
-            clientID: authConfig.github.client_id,
-            clientSecret: authConfig.github.client_secret,
-            callbackURL: `${schnack_host}/auth/github/callback`
-        }, (accessToken, refreshToken, profile, done) => {
-            done(null, profile);
-        }));
+        passport.use(
+            new GitHubStrategy(
+                {
+                    clientID: authConfig.github.client_id,
+                    clientSecret: authConfig.github.client_secret,
+                    callbackURL: `${schnack_host}/auth/github/callback`
+                },
+                (accessToken, refreshToken, profile, done) => {
+                    done(null, profile);
+                }
+            )
+        );
 
-        app.get('/auth/github',
+        app.get(
+            '/auth/github',
             passport.authenticate('github', {
                 scope: ['user:email']
             })
         );
 
-        app.get('/auth/github/callback',
+        app.get(
+            '/auth/github/callback',
             passport.authenticate('github', {
                 failureRedirect: '/login'
-            }), (request, reply) => {
+            }),
+            (request, reply) => {
                 reply.redirect('/success');
             }
         );
@@ -109,24 +135,32 @@ function init(app, db, domain) {
     // google oauth
     if (authConfig.google) {
         providers.push({ id: 'google', name: 'Google' });
-        passport.use(new GoogleStrategy({
-            clientID: authConfig.google.client_id,
-            clientSecret: authConfig.google.client_secret,
-            callbackURL: `${schnack_host}/auth/google/callback`
-        }, (accessToken, refreshToken, profile, done) => {
-            done(null, profile);
-        }));
+        passport.use(
+            new GoogleStrategy(
+                {
+                    clientID: authConfig.google.client_id,
+                    clientSecret: authConfig.google.client_secret,
+                    callbackURL: `${schnack_host}/auth/google/callback`
+                },
+                (accessToken, refreshToken, profile, done) => {
+                    done(null, profile);
+                }
+            )
+        );
 
-        app.get('/auth/google',
+        app.get(
+            '/auth/google',
             passport.authenticate('google', {
                 scope: ['https://www.googleapis.com/auth/plus.login']
             })
         );
 
-        app.get('/auth/google/callback',
+        app.get(
+            '/auth/google/callback',
             passport.authenticate('google', {
                 failureRedirect: '/login'
-            }), (request, reply) => {
+            }),
+            (request, reply) => {
                 reply.redirect('/success');
             }
         );
@@ -135,23 +169,28 @@ function init(app, db, domain) {
     // facebook oauth
     if (authConfig.facebook) {
         providers.push({ id: 'facebook', name: 'Facebook' });
-        passport.use(new FacebookStrategy({
-            clientID: authConfig.facebook.client_id,
-            clientSecret: authConfig.facebook.client_secret,
-            callbackURL: `${schnack_host}/auth/facebook/callback`
-        }, (accessToken, refreshToken, profile, done) => {
-              done(null, profile);
-        }));
-
-        app.get('/auth/facebook',
-            passport.authenticate('facebook')
+        passport.use(
+            new FacebookStrategy(
+                {
+                    clientID: authConfig.facebook.client_id,
+                    clientSecret: authConfig.facebook.client_secret,
+                    callbackURL: `${schnack_host}/auth/facebook/callback`
+                },
+                (accessToken, refreshToken, profile, done) => {
+                    done(null, profile);
+                }
+            )
         );
 
-        app.get('/auth/facebook/callback',
+        app.get('/auth/facebook', passport.authenticate('facebook'));
+
+        app.get(
+            '/auth/facebook/callback',
             passport.authenticate('facebook', {
                 failureRedirect: '/login'
-            }), (request, reply) => {
-                reply.redirect('/success')
+            }),
+            (request, reply) => {
+                reply.redirect('/success');
             }
         );
     }
@@ -160,24 +199,30 @@ function init(app, db, domain) {
     if (authConfig.mastodon) {
         providers.push({ id: 'mastodon', name: 'Mastodon' });
 
-        app.get('/auth/mastodon/d/:domain',  (request, reply) => {
+        app.get('/auth/mastodon/d/:domain', (request, reply) => {
             const { domain } = request.params;
-            const mastodonAuth = ({domain, client_id, client_secret}) => {
+            const mastodonAuth = ({ domain, client_id, client_secret }) => {
                 // register strategy with passport
-                passport.use(new MastodonStrategy({
-                    clientID: client_id,
-                    clientSecret: client_secret,
-                    domain: domain,
-                    callbackURL: `${schnack_host}/auth/mastodon/callback`
-                }, (accessToken, refreshToken, profile, done) => {
-                    done(null, profile);
-                }));
+                passport.use(
+                    new MastodonStrategy(
+                        {
+                            clientID: client_id,
+                            clientSecret: client_secret,
+                            domain: domain,
+                            callbackURL: `${schnack_host}/auth/mastodon/callback`
+                        },
+                        (accessToken, refreshToken, profile, done) => {
+                            done(null, profile);
+                        }
+                    )
+                );
 
                 // and pass request to passport
                 passport.authenticate('mastodon').call(passport, request, reply);
             };
             // check if that domain is already known
             db.get(queries.find_oauth_provider, ['mastodon', domain], (err, row) => {
+                if (err) return console.error('could not find oauth provider', err);
                 if (row) {
                     // we know this domain already, let's re-use the existing app!
                     mastodonAuth(row);
@@ -195,34 +240,34 @@ function init(app, db, domain) {
                             scopes: 'read'
                         })
                     })
-                    .then(res => res.json())
-                    .then(res => {
-                        if (!res.client_id) return console.error('could not create app', res);
-                        // store client_key and client_secret away in db
-                        db.get(queries.create_oauth_provider, [
-                            'mastodon',
-                            domain,
-                            res.id,
-                            res.client_id,
-                            res.client_secret
-                        ], (err, row) => {
-                            if (err) return console.error(err);
-                            mastodonAuth({
-                                domain,
-                                client_id: res.client_id,
-                                client_secret: res.client_secret
-                            });
+                        .then(res => res.json())
+                        .then(res => {
+                            if (!res.client_id) return console.error('could not create app', res);
+                            // store client_key and client_secret away in db
+                            db.get(
+                                queries.create_oauth_provider,
+                                ['mastodon', domain, res.id, res.client_id, res.client_secret],
+                                (err, row) => {
+                                    if (err) return console.error(err);
+                                    mastodonAuth({
+                                        domain,
+                                        client_id: res.client_id,
+                                        client_secret: res.client_secret
+                                    });
+                                }
+                            );
                         });
-                    })
                 }
             });
         });
 
-        app.get('/auth/mastodon/callback',
+        app.get(
+            '/auth/mastodon/callback',
             passport.authenticate('mastodon', {
                 failureRedirect: '/login'
-            }), (request, reply) => {
-                reply.redirect('/success')
+            }),
+            (request, reply) => {
+                reply.redirect('/success');
             }
         );
     }
@@ -266,10 +311,12 @@ function init(app, db, domain) {
 function getAuthorUrl(comment) {
     if (comment.user_url) return comment.user_url;
     switch (comment.provider) {
-        case 'mastodon': return 'https://twitter.com/'+comment.name;
-        case 'twitter': return 'https://twitter.com/'+comment.name;
-        case 'github': return 'https://github.com/'+comment.name;
-        default: return;
+        case 'mastodon':
+            return 'https://twitter.com/' + comment.name;
+        case 'twitter':
+            return 'https://twitter.com/' + comment.name;
+        case 'github':
+            return 'https://github.com/' + comment.name;
     }
 }
 

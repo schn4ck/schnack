@@ -1,12 +1,12 @@
 const nconf = require('nconf');
 const crypto = require('crypto');
 const webpush = require('web-push');
-const os = require('os');
 
 // VAPID keys should only be generated only once.
 const vapidKeys = webpush.generateVAPIDKeys();
 
-nconf.argv()
+nconf
+    .argv()
     .file({ file: './config.json' })
     .env()
     .defaults({
@@ -18,7 +18,8 @@ nconf.argv()
         },
         port: 3000,
         template: {
-            login_status: '(signed in as %USER% :: <a class="schnack-signout" href="#">sign out</a>)'
+            login_status:
+                '(signed in as %USER% :: <a class="schnack-signout" href="#">sign out</a>)'
         },
         date_format: 'MMMM DD, YYYY - h:mm a',
         notification_interval: 300000,
