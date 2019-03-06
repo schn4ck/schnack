@@ -6,6 +6,7 @@ const GitHubStrategy = require('passport-github2').Strategy;
 const GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
 const FacebookStrategy = require('passport-facebook').Strategy;
 const MastodonStrategy = require('passport-mastodon').Strategy;
+const OAuth2CognitoStrategy = require('passport-oauth2-cognito');
 const fetch = require('node-fetch');
 
 const queries = require('./db/queries');
@@ -267,6 +268,41 @@ function init(app, db, domain) {
             }),
             (request, reply) => {
                 reply.redirect('/success');
+            }
+        );
+    }
+
+    // Amazon Cognito oAuth
+    if (authConfig.cognito) {
+
+        providers.push({ id: 'cognito', name: 'Amazon Cognito' });
+
+        passport.use(new OAuth2CognitoStrategy({
+            callbackURL: `${schnack_host}/auth/cognito/callback`,
+            clientDomain: `https://${authConfig.cognito.domain_prefix}.auth.${authConfig.cognito.region}.amazoncognito.com`,
+            clientID: authConfig.cognito.client_id,
+            clientSecret: authConfig.cognito.client_secret,
+            region: authConfig.cognito.region
+        }, (accessToken, refreshToken, params, profile, done) => {
+            const cognito_user = {
+                "id": profile.sub,
+                "provider": "cognito",
+                "username": `${profile.given_name} ${profile.family_name}`,
+                "displayName": `${profile.given_name} ${profile.family_name}`,
+                "profileUrl": ""
+            };
+            process.nextTick(() => done(null, cognito_user));
+        }));
+
+        app.get('/auth/cognito',
+            passport.authenticate('oauth2-cognito')
+        );
+
+        app.get('/auth/cognito/callback',
+            passport.authenticate('oauth2-cognito', {
+                failureRedirect: '/login'
+            }), (request, reply) => {
+                reply.redirect('/success')
             }
         );
     }

@@ -3,9 +3,14 @@ const countBy = require('lodash.countby');
 const webpush = require('web-push');
 const Pushover = require('pushover-notifications');
 const queries = require('../db/queries');
-require('./slack');
-require('./sendmail');
-const { send_file, send_string, error } = require('../helper');
+const slack = require('./slack');
+const jira = require('./jira');
+const sendmail = require('./sendmail');
+const {
+    send_file,
+    send_string,
+    error
+} = require('../helper');
 const config = require('../config');
 const notify = config.get('notify');
 const schnack_host = config.get('schnack_host');

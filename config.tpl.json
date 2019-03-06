@@ -28,6 +28,12 @@
         "mastodon": {
             "app_name": "your website name",
             "app_website": "https://blog.example.com/"
+        },
+        "cognito": {
+            "domain_prefix": "xxxxx",
+            "region": "xxxxx",
+            "client_id": "xxxxx",
+            "client_secret": "xxxxx"
         }
     },
     "notify": {
@@ -41,7 +47,19 @@
         },
         "slack": {
             "webhook_url": "xxxxx"
+        },
+        "jira": {
+            "host": "myhost.atlassian.net",
+            "project_key": "xxxxx",
+            "issue_type": "Story",
+            "basic_auth": {
+                "base64": "xxxxx"
+            }
         }
+    },
+    "ssl": {
+        "certificate_path": "./certs/local.crt",
+        "certificate_key": "./certs/local.key"
     },
     "date_format": "MMMM DD, YYYY - h:mm a"
 }
