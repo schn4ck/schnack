@@ -168,7 +168,7 @@ function run(db) {
         db.run('INSERT OR IGNORE INTO user (id,name,blocked,trusted,created_at) VALUES (1,"dev",0,1,datetime())');
     }
 
-    configSsl = config.get("ssl");
+    const configSsl = config.get("ssl");
 
     if (configSsl && configSsl.certificate_path) {
         const https = require('https');
