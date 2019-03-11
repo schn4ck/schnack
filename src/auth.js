@@ -3,12 +3,10 @@ const session = require('express-session');
 const SQLiteStore = require('connect-sqlite3')(session);
 
 const queries = require('./db/queries');
-const { loadPlugin } = require('./helper');
 const config = require('./config');
-const pluginConfig = config.get('plugins');
 const authConfig = config.get('oauth');
 const trustConfig = config.get('trust');
-const schnack_host = config.get('schnack_host');
+const { plugins } = require('./plugins');
 
 const providers = [];
 
@@ -65,20 +63,12 @@ function init(app, db, domain) {
     });
 
     // initialize auth plugins
-    Object.keys(pluginConfig).forEach(pluginId => {
-        const plugin = loadPlugin(pluginId);
-
-        if (plugin && typeof plugin.auth === 'function') {
-            // eslint-disable-next-line no-console
-            console.log(`successfully loaded plugin ${pluginId}`);
+    plugins.forEach(plugin => {
+        if (typeof plugin.auth === 'function') {
             plugin.auth({
                 providers,
                 passport,
-                config: pluginConfig[pluginId],
-                app,
-                host: schnack_host,
-                db,
-                queries
+                app
             });
         }
     });

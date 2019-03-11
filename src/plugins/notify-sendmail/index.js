@@ -1,5 +1,22 @@
 const { spawn } = require('child_process');
 
+module.exports = ({ config, host, app, events }) => {
+    return {
+        notify({ page_url }) {
+            events.on('new-comment', event => {
+                const body = createEmailBody(config, page_url, event);
+                try {
+                    const sendmail = spawn('sendmail', [config.to]);
+                    sendmail.stdin.write(body);
+                    sendmail.stdin.end();
+                } catch (error) {
+                    console.error('Error sending sendmail notification:', error);
+                }
+            });
+        }
+    };
+};
+
 function createEmailBody(config, page_url, event) {
     const postUrl = page_url.replace('%SLUG%', event.slug);
     const user = event.user.display_name || event.user.name;
@@ -25,18 +42,3 @@ Permalink: ${postUrl}#comment-${event.id}
 
     return body;
 }
-
-module.exports = {
-    notify({ events, config, page_url }) {
-        events.on('new-comment', event => {
-            const body = createEmailBody(config, page_url, event);
-            try {
-                const sendmail = spawn('sendmail', [config.to]);
-                sendmail.stdin.write(body);
-                sendmail.stdin.end();
-            } catch (error) {
-                console.error('Error sending sendmail notification:', error);
-            }
-        });
-    }
-};

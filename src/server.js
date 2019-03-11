@@ -10,6 +10,7 @@ const marked = require('marked');
 const dbHandler = require('./db');
 const queries = require('./db/queries');
 const auth = require('./auth');
+const { loadPlugins } = require('./plugins');
 const notify = require('./notify');
 const schnackEvents = require('./events');
 const {
@@ -42,6 +43,9 @@ function run(db) {
 
     app.use(bodyParser.json());
     app.use(bodyParser.urlencoded({ extended: true }));
+
+    // init plugins
+    loadPlugins({ db, app });
 
     // init session + passport middleware and auth routes
     auth.init(app, db, getSchnackDomain());
