@@ -2,12 +2,12 @@ const fs = require('fs');
 const countBy = require('lodash.countby');
 const queries = require('./db/queries');
 
-const { send_file, send_string, error, loadPlugin } = require('./helper');
-const events = require('./events');
+const { send_file, send_string, error } = require('./helper');
 const config = require('./config');
-const pluginConfig = config.get('plugins');
+const { plugins } = require('./plugins');
 
 const notify = config.get('notify');
+
 const schnack_host = config.get('schnack_host');
 
 function init(app, db, awaiting_moderation) {
@@ -15,20 +15,11 @@ function init(app, db, awaiting_moderation) {
     const notifier = [];
 
     // initialize notify plugins
-    Object.keys(pluginConfig).forEach(pluginId => {
-        const plugin = loadPlugin(pluginId);
-
-        if (plugin && typeof plugin.notify === 'function') {
-            // eslint-disable-next-line no-console
-            console.log(`successfully loaded plugin ${pluginId}`);
+    plugins.forEach(plugin => {
+        if (typeof plugin.notify === 'function') {
             plugin.notify({
-                events,
                 notifier,
-                config: pluginConfig[pluginId],
-                host: schnack_host,
-                page_url: config.get('page_url'),
-                db,
-                queries
+                page_url: config.get('page_url')
             });
         }
     });
