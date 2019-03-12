@@ -36,14 +36,17 @@ npm init schnack
 
 Since no `schnack.json` has been found in your folder, the init script copied over the default config.
 
-Copy and edit the config file according to [configuration](https://schnack.cool/#configuration) section:
+Now edit the config file according to [configuration](https://schnack.cool/#configuration) section:
 
 ```bash
-cp config.tpl.json schnack.json
-vim config.json                 # or open with any editor of your choice
+vim schnack.json                 # or open with any editor of your choice
 ```
 
+Finally, run `npm init schnack` again to finish installation:
+
+```bash
 npm init schnack
+```
 
 Run the server:
 
