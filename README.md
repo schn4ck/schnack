@@ -2,52 +2,51 @@
 
 [Schnack](https://dict.leo.org/englisch-deutsch/schnack) is a simple Disqus-like drop-in commenting system written in JavaScript.
 
-* [Documentation](https://schnack.cool/)
-* [Say hello to Schnack.js](https://www.vis4.net/blog/2017/10/hello-schnack/)
-* Follow [@schnackjs](https://twitter.com/schnackjs) on Twitter
+-   [Documentation](https://schnack.cool/)
+-   [Say hello to Schnack.js](https://www.vis4.net/blog/2017/10/hello-schnack/)
+-   Follow [@schnackjs](https://twitter.com/schnackjs) on Twitter
 
 ## What the schnack?
 
 Features:
-- Tiny! It takes only ~**8 KB!!!** to embed Schnack.
-- **Open source** and **self-hosted**.
-- Ad-free and Tracking-free. Schnack will **not disturb your users**.
-- It's simpy to moderate, with a **minimal** and **slick UI** to allow/reject comments or trust/block users.
-- **[webpush protocol](https://tools.ietf.org/html/draft-ietf-webpush-protocol-12) to notify the site owner** about new comments awaiting for moderation.
-- **Third party providers for authentication** like Github, Twitter, Google and Facebook. Users are not required to register a new account on your system and you don't need to manage a user management system.
+
+-   Tiny! It takes only ~**8 KB!!!** to embed Schnack.
+-   **Open source** and **self-hosted**.
+-   Ad-free and Tracking-free. Schnack will **not disturb your users**.
+-   It's simpy to moderate, with a **minimal** and **slick UI** to allow/reject comments or trust/block users.
+-   **[webpush protocol](https://tools.ietf.org/html/draft-ietf-webpush-protocol-12) to notify the site owner** about new comments awaiting for moderation.
+-   **Third party providers for authentication** like Github, Twitter, Google and Facebook. Users are not required to register a new account on your system and you don't need to manage a user management system.
 
 ### Quickstart
 
-This is the fastest way to setup *schnack*.
+This is the fastest way to setup _schnack_.
 
 **Requirements**:
-- Node.js (>= v6)
-- npm (>= v5)
 
-Clone or download schnack:
+-   Node.js (>= v6)
+-   npm (>= v5)
+
+Create a new folder for schnack and change into it:
 
 ```bash
-git clone https://github.com/schn4ck/schnack
-```
-
-Go to the schnack directory:
-```bash
+mkdir schnack
 cd schnack
+npm init schnack
 ```
 
-Install dependencies:
-```bash
-npm install
-```
+Since no `schnack.json` has been found in your folder, the init script copied over the default config.
 
 Copy and edit the config file according to [configuration](https://schnack.cool/#configuration) section:
 
 ```bash
-cp config.tpl.json config.json
+cp config.tpl.json schnack.json
 vim config.json                 # or open with any editor of your choice
 ```
 
+npm init schnack
+
 Run the server:
+
 ```bash
 npm start
 ```
@@ -56,13 +55,14 @@ Embed in your HTML page:
 
 ```html
 <div class="comments-go-here"></div>
-<script src="https://comments.example.com/embed.js"
+<script
+    src="https://comments.example.com/embed.js"
     data-schnack-slug="post-slug"
-    data-schnack-target=".comments-go-here">
-</script>
+    data-schnack-target=".comments-go-here"
+></script>
 ```
 
-**or** initialize *schnack* programmatically:
+**or** initialize _schnack_ programmatically:
 
 ```html
 <div class="comments-go-here"></div>
@@ -83,11 +83,11 @@ You will find further information on the [schnack page](https://schnack.cool/).
 
 **Notify Providers:**
 
-* pushover
-* webpush
-* slack
-* rss
-* sendmail
+-   pushover
+-   webpush
+-   slack
+-   rss
+-   sendmail
 
 ### Who is behind Schnack?
 
@@ -97,17 +97,17 @@ Schnack is [yet another](https://github.com/gka/canvid/) happy collaboration bet
 
 Schnack will never track who is using it, so we don't know! If you are a Schnack user, [let us know](https://twitter.com/schnackjs) and we'll add your website here. So far Schnack is being used on:
 
-* https://schnack.cool (scroll all the day down)
-* https://vis4.net/blog
-* https://blog.datawrapper.de
-* https://blog.webkid.io
+-   https://schnack.cool (scroll all the day down)
+-   https://vis4.net/blog
+-   https://blog.datawrapper.de
+-   https://blog.webkid.io
 
 ### Related projects
 
 This is not a new idea, so there are a few projects that are doing almost the same thing:
 
-* [CoralProject Talk](https://github.com/coralproject/talk) - Node + MongoDB + Redis
-* [Discourse](https://github.com/discourse/discourse) - Ruby on Rails + PostgreSQL + Redis
-* [Commento](https://github.com/adtac/commento) - Go + Node
-* [Isso](https://github.com/posativ/isso/) - Python + SQLite3
-* [Mouthful](https://mouthful.dizzy.zone) – Go + Preact
+-   [CoralProject Talk](https://github.com/coralproject/talk) - Node + MongoDB + Redis
+-   [Discourse](https://github.com/discourse/discourse) - Ruby on Rails + PostgreSQL + Redis
+-   [Commento](https://github.com/adtac/commento) - Go + Node
+-   [Isso](https://github.com/posativ/isso/) - Python + SQLite3
+-   [Mouthful](https://mouthful.dizzy.zone) – Go + Preact
