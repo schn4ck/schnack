@@ -1,0 +1,20 @@
+{
+	"name": "create-schnack",
+	"version": "0.1.0",
+	"description": "",
+	"main": "index.js",
+	"scripts": {
+		"test": "echo \"Error: no test specified\" && exit 1"
+	},
+	"author": "Gregor Aisch <gka@users.noreply.github.com>",
+	"license": "LicenseRef-LICENSE",
+	"prettier": {
+		"tabWidth": 4,
+		"semi": true,
+		"printWidth": 100,
+		"singleQuote": true
+	},
+	"dependencies": {
+		"find-up": "^3.0.0"
+	}
+}
