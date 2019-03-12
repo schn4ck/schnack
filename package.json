@@ -2,7 +2,7 @@
     "name": "schnack",
     "version": "0.2.3",
     "description": "a simple node app for disqus-like drop-in commenting on static websites",
-    "license": "LIL",
+    "license": "LicenseRef-LICENSE",
     "author": "Gregor Aisch",
     "contributors": [
         {
@@ -19,6 +19,11 @@
         }
     ],
     "main": "index.js",
+    "files": [
+        "build",
+        "migrations",
+        "src"
+    ],
     "scripts": {
         "format": "prettier 'src/**/*.js' --write",
         "lint": "prettier --check 'src/**/*.js' && healthier 'src/**/*.js'",
