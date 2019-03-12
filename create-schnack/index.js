@@ -3,7 +3,6 @@
 const fs = require('fs');
 const path = require('path');
 const { spawn } = require('child_process');
-const findUp = require('find-up');
 
 const CWD = process.env.INIT_CWD || process.cwd();
 let tag = process.argv.find(arg => arg.includes('--tag')) || '--tag=latest';
