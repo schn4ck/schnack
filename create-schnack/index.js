@@ -19,11 +19,11 @@ const pkg = {
 };
 
 async function main() {
-    const configPath = await findUp('config.json');
+    const configPath = path.join(CWD, 'schnack.json');
 
     if (!configPath) {
         console.log(`
-❌ No config.json found!
+❌ No schnack.json found!
 
    Aborting Schnack initialization.
    Please follow the setup instructions for schnack.
