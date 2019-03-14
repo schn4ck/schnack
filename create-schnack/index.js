@@ -45,6 +45,10 @@ async function main() {
 
     npm.stdout.on('data', data => process.stdout.write(data));
     npm.stderr.on('data', data => process.stderr.write(data));
+
+    npm.on('close', () => {
+        console.log('\nrun `npm run schnack` to start schnack');
+    });
 }
 
 main();
