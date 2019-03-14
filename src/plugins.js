@@ -12,18 +12,21 @@ module.exports = {
     loadPlugins({ db, app }) {
         // load plugins
         Object.keys(pluginConfig).forEach(pluginId => {
-            // eslint-disable-next-line no-console
-            console.log(`successfully loaded plugin ${pluginId}`);
-            plugins.push(
-                loadPlugin(pluginId)({
-                    config: pluginConfig[pluginId],
-                    host: schnackHost,
-                    app,
-                    db,
-                    queries,
-                    events
-                })
-            );
+            const plugin = loadPlugin(pluginId);
+            if (typeof plugin === 'function') {
+                // eslint-disable-next-line no-console
+                console.log(`successfully loaded plugin ${pluginId}`);
+                plugins.push(
+                    plugin({
+                        config: pluginConfig[pluginId],
+                        host: schnackHost,
+                        app,
+                        db,
+                        queries,
+                        events
+                    })
+                );
+            }
         });
     },
     plugins
