@@ -1,3 +1,4 @@
+const path = require('path');
 const countBy = require('lodash.countby');
 const queries = require('./db/queries');
 
@@ -48,8 +49,8 @@ function init(app, db, awaiting_moderation) {
     }, config.get('notification_interval'));
 
     // serve static js files
-    app.use('/embed.js', send_file('build/embed.js'));
-    app.use('/client.js', send_file('build/client.js'));
+    app.use('/embed.js', send_file(path.resolve(__dirname, '../build/embed.js')));
+    app.use('/client.js', send_file(path.resolve(__dirname, '../build/client.js')));
 }
 
 module.exports = {

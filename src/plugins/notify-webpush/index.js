@@ -1,4 +1,5 @@
 const fs = require('fs');
+const path = require('path');
 const webpush = require('web-push');
 const { send_string, error } = require('../../helper');
 
@@ -50,7 +51,7 @@ module.exports = ({ config, host, app, db, queries, events }) => {
                 '/push.js',
                 send_string(
                     fs
-                        .readFileSync('src/embed/push.js', 'utf-8')
+                        .readFileSync(path.resolve(__dirname, '../../embed/push.js'), 'utf-8')
                         .replace('%VAPID_PUBLIC_KEY%', config.vapid_public_key)
                         .replace('%SCHNACK_HOST%', host),
                     true
