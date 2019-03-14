@@ -43,17 +43,15 @@
         "cors": "^2.8.5",
         "express": "^4.16.4",
         "express-session": "^1.15.6",
-        "lodash.countby": "^4.6",
-        "marked": "^0.3.19",
-        "moment": "^2.22.2",
+        "lodash.countby": "^4.6.0",
+        "marked": "^0.6.1",
+        "moment": "^2.24.0",
         "nconf": "^0.10.0",
-        "node-fetch": "^2.3.0",
         "passport": "^0.4.0",
-        "request": "^2.88.0",
         "rss": "^1.2.2",
-        "sqlite": "^3.0.0",
-        "sqlite3": "^4.0.4",
-        "unfetch": "^3.1.2"
+        "sqlite": "^3.0.2",
+        "unfetch": "^4.1.0",
+        "web-push": "^3.3.3"
     },
     "devDependencies": {
         "babel-eslint": "^10.0.1",
