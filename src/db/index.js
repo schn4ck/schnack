@@ -11,6 +11,7 @@ function init() {
     return Promise.resolve(db.open(dbpath, { Promise }))
         .then(db =>
             db.migrate({
+                migrationsPath: path.resolve(__dirname, '../../migrations'),
                 // force: process.env.NODE_ENV === 'development' ? 'last' : false
                 force: false
             })
