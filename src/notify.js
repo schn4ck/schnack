@@ -1,14 +1,9 @@
-const fs = require('fs');
 const countBy = require('lodash.countby');
 const queries = require('./db/queries');
 
-const { send_file, send_string, error } = require('./helper');
+const { send_file } = require('./helper');
 const config = require('./config');
 const { plugins } = require('./plugins');
-
-const notify = config.get('notify');
-
-const schnack_host = config.get('schnack_host');
 
 function init(app, db, awaiting_moderation) {
     // push notification apps
@@ -55,35 +50,6 @@ function init(app, db, awaiting_moderation) {
     // serve static js files
     app.use('/embed.js', send_file('build/embed.js'));
     app.use('/client.js', send_file('build/client.js'));
-    app.use(
-        '/push.js',
-        send_string(
-            fs
-                .readFileSync('src/embed/push.js', 'utf-8')
-                .replace('%VAPID_PUBLIC_KEY%', notify.webpush.vapid_public_key)
-                .replace('%SCHNACK_HOST%', schnack_host),
-            true
-        )
-    );
-
-    // push notifications
-    app.post('/subscribe', (request, reply) => {
-        const { endpoint, publicKey, auth } = request.body;
-
-        db.run(queries.subscribe, endpoint, publicKey, auth, err => {
-            if (error(err, request, reply)) return;
-            reply.send({ status: 'ok' });
-        });
-    });
-
-    app.post('/unsubscribe', (request, reply) => {
-        const { endpoint } = request.body;
-
-        db.run(queries.unsubscribe, endpoint, err => {
-            if (error(err, request, reply)) return;
-            reply.send({ status: 'ok' });
-        });
-    });
 }
 
 module.exports = {
