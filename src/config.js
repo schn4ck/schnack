@@ -3,7 +3,7 @@ const crypto = require('crypto');
 
 nconf
     .argv()
-    .file({ file: './config.json' })
+    .file({ file: './schnack.json' })
     .env()
     .defaults({
         admins: [1],
