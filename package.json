@@ -18,6 +18,9 @@
             "web": "https://github.com/g-div"
         }
     ],
+    "bin": {
+        "schnack": "src/server.js"
+    },
     "main": "index.js",
     "files": [
         "config.tpl.json",
