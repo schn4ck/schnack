@@ -31,7 +31,7 @@ Create a new folder for schnack and change into it:
 ```bash
 mkdir schnack
 cd schnack
-npm init schnack
+npm init schnack -- --tag=alpha
 ```
 
 Since no `schnack.json` has been found in your folder, the init script copied over the default config.
@@ -114,3 +114,53 @@ This is not a new idea, so there are a few projects that are doing almost the sa
 -   [Commento](https://github.com/adtac/commento) - Go + Node
 -   [Isso](https://github.com/posativ/isso/) - Python + SQLite3
 -   [Mouthful](https://mouthful.dizzy.zone) – Go + Preact
+
+### Migrating to Schnack 1.0
+
+Two major things have changed in version 1.0: the way Schnack is being installed and the name and format of the config file.
+
+-   create a new folder for schnack
+-   copy your old `schnack.db` to the new folder
+-   copy your old `config.json` to the new folder
+-   rename `config.json` to `schnack.json`
+-   in the config file you need to move the config sections for the auth and notify providers into the new `plugins` section.
+
+Before:
+
+```json
+{
+    "auth": {
+        "twitter": {
+            "consumer_key": "xxxxx",
+            "consumer_secret": "xxxxx"
+        }
+    }
+}
+```
+
+After:
+
+```json
+{
+    "plugins": {
+        "auth-twitter": {
+            "consumer_key": "xxxxx",
+            "consumer_secret": "xxxxx"
+        }
+    }
+}
+```
+
+Here's the full list of all changed config paths
+
+```
+auth.facebook --> plugins.auth-facebook
+auth.github --> plugins.auth-github
+auth.google --> plugins.auth-google
+auth.mastodon --> plugins.auth-mastodon
+auth.twitter --> plugins.auth-twitter
+notify.webpush --> plugins.notify-webpush
+notify.pushover --> plugins.notify-pushover
+notify.sendmail --> plugins.notify-sendmail
+notify.slack --> plugins.notify-slack
+```
