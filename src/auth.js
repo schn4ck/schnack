@@ -10,6 +10,8 @@ const { plugins } = require('./plugins');
 
 const providers = [];
 
+const authPlugins = [];
+
 function init(app, db, domain) {
     app.use(
         session({
@@ -65,25 +67,26 @@ function init(app, db, domain) {
     // initialize auth plugins
     plugins.forEach(plugin => {
         if (typeof plugin.auth === 'function') {
-            plugin.auth({
-                providers,
-                passport,
-                app
-            });
+            authPlugins.push(
+                plugin.auth({
+                    providers,
+                    passport,
+                    app
+                })
+            );
         }
     });
 }
 
 function getAuthorUrl(comment) {
     if (comment.user_url) return comment.user_url;
-    switch (comment.provider) {
-        case 'mastodon':
-            return 'https://twitter.com/' + comment.name;
-        case 'twitter':
-            return 'https://twitter.com/' + comment.name;
-        case 'github':
-            return 'https://github.com/' + comment.name;
+    for (let i = 0; i < authPlugins.length; i++) {
+        if (typeof authPlugins[i].getAuthorUrl === 'function') {
+            const url = authPlugins[i].getAuthorUrl(comment);
+            if (url) return url;
+        }
     }
+    return false;
 }
 
 module.exports = {
