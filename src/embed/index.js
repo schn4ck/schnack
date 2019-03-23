@@ -22,7 +22,8 @@ import Schnack from './client';
         SignInVia: `To post a comment you need to sign in via`,
         Reply: `<i class='icon schnack-icon-reply'></i> reply`,
         LoginStatus:
-            "(signed in as <span class='schnack-user'>@%USER%</span> :: <a class='schnack-signout' href='#'>sign out</a>)"
+            "(signed in as <span class='schnack-user'>@%USER%</span> :: <a class='schnack-signout' href='#'>sign out</a>)",
+        NoAuthProviders: `You haven't configured any auth providers, yet.`
     };
 
     Object.keys(partials).forEach(k => {
