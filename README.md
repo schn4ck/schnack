@@ -82,15 +82,9 @@ Embed in your HTML page:
 
 You will find further information on the [schnack page](https://schnack.cool/).
 
-### Configuration
+### Plugins
 
-**Notify Providers:**
-
--   pushover
--   webpush
--   slack
--   rss
--   sendmail
+Authentication and notification providers can be added via plugins.
 
 ### Who is behind Schnack?
 
