@@ -52,25 +52,12 @@ renderer.code = function(code, language, escaped) {
   }
 
   if (!lang) {
-    return '<pre><code>'
-      + (escaped ? code : escape(code, true))
-      + '</code></pre>';
+    return `<pre><code>${code}</code></pre>`;
   }
 
   lang = lang.replace(escapeReplace, function (ch) { return escapeReplacements[ch]; });
 
-  const finalCode = '<pre class="'
-    + this.options.langPrefix
-    + lang
-    + '"><code class="'
-    + this.options.langPrefix
-    + lang
-    + '">'
-    + code
-    + '</code></pre>\n';
-
-  console.log(finalCode);
-  return finalCode;
+  return `<pre class="${this.options.langPrefix}${lang}"><code class="${this.options.langPrefix}${lang}">${code}</code></pre>`;
 }
 
 marked.setOptions({ sanitize: true, langPrefix: "language-", renderer: renderer });
