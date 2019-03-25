@@ -27,6 +27,17 @@ const awaiting_moderation = [];
 
 var renderer = new marked.Renderer();
 renderer.code = function(code, language, escaped) {
+  // escaping helpers
+  var escapeReplace = /[&<>"']/g
+  var escapeReplacements = {
+    '&': '&amp;',
+    '<': '&lt;',
+    '>': '&gt;',
+    '"': '&quot;',
+    "'": '&#39;'
+  };
+
+
   var lang = (language || '').match(/\S*/)[0];
   if (this.options.highlight) {
     var out = this.options.highlight(code, lang);
@@ -36,21 +47,30 @@ renderer.code = function(code, language, escaped) {
     }
   }
 
+  if(!escaped) {
+    code = code.replace(escapeReplace, function (ch) { return escapeReplacements[ch]; });
+  }
+
   if (!lang) {
     return '<pre><code>'
       + (escaped ? code : escape(code, true))
       + '</code></pre>';
   }
 
-  return '<pre class="'
+  lang = lang.replace(escapeReplace, function (ch) { return escapeReplacements[ch]; });
+
+  const finalCode = '<pre class="'
     + this.options.langPrefix
-    + escape(lang, true)
+    + lang
     + '"><code class="'
     + this.options.langPrefix
-    + escape(lang, true)
+    + lang
     + '">'
-    + (escaped ? code : escape(code, true))
+    + code
     + '</code></pre>\n';
+
+  console.log(finalCode);
+  return finalCode;
 }
 
 marked.setOptions({ sanitize: true, langPrefix: "language-", renderer: renderer });
