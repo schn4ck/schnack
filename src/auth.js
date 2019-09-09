@@ -288,7 +288,7 @@ function getSessionStoreOption() {
   var sessions = config.get('database').sessions;
   if (path.isAbsolute(sessions)) {
     var option = path.parse(sessions);
-    return { dir: option.dir, db: option.name };
+    return { dir: option.dir, db: option.base };
   }
   return { db: sessions };
 }
