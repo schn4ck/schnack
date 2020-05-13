@@ -46,6 +46,7 @@
         "passport-facebook": "^2.1.1",
         "passport-github2": "^0.1.11",
         "passport-google-oauth": "^1.0.0",
+        "passport-google-oauth20": "^2.0.0",
         "passport-mastodon": "^0.1.3",
         "passport-twitter": "^1.0.4",
         "pushover-notifications": "^0.2.4",
