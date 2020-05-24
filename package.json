@@ -47,7 +47,7 @@
         "express": "^4.16.4",
         "express-session": "^1.15.6",
         "lodash.countby": "^4.6.0",
-        "marked": "^0.6.1",
+        "marked": "^1.1.0",
         "moment": "^2.24.0",
         "nconf": "^0.10.0",
         "passport": "^0.4.0",
