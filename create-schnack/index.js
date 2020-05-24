@@ -20,7 +20,7 @@ const pkg = {
 async function main() {
     const configPath = path.join(CWD, 'schnack.json');
 
-    if (!configPath) {
+    if (!fs.existsSync(configPath)) {
         console.log(`
 ❌ No schnack.json found!
 
@@ -34,7 +34,7 @@ async function main() {
 
     const { plugins } = require(configPath);
 
-    const packages = Object.keys(plugins).map(id => `schnack-plugin-${id}`);
+    const packages = Object.keys(plugins || {}).map(id => `schnack-plugin-${id}`);
 
     fs.writeFileSync(path.join(CWD, 'package.json'), JSON.stringify(pkg, null, 4), {
         encoding: 'utf-8'
