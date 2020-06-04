@@ -22,7 +22,7 @@
     "scripts": {
         "format": "prettier 'src/**/*.js' --write",
         "lint": "prettier --check 'src/**/*.js' && healthier 'src/**/*.js'",
-        "start": "node index.js",
+        "start": "pm2 start index.js -i 4 --watch --output NULL --error NULL",
         "build": "rollup -c",
         "build-watch": "rollup -cw",
         "test-server": "http-server test -o 'http://localhost:8080/' -P 'http://localhost:3000/'",
@@ -49,6 +49,7 @@
         "passport-google-oauth20": "^2.0.0",
         "passport-mastodon": "^0.1.3",
         "passport-twitter": "^1.0.4",
+        "pm2": "^4.4.0",
         "pushover-notifications": "^0.2.4",
         "request": "^2.88.0",
         "rss": "^1.2.2",
