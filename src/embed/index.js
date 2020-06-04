@@ -1,11 +1,13 @@
 import Schnack from './client';
 
 (function() {
-    const script = document.querySelector('script[data-schnack-target]');
-    if (!script) return console.warn('schnack script tag needs some data attributes');
-
+    const script = document.currentScript;
     const opts = script.dataset;
-    const slug = opts.schnackSlug;
+    if(!("schnackTargetClass" in opts)) {
+        return console.warn('schnack script tag data attribute "data-schnack-target-class" missing');
+    }
+    const elements = document.querySelectorAll(opts.schnackTargetClass);
+    const targets = [].map.call(elements, e => e.id);
     const url = new URL(script.getAttribute('src'));
     const host = `${url.protocol}//${url.host}`;
     const partials = {
@@ -30,11 +32,18 @@ import Schnack from './client';
             partials[k] = script.dataset[`schnackPartial${k}`];
     });
 
+    // global variable for initialization status of the push script
+    window.schnackPushInitialized = false;
+    // ... of the admin buttons
+    window.schnackAdminInitialized = false;
+    // ... scroll status
+    window.schnackFirstLoad = true;
+
     // eslint-disable-next-line no-new
-    new Schnack({
-        target: opts.schnackTarget,
-        slug,
-        host,
-        partials
-    });
+    targets.forEach(target =>
+        new Schnack({
+            target,
+            host,
+            partials
+        }));
 })();
