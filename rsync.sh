@@ -5,8 +5,8 @@ rsync -avz \
         --exclude '*.swp' \
         --exclude 'node_modules' \
         --exclude '*.db' \
-        --exclude 'config.json' \
         --exclude 'npm-debug.log' \
         --exclude '.git*' \
+        --exclude 'build/' \
         . \
-        yggdrasil:/root/setup/dockerfiles/etatismus/schnack-image/schnack
+        yggdrasil:/root/data/etatismus/schnack
