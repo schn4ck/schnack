@@ -8,8 +8,7 @@ const $$ = sel => document.querySelectorAll(sel);
 export default class Schnack {
     constructor(options) {
         this.options = options;
-        this.options.endpoint = `${options.host}/comments/${options.slug}`;
-        this.initialized = false;
+        this.options.endpoint = `${options.host}/comments/${options.target}`;
         this.firstLoad = true;
 
         const url = new URL(options.host);
@@ -25,7 +24,8 @@ export default class Schnack {
     }
 
     refresh() {
-        const { target, slug, host, endpoint, partials } = this.options;
+        const { target, host, endpoint, partials } = this.options;
+        const targetSelector = `#${target}`;
 
         fetch(endpoint, {
             credentials: 'include',
@@ -37,22 +37,22 @@ export default class Schnack {
             .then(data => {
                 data.comments_tpl = comments_tpl;
                 data.partials = partials;
-                $(target).innerHTML = schnack_tpl(data);
+                $(targetSelector).innerHTML = schnack_tpl(data);
                 // console.log('data', data);
 
-                const above = $(`${target} div.schnack-above`);
-                const form = $(`${target} div.schnack-form`);
-                const textarea = $(`${target} textarea.schnack-body`);
-                const preview = $(`${target} .schnack-form blockquote.schnack-body`);
+                const above = $(`${targetSelector} div.schnack-above`);
+                const form = $(`${targetSelector} div.schnack-form`);
+                const textarea = $(`${targetSelector} textarea.schnack-body`);
+                const preview = $(`${targetSelector} .schnack-form blockquote.schnack-body`);
 
-                const draft = window.localStorage.getItem(`schnack-draft-${slug}`);
+                const draft = window.localStorage.getItem(`schnack-draft-${target}`);
                 if (draft && textarea) textarea.value = draft;
 
-                const postBtn = $(target + ' .schnack-button');
-                const previewBtn = $(target + ' .schnack-preview');
-                const writeBtn = $(target + ' .schnack-write');
-                const cancelReplyBtn = $(target + ' .schnack-cancel-reply');
-                const replyBtns = $$(target + ' .schnack-reply');
+                const postBtn = $(targetSelector + ' .schnack-button');
+                const previewBtn = $(targetSelector + ' .schnack-preview');
+                const writeBtn = $(targetSelector + ' .schnack-write');
+                const cancelReplyBtn = $(targetSelector + ' .schnack-cancel-reply');
+                const replyBtns = $$(targetSelector + ' .schnack-reply');
 
                 if (postBtn) {
                     postBtn.addEventListener('click', d => {
@@ -72,12 +72,12 @@ export default class Schnack {
                             .then(res => {
                                 textarea.value = '';
                                 window.localStorage.setItem(
-                                    `schnack-draft-${slug}`,
+                                    `schnack-draft-${target}`,
                                     textarea.value
                                 );
                                 if (res.id) {
                                     this.firstLoad = true;
-                                    window.location.hash = '#comment-' + res.id;
+                                    window.location.hash = `#comment-${res.id}~${target}`;
                                 }
                                 this.refresh();
                             });
@@ -114,7 +114,7 @@ export default class Schnack {
                     });
 
                     textarea.addEventListener('keyup', () => {
-                        window.localStorage.setItem(`schnack-draft-${slug}`, textarea.value);
+                        window.localStorage.setItem(`schnack-draft-${target}`, textarea.value);
                     });
 
                     replyBtns.forEach(btn => {
@@ -145,7 +145,7 @@ export default class Schnack {
                         });
                 } else {
                     data.auth.forEach(provider => {
-                        const btn = $(target + ' .schnack-signin-' + provider.id);
+                        const btn = $(targetSelector + ' .schnack-signin-' + provider.id);
                         if (btn)
                             btn.addEventListener('click', d => {
                                 const signin = (provider_domain = '') => {
@@ -157,6 +157,7 @@ export default class Schnack {
                                     );
                                     window.__schnack_wait_for_oauth = () => {
                                         windowRef.close();
+                                        window.schnackAdminInitialized = false;
                                         this.refresh();
                                     };
                                 };
@@ -193,35 +194,40 @@ export default class Schnack {
                 }
 
                 if (data.user && data.user.admin) {
-                    if (!this.initialized) {
+                    if (!window.schnackPushInitialized) {
                         const push = document.createElement('script');
                         push.setAttribute('src', `${host}/push.js`);
                         document.head.appendChild(push);
-                        this.initialized = true;
+                        window.schnackPushInitialized = true;
                     }
 
-                    const action = evt => {
-                        const btn = evt.target;
-                        const data = btn.dataset;
-                        fetch(`${host}/${data.class}/${data.target}/${data.action}`, {
-                            credentials: 'include',
-                            method: 'POST',
-                            headers: {
-                                'Content-Type': 'application/json'
-                            },
-                            body: ''
-                        }).then(() => this.refresh());
-                    };
-                    document.querySelectorAll('.schnack-action').forEach(btn => {
-                        btn.addEventListener('click', action);
-                    });
+                    if (!window.schnackAdminInitialized) {
+                        const action = evt => {
+                            const btn = evt.target;
+                            const data = btn.dataset;
+                            fetch(`${host}/${data.class}/${data.target}/${data.action}`, {
+                                credentials: 'include',
+                                method: 'POST',
+                                headers: {
+                                    'Content-Type': 'application/json'
+                                },
+                                body: ''
+                            }).then(() => this.refresh());
+                        };
+                        document.querySelectorAll('.schnack-action').forEach(btn => {
+                            btn.addEventListener('click', action);
+                        });
+                        window.schnackAdminInitialized = true;
+                    }
                 }
 
-                if (this.firstLoad && window.location.hash.match(/^#comment-\d+$/)) {
-                    const hl = document.querySelector(window.location.hash);
-                    hl.scrollIntoView();
+                if (window.schnackFirstLoad && window.location.hash.match(/^#comment-\d+~.+$/)) {
+                    const thread_id = window.location.hash.split(/~comments-div-(.+)/)[1];
+                    comments_show(thread_id);
+                    const hl = document.querySelector(window.location.hash.replace('~', '\\~'));
+                    hl.scrollIntoView({ behavior: "smooth", block: "center" });
                     hl.classList.add('schnack-highlight');
-                    this.firstLoad = false;
+                    window.schnackFirstLoad = false;
                 }
             });
     }

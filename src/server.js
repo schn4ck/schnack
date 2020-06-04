@@ -69,6 +69,7 @@ function run(db) {
                 c.created_at_s = date_format ? m.format(date_format) : m.fromNow();
                 c.comment = marked(c.comment.trim());
                 c.author_url = auth.getAuthorUrl(c);
+                c.threadid = slug;
             });
             reply.send({ user, auth: providers, slug, comments });
         });

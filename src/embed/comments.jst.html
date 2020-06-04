@@ -1,6 +1,6 @@
 <ul class="schnack-comments">
     <% data.comments.forEach((comment) => { %>
-        <li id="comment-<%= comment.id %>" data-id="<%= comment.id %>" class="schnack-comment<% if (!comment.approved && !comment.trusted) { %> schnack-not-approved<% } %>">
+        <li id="comment-<%= comment.id %>~<%= comment.threadid %>" data-id="<%= comment.id %>" class="schnack-comment<% if (!comment.approved && !comment.trusted) { %> schnack-not-approved<% } %>">
             <div class="schnack-comment-inner">
                 <div class="schnack-dateline">
                     <span class="schnack-author"><% if (comment.author_url) { %><a href="<%= comment.author_url %>" target="_blank"><% } %><%= comment.display_name || comment.name %><% if (comment.author_url) { %></a><% } %></span>
@@ -8,7 +8,7 @@
                     ['trust', 'block'].forEach((action) => { %>
                     <button class="schnack-action" data-target="<%= comment.user_id %>" data-class="user" data-action="<%= action %>"><i class="icon schnack-icon-<%= action %>"></i> <span><%= action %></span></button>
                     <% }); } %>
-                    <span class="schnack-date"><a href="#comment-<%= comment.id %>"><%= comment.created_at_s %></a></span>
+                    <span class="schnack-date"><a href="#comment-<%= comment.id %>~<%= comment.threadid %>"><%= comment.created_at_s %></a></span>
                 </div>
                 <blockquote class="schnack-body">
                     <%= comment.comment %>
