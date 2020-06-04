@@ -22,7 +22,7 @@
                     <%= data.user.admin ? data.partials.AdminApproval : data.partials.WaitingForApproval %>
                 </div>
                 <% } else if (data.user) { %>
-                <button class="schnack-reply" data-reply-to="<%= comment.id %>"><%= data.partials.Reply %></button>
+                <button class="schnack-reply" data-reply-to="<%= (comment.reply_to == null) ? comment.id : comment.reply_to %>"><%= data.partials.Reply %></button>
                 <% } %>
             </div>
             <% if (data.replies[comment.id]) {
