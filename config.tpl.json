@@ -40,7 +40,7 @@
             "vapid_private_key": "xxxxx"
         },
         "slack": {
-            "webhook_url": "xxxxx"
+            "webhook_urls": ["xxxxx1","xxxxx2"]
         }
     },
     "date_format": "MMMM DD, YYYY - h:mm a"

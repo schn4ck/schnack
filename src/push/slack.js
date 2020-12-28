@@ -15,12 +15,12 @@ if (notify.slack) {
                 .join('\n>\n');
             const text = `A <${post_url}|new comment> was posted by ${event.user.display_name ||
                 event.user.name} under *${event.slug}*:\n\n${comment}`;
-            request({
-                url: notify.slack.webhook_url,
+            notify.slack.webhook_urls.forEach( webhook_url  => request({
+                url: webhook_url,
                 method: 'post',
                 json: true,
                 body: { text }
-            });
+            }));
         } catch (error) {
             console.error('Error sending slack notification:', error);
         }

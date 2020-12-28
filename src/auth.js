@@ -23,7 +23,7 @@ function init(app, db, domain) {
             saveUninitialized: false,
             secret: authConfig.secret,
             cookie: { domain: `.${domain}` },
-            store: new SQLiteStore({ db: config.get('database').sessions })
+            store: new SQLiteStore(getSessionStoreOption())
         })
     );
 
@@ -282,6 +282,15 @@ function getAuthorUrl(comment) {
         case 'github':
             return 'https://github.com/' + comment.name;
     }
+}
+
+function getSessionStoreOption() {
+  var sessions = config.get('database').sessions;
+  if (path.isAbsolute(sessions)) {
+    var option = path.parse(sessions);
+    return { dir: option.dir, db: option.base };
+  }
+  return { db: sessions };
 }
 
 module.exports = {
