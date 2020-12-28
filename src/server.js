@@ -25,7 +25,42 @@ const config = require('./config');
 
 const awaiting_moderation = [];
 
-marked.setOptions({ sanitize: true });
+var renderer = new marked.Renderer();
+renderer.code = function(code, language, escaped) {
+  // escaping helpers
+  var escapeReplace = /[&<>"']/g
+  var escapeReplacements = {
+    '&': '&amp;',
+    '<': '&lt;',
+    '>': '&gt;',
+    '"': '&quot;',
+    "'": '&#39;'
+  };
+
+
+  var lang = (language || '').match(/\S*/)[0];
+  if (this.options.highlight) {
+    var out = this.options.highlight(code, lang);
+    if (out != null && out !== code) {
+      escaped = true;
+      code = out;
+    }
+  }
+
+  if(!escaped) {
+    code = code.replace(escapeReplace, function (ch) { return escapeReplacements[ch]; });
+  }
+
+  if (!lang) {
+    return `<pre><code>${code}</code></pre>`;
+  }
+
+  lang = lang.replace(escapeReplace, function (ch) { return escapeReplacements[ch]; });
+
+  return `<pre class="${this.options.langPrefix}${lang}"><code class="${this.options.langPrefix}${lang}">${code}</code></pre>`;
+}
+
+marked.setOptions({ sanitize: true, langPrefix: "language-", renderer: renderer });
 
 dbHandler
     .init()
