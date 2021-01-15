@@ -54,7 +54,7 @@ async function main() {
     npm.stderr.on('data', data => process.stderr.write(data));
 
     npm.on('close', () => {
-        console.log('\nrun `npm run schnack` to start schnack');
+        console.log('\nrun `npm start` to start schnack');
     });
 }
 
