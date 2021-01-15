@@ -34,7 +34,9 @@ async function main() {
 
     const { plugins } = require(configPath);
 
-    const packages = Object.keys(plugins || {}).map(id => plugins[id].pkg || `@schnack/plugin-${id}`);
+    const packages = Object.keys(plugins || {})
+        .filter(id => id !== 'notify-webpush')
+        .map(id => plugins[id].pkg || `@schnack/plugin-${id}`);
 
     fs.writeFileSync(path.join(CWD, 'package.json'), JSON.stringify(pkg, null, 4), {
         encoding: 'utf-8'
