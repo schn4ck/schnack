@@ -13,7 +13,7 @@ const pkg = {
     version: '1.0.0',
     private: true,
     scripts: {
-        schnack: 'schnack'
+        start: 'schnack'
     }
 };
 
