@@ -92,7 +92,7 @@ npm install @schnack/plugin-auth-github  @schnack/plugin-auth-google @schnack/pl
 
 To enable the plugins you need to add them to the `plugins` section of your `schnack.json`:
 
-```json
+```js
 {
     // ...
     "plugins": {
@@ -113,7 +113,7 @@ To enable the plugins you need to add them to the `plugins` section of your `sch
 
 if you want to write your own plugins you need to install them and specify their package name in the `schnack.json`. Otherwise Schnack would try to load as from `@schnack/plugin-my-plugin`.
 
-```json
+```js
 {
     // ...
     "plugins": {
@@ -123,6 +123,7 @@ if you want to write your own plugins you need to install them and specify their
         }
     }
 }
+```
 
 ### Who is behind Schnack?
 
@@ -147,52 +148,3 @@ This is not a new idea, so there are a few projects that are doing almost the sa
 -   [Isso](https://github.com/posativ/isso/) - Python + SQLite3
 -   [Mouthful](https://mouthful.dizzy.zone) – Go + Preact
 
-### Migrating to Schnack 1.0
-
-Two major things have changed in version 1.0: the way Schnack is being installed and the name and format of the config file.
-
--   create a new folder for schnack
--   copy your old `schnack.db` to the new folder
--   copy your old `config.json` to the new folder
--   rename `config.json` to `schnack.json`
--   in the config file you need to move the config sections for the auth and notify providers into the new `plugins` section.
-
-Before:
-
-```json
-{
-    "auth": {
-        "twitter": {
-            "consumer_key": "xxxxx",
-            "consumer_secret": "xxxxx"
-        }
-    }
-}
-```
-
-After:
-
-```json
-{
-    "plugins": {
-        "auth-twitter": {
-            "consumer_key": "xxxxx",
-            "consumer_secret": "xxxxx"
-        }
-    }
-}
-```
-
-Here's the full list of all changed config paths
-
-```
-auth.facebook --> plugins.auth-facebook
-auth.github --> plugins.auth-github
-auth.google --> plugins.auth-google
-auth.mastodon --> plugins.auth-mastodon
-auth.twitter --> plugins.auth-twitter
-notify.webpush --> plugins.notify-webpush
-notify.pushover --> plugins.notify-pushover
-notify.sendmail --> plugins.notify-sendmail
-notify.slack --> plugins.notify-slack
-```
