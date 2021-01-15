@@ -7,6 +7,7 @@ const moment = require('moment');
 
 const RSS = require('rss');
 const marked = require('marked');
+const insane = require('insane');
 
 const dbHandler = require('./db');
 const queries = require('./db/queries');
@@ -26,8 +27,6 @@ const {
 const config = require('./config');
 
 const awaiting_moderation = [];
-
-marked.setOptions({ sanitize: true });
 
 dbHandler
     .init()
@@ -73,7 +72,7 @@ async function run(db) {
             comments.forEach(c => {
                 const m = moment.utc(c.created_at);
                 c.created_at_s = date_format ? m.format(date_format) : m.fromNow();
-                c.comment = marked(c.comment.trim());
+                c.comment = insane(marked(c.comment.trim()));
                 c.author_url = auth.getAuthorUrl(c);
             });
             reply.send({ user, auth: providers, slug, comments });
@@ -179,7 +178,7 @@ async function run(db) {
     // for markdown preview
     app.post('/markdown', (request, reply) => {
         const { comment } = request.body;
-        reply.send({ html: marked(comment.trim()) });
+        reply.send({ html: insane(marked(comment.trim())) });
     });
 
     // settings
