@@ -125,6 +125,8 @@ if you want to write your own plugins you need to install them and specify their
 }
 ```
 
+Feel free to open a PR on [schnack-plugins](https://github.com/schn4ck/schnack-plugins) with your plugin if you want to add it to the "official" repository.
+
 ### Who is behind Schnack?
 
 Schnack is [yet another](https://github.com/gka/canvid/) happy collaboration between [Webkid](https://webkid.io/) and [Gregor Aisch](https://www.vis4.net).
