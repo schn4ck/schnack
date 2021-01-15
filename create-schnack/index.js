@@ -29,6 +29,7 @@ async function main() {
 
     // create package.json file if it doesn't exist
     if (!fs.existsSync(path.join(CWD, 'package.json'))) {
+        console.log('[init] Initialize package.json file.');
         const pkg = {
             name: schnack_host.replace(/https?:\/\//, ''),
             version: '1.0.0',
@@ -44,7 +45,7 @@ async function main() {
 
     const packages = Object.keys(plugins || {})
         .filter(id => id !== 'notify-webpush')
-        .map(id => plugins[id].pkg || `@schnack/plugin-${id}`);
+        .map(id => `${plugins[id].pkg || `@schnack/plugin-${id}`}@latest`);
 
     console.log('[npm] Start package installation.');
     const npm = spawn('npm', ['install', '-SE', '--production', `schnack@${tag}`].concat(packages));
