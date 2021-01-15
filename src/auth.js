@@ -26,35 +26,41 @@ function init(app, db, domain) {
     app.use(passport.initialize());
     app.use(passport.session());
 
-    passport.serializeUser((user, done) => {
-        db.get(queries.find_user, [user.provider, user.id], (err, row) => {
-            if (err) return console.error('could not find user', err);
-            if (row) return done(null, row); // welcome back
-            // nice to meet you, new user!
-            // check if id shows up in auto-trust config
-            var trusted =
-                trustConfig &&
-                trustConfig[user.provider] &&
-                trustConfig[user.provider].indexOf(user.id) > -1
-                    ? 1
-                    : 0;
-            const c_args = [
-                user.provider,
-                user.id,
-                user.displayName,
-                user.username || user.displayName,
-                user.profileUrl || '',
-                trusted
-            ];
-            db.run(queries.create_user, c_args, (err, res) => {
-                if (err) return console.error('could not create user', err);
-                db.get(queries.find_user, [user.provider, user.id], (err, row) => {
-                    if (err) return console.error('could not find user', err);
-                    if (row) return done(null, row);
-                    console.error('no user found after insert');
-                });
-            });
+    passport.serializeUser(async (user, done) => {
+        const existingUser = await db.get(queries.find_user, [user.provider, user.id]).catch(err => {
+            console.error('could not find user', err);
+            throw err;
         });
+
+        if (existingUser) return done(null, existingUser); // welcome back
+        // nice to meet you, new user!
+        // check if id shows up in auto-trust config
+        var trusted =
+            trustConfig &&
+            trustConfig[user.provider] &&
+            trustConfig[user.provider].indexOf(user.id) > -1
+                ? 1
+                : 0;
+        const c_args = [
+            user.provider,
+            user.id,
+            user.displayName,
+            user.username || user.displayName,
+            user.profileUrl || '',
+            trusted
+        ];
+        await db.run(queries.create_user, c_args).catch(err => {
+            console.error('could not create user', err);
+            throw err;
+        });
+        const newUser = await db.get(queries.find_user, [user.provider, user.id]).catch(err => {
+            console.error('could not find user after insert', err);
+            throw err;
+        });
+        if (newUser) {
+            return done(null, newUser);
+        }
+        console.error('no user found after insert');
     });
 
     passport.deserializeUser((user, done) => {

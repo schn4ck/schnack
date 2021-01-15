@@ -55,17 +55,17 @@ function checkOrigin(origin, callback) {
     callback(new Error('Not allowed by CORS'));
 }
 
-function checkValidComment(db, slug, user_id, comment, replyTo, callback) {
-    if (comment.trim() === '') return callback(new Error("the comment can't be empty"));
+async function checkValidComment(db, slug, user_id, comment, replyTo) {
+    if (comment.trim() === '') throw new Error("the comment can't be empty");
     // check duplicate comment
-    db.get(queries.get_last_comment, [slug], (err, row) => {
-        if (err) return callback(err);
+    try {
+        const row = await db.get(queries.get_last_comment, [slug]);
         if (row && row.comment.trim() === comment && row.user_id === user_id) {
-            return callback(new Error('the exact comment has been entered before'));
+            throw new Error('the exact comment has been entered before');
         }
-        // @todo: check for cyclic replies
-        callback(null);
-    });
+    } catch (err) {
+        throw err;
+    }
 }
 
 function getSchnackDomain() {

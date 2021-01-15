@@ -21,8 +21,8 @@ module.exports = ({ config, host, app, db, queries, events }) => {
         notify({ notifier, page_url }) {
             webpush.setVapidDetails(host, config.vapid_public_key, config.vapid_private_key);
 
-            notifier.push((msg, callback) => {
-                db.each(
+            notifier.push(async msg => {
+                await db.each(
                     queries.get_subscriptions,
                     (err, row) => {
                         if (err) return console.error(err);
@@ -42,8 +42,7 @@ module.exports = ({ config, host, app, db, queries, events }) => {
                                 clickTarget: msg.url
                             })
                         );
-                    },
-                    callback
+                    }
                 );
             });
 
@@ -59,22 +58,26 @@ module.exports = ({ config, host, app, db, queries, events }) => {
             );
 
             // push notifications
-            app.post('/subscribe', (request, reply) => {
+            app.post('/subscribe', async (request, reply) => {
                 const { endpoint, publicKey, auth } = request.body;
 
-                db.run(queries.subscribe, endpoint, publicKey, auth, err => {
-                    if (error(err, request, reply)) return;
+                try {
+                    await db.run(queries.subscribe, endpoint, publicKey, auth);
                     reply.send({ status: 'ok' });
-                });
+                } catch (err) {
+                    error(err, request, reply);
+                }
             });
 
-            app.post('/unsubscribe', (request, reply) => {
+            app.post('/unsubscribe', async (request, reply) => {
                 const { endpoint } = request.body;
 
-                db.run(queries.unsubscribe, endpoint, err => {
-                    if (error(err, request, reply)) return;
+                try {
+                    await db.run(queries.unsubscribe, endpoint);
                     reply.send({ status: 'ok' });
-                });
+                } catch (err) {
+                    error(err, request, reply);
+                }
             });
         }
     };

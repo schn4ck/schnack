@@ -27,11 +27,11 @@ function init(app, db, awaiting_moderation) {
             next();
             awaiting_moderation.length = 0;
         }
-        function next(err) {
+        async function next(err) {
             const k = Object.keys(bySlug)[0];
             if (!k || err) return;
-            db.get(queries.get_settings, 'notification', (err, row) => {
-                if (err) console.error(err.message);
+            try {
+                const row = await db.get(queries.get_settings, 'notification');
                 const cnt = bySlug[k];
                 const msg = {
                     message: `${cnt} new comment${
@@ -44,7 +44,9 @@ function init(app, db, awaiting_moderation) {
                 setTimeout(() => {
                     notifier.forEach(f => f(msg, next));
                 }, 1000);
-            });
+            } catch (err) {
+                console.error(err.message);
+            }
         }
     }, config.get('notification_interval'));
 
