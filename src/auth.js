@@ -87,7 +87,7 @@ function init(app, db, domain) {
 function getAuthorUrl(comment) {
     if (comment.user_url) return comment.user_url;
     for (let i = 0; i < authPlugins.length; i++) {
-        if (typeof authPlugins[i].getAuthorUrl === 'function') {
+        if (authPlugins[i] && typeof authPlugins[i].getAuthorUrl === 'function') {
             const url = authPlugins[i].getAuthorUrl(comment);
             if (url) return url;
         }
