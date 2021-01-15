@@ -73,7 +73,9 @@ async function run(db) {
                 const m = moment.utc(c.created_at);
                 c.created_at_s = date_format ? m.format(date_format) : m.fromNow();
                 c.comment = insane(marked(c.comment.trim()));
-                c.author_url = auth.getAuthorUrl(c);
+                if (!c.author_url) {
+                    c.author_url = auth.getAuthorUrl(c);
+                }
             });
             reply.send({ user, auth: providers, slug, comments });
         } catch (err) {
