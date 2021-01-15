@@ -1,5 +1,6 @@
 const path = require('path');
-const db = require('sqlite');
+const { open } = require('sqlite');
+const sqlite3 = require('sqlite3');
 const config = require('../config');
 const conf = config.get('database');
 
@@ -8,7 +9,7 @@ function init() {
     const dbname = conf.comments || conf;
     const dbpath = path.resolve(process.cwd(), dbname);
 
-    return Promise.resolve(db.open(dbpath, { Promise }))
+    return Promise.resolve(open({ filename: dbpath, driver: sqlite3.Database }))
         .then(db =>
             db.migrate({
                 migrationsPath: path.resolve(__dirname, '../../migrations'),
@@ -16,7 +17,6 @@ function init() {
                 force: false
             })
         )
-        .then(db => db.driver) // @FIXME
         .catch(err => console.error(err));
 }
 
