@@ -86,6 +86,44 @@ You will find further information on the [schnack page](https://schnack.cool/).
 
 Authentication and notification providers can be added via plugins.
 
+```sh
+npm install @schnack/plugin-auth-github  @schnack/plugin-auth-google @schnack/plugin-notify-slack
+```
+
+To enable the plugins you need to add them to the `plugins` section of your `schnack.json`:
+
+```json
+{
+    // ...
+    "plugins": {
+        "auth-github": {
+            "client_id": "xxxxx",
+            "client_secret": "xxxxx"
+        },
+        "auth-google": {
+            "client_id": "xxxxx",
+            "client_secret": "xxxxx"
+        },
+        "notify-slack": {
+            "webhook_url": "xxxxx"
+        }
+    }
+}
+```
+
+if you want to write your own plugins you need to install them and specify their package name in the `schnack.json`. Otherwise Schnack would try to load as from `@schnack/plugin-my-plugin`.
+
+```json
+{
+    // ...
+    "plugins": {
+        "my-plugin": {
+            "pkg": "my-schnack-plugin",
+            // ...
+        }
+    }
+}
+
 ### Who is behind Schnack?
 
 Schnack is [yet another](https://github.com/gka/canvid/) happy collaboration between [Webkid](https://webkid.io/) and [Gregor Aisch](https://www.vis4.net).

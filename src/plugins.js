@@ -12,7 +12,7 @@ module.exports = {
     loadPlugins({ db, app }) {
         // load plugins
         Object.keys(pluginConfig).forEach(pluginId => {
-            const plugin = loadPlugin(pluginId);
+            const plugin = loadPlugin(pluginId, pluginConfig[pluginId]);
             if (typeof plugin === 'function') {
                 // eslint-disable-next-line no-console
                 console.log(`successfully loaded plugin ${pluginId}`);
@@ -32,14 +32,15 @@ module.exports = {
     plugins
 };
 
-function loadPlugin(pluginId) {
+function loadPlugin(pluginId, cfg) {
     if (fs.existsSync(path.join(__dirname, `./plugins/${pluginId}/index.js`))) {
         // local plugin
         return require(`./plugins/${pluginId}`);
     } else {
         // npm require (plugin need to be installed via npm first)
         try {
-            return require(`schnack-plugin-${pluginId}`);
+            const packageName = cfg.pkg || `@schnack/plugin-${pluginId}`;
+            return require(packageName);
         } catch (err) {
             console.warn(`could not load plugin ${pluginId}`);
         }
