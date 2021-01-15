@@ -3,7 +3,7 @@
 Two major things have changed in version 1.0: the way Schnack is being installed and the name and format of the config file.
 
 -   create a new folder for schnack
--   copy your old `schnack.db` to the new folder
+-   copy your old database files to the new folder (e.g., `comments.db` and `sessions.db`)
 -   copy your old `config.json` to the new folder
 -   rename `config.json` to `schnack.json`
 -   in the config file you need to move the config sections for the auth and notify providers into the new `plugins` section.
