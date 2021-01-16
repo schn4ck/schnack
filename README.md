@@ -152,3 +152,17 @@ This is not a new idea, so there are a few projects that are doing almost the sa
 -   [Isso](https://github.com/posativ/isso/) - Python + SQLite3
 -   [Mouthful](https://mouthful.dizzy.zone) – Go + Preact
 
+### Developer notes
+
+If you want to run your Schnack server on https on localhost, add the following section to your `schnack.json`:
+
+```js
+{
+    "ssl": {
+        "certificate_path": "./certs/local.crt",
+        "certificate_key": "./certs/local.key"
+    }
+}
+```
+
+If you want to contribute further plugins, check out the source code for the existing plugins first. We happily accept pull requests on [schnack-plugins](https://github.com/schn4ck/schnack-plugins).

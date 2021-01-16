@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+/* eslint no-console: "off" */
 const express = require('express');
 const app = express();
 const cors = require('cors');
@@ -129,7 +130,7 @@ async function run(db) {
             const action = request.params[1] || request.params[3];
             const target_id = +(request.params[0] || request.params[2]);
             try {
-                await db.run(queries[action], target_id)
+                await db.run(queries[action], target_id);
                 reply.send({ status: 'ok' });
             } catch (err) {
                 error(err, request, reply);
@@ -158,19 +159,16 @@ async function run(db) {
             site_url: config.get('schnack_host')
         });
         try {
-            await db.each(
-                queries.awaiting_moderation,
-                (err, row) => {
-                    if (err) console.error(err.message);
-                    feed.item({
-                        title: `New comment on "${row.slug}"`,
-                        description: `A new comment on "${row.slug}" is awaiting moderation`,
-                        url: row.slug + '/' + row.id,
-                        guid: row.slug + '/' + row.id,
-                        date: row.created_at
-                    });
-                }
-            );
+            await db.each(queries.awaiting_moderation, (err, row) => {
+                if (err) console.error(err.message);
+                feed.item({
+                    title: `New comment on "${row.slug}"`,
+                    description: `A new comment on "${row.slug}" is awaiting moderation`,
+                    url: row.slug + '/' + row.id,
+                    guid: row.slug + '/' + row.id,
+                    date: row.created_at
+                });
+            });
             reply.send(feed.xml({ indent: true }));
         } catch (err) {
             console.error(err);
@@ -190,7 +188,7 @@ async function run(db) {
         if (!isAdmin(user)) return reply.status(403).send(request.params);
         const setting = value ? 1 : 0;
         try {
-            await db.run(queries.set_settings, [property, setting])
+            await db.run(queries.set_settings, [property, setting]);
             reply.send({ status: 'ok' });
         } catch (err) {
             error(err, request, reply);
@@ -204,8 +202,28 @@ async function run(db) {
         );
     }
 
-    var server = app.listen(config.get('port'), config.get('host'), err => {
-        if (err) throw err;
-        console.error(`server listening on ${server.address().port}`);
-    });
+    const configSsl = config.get('ssl');
+    let server;
+
+    if (configSsl && configSsl.certificate_path) {
+        const https = require('https');
+        const fs = require('fs');
+
+        const sslOptions = {
+            key: fs.readFileSync(configSsl.certificate_key),
+            cert: fs.readFileSync(configSsl.certificate_path),
+            requestCert: false,
+            rejectUnauthorized: false
+        };
+
+        server = https.createServer(sslOptions, app);
+        server.listen(config.get('port'), () => {
+            console.log(`server listening on ${server.address().port}`);
+        });
+    } else {
+        server = app.listen(config.get('port'), config.get('host'), err => {
+            if (err) throw err;
+            console.log(`server listening on ${server.address().port}`);
+        });
+    }
 }
