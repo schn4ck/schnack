@@ -23,7 +23,7 @@ This is the fastest way to setup _schnack_.
 
 **Requirements**:
 
--   Node.js (>= v6)
+-   Node.js (>= v8)
 -   npm (>= v5)
 
 Create a new folder for schnack and change into it:
@@ -31,7 +31,7 @@ Create a new folder for schnack and change into it:
 ```bash
 mkdir schnack
 cd schnack
-npm init schnack -- --tag=alpha
+npm init schnack
 ```
 
 Since no `schnack.json` has been found in your folder, the init script copied over the default config.

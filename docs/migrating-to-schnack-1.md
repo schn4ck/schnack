@@ -6,7 +6,9 @@ Two major things have changed in version 1.0: the way Schnack is being installed
 -   copy your old database files to the new folder (e.g., `comments.db` and `sessions.db`)
 -   copy your old `config.json` to the new folder
 -   rename `config.json` to `schnack.json`
--   in the config file you need to move the config sections for the auth and notify providers into the new `plugins` section.
+-   in the config file you need to move the config sections for the auth and notify providers into the new `plugins` section (see below)
+-   then run `npm init schnack` in your new folder
+-   start schnack with `npm start`
 
 Before:
 
