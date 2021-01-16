@@ -134,6 +134,7 @@ Feel free to open a PR on [schnack-plugins](https://github.com/schn4ck/schnack-p
 Schnack is [yet another](https://github.com/gka/canvid/) happy collaboration between [Webkid](https://webkid.io/) and [Gregor Aisch](https://www.vis4.net), with amazing contributions from:
 
 * [Jerram Digital](https://jerram.co.uk/)
+* [Levi Wheatcroft](https://github.com/leviwheatcroft)
 
 ### Who is using Schnack?
 
