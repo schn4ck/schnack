@@ -50,9 +50,6 @@ function init(app, db, awaiting_moderation) {
         }
     }, config.get('notification_interval'));
 
-    // serve static js files
-    app.use('/embed.js', send_file(path.resolve(__dirname, '../build/embed.js')));
-    app.use('/client.js', send_file(path.resolve(__dirname, '../build/client.js')));
 }
 
 module.exports = {

@@ -22,7 +22,10 @@ export default [{
         file: 'build/embed.js',
         format: 'iife'
     },
-    plugins
+    plugins,
+    watch: {
+        clearScreen: false
+    }
 }, {
     input: 'src/embed/client.js',
     output: {
@@ -30,5 +33,8 @@ export default [{
         format: 'umd',
         name: 'Schnack'
     },
-    plugins
+    plugins,
+    watch: {
+        clearScreen: false
+    }
 }];

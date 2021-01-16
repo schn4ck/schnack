@@ -4,13 +4,22 @@ const queries = require('./db/queries');
 const config = require('./config');
 
 const schnack_domain = getSchnackDomain();
-function send_file(file, admin_only) {
-    return send_string(fs.readFileSync(file, 'utf-8'), admin_only);
+function sendFile(file, adminOnly, devMode) {
+    return devMode ? function(request, reply, next) {
+            if (adminOnly) {
+                const user = getUser(request) || {};
+                if (!user.admin) return next();
+            }
+            if (request.baseUrl.endsWith('.js')) {
+                reply.header('Content-Type', 'application/javascript');
+            }
+            reply.send(fs.readFileSync(file, 'utf-8'));
+        } : sendString(fs.readFileSync(file, 'utf-8'), adminOnly);
 }
 
-function send_string(body, admin_only) {
+function sendString(body, adminOnly) {
     return function(request, reply, next) {
-        if (admin_only) {
+        if (adminOnly) {
             const user = getUser(request) || {};
             if (!user.admin) return next();
         }
@@ -91,8 +100,8 @@ function getSchnackDomain() {
 }
 
 module.exports = {
-    send_file,
-    send_string,
+    sendFile,
+    sendString,
     error,
     getUser,
     isAdmin,

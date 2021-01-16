@@ -56,6 +56,12 @@ Run the server:
 npm start
 ```
 
+If you want to try out Schnack on localhost (without authentication), run
+
+```bash
+npm start -- --dev
+```
+
 Embed in your HTML page:
 
 ```html
@@ -168,4 +174,10 @@ If you want to run your Schnack server on https on localhost, add the following 
 }
 ```
 
-If you want to contribute further plugins, check out the source code for the existing plugins first. We happily accept pull requests on [schnack-plugins](https://github.com/schn4ck/schnack-plugins).
+To test changes on the `embed.js` and `client.js` templates you can open a local test server with minimal styles and by-passed authentication using
+
+```bash
+npm run dev
+```
+
+We're veIf you want to contribute additional **plugins**, check out the source code for the existing plugins first. We happily accept pull requests on [schnack-plugins](https://github.com/schn4ck/schnack-plugins).

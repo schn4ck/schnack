@@ -7,18 +7,40 @@
 
   </style>
   <link rel="stylesheet" type="text/css" href="schnack-icons.css">
+  <link rel="stylesheet" type="text/css" href="schnack.css">
+  <style type="text/css">
+    body {
+      background: #f4f4f4;
+    }
+    h1 {
+      font-size: 36px;
+      border-bottom: 3px solid #FFB962;
+      width: 100%;
+      display: block;
+    }
+    .container {
+      font-family: -apple-system,BlinkMacSystemFont,Roboto,Segoe UI,Helvetica,Arial,sans-serif,Apple Color Emoji,Segoe UI Emoji;
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 40px;
+      background: white;
+    }
+  </style>
 </head>
 <body>
     <script type="text/javascript"
-        src="http://localhost:3000/embed.js"
-        data-schnack-host="//localhost:3000"
+        src="{{ protocol }}://localhost:{{ port }}/embed.js"
+        data-schnack-host="{{ protocol }}:localhost:{{ port }}"
         data-schnack-slug="foo"
         data-schnack-target="#my-comments"
         data-schnack-partial-reply="Answer to this comment"
         data-schnack-partial-post-comment="Write your comment here. But remember to be nice :)"
         data-schnack-partial-login-status="You are signed in as <b>%USER%</b> (<a class='schnack-signout' href='#'>sign out</a>)"
     ></script>
-    Comments:
-    <div id="my-comments"></div>
+    <div class="container">
+      <img src="https://schnack.cool/schnack-logo_small.jpg" alt="Schnack logo" />
+      <h1>schnack<span style="color:#FFB962">!</span> test page</h1>
+      <div id="my-comments"></div>
+    </div>
 </body>
 </html>

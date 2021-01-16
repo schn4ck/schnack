@@ -1,5 +1,7 @@
 #!/usr/bin/env node
 /* eslint no-console: "off" */
+const fs = require('fs');
+const path = require('path');
 const express = require('express');
 const app = express();
 const cors = require('cors');
@@ -9,6 +11,7 @@ const moment = require('moment');
 const RSS = require('rss');
 const marked = require('marked');
 const insane = require('insane');
+const jst = require('jst');
 
 const dbHandler = require('./db');
 const queries = require('./db/queries');
@@ -19,6 +22,7 @@ const schnackEvents = require('./events');
 const {
     error,
     getUser,
+    sendFile,
     isAdmin,
     checkOrigin,
     checkValidComment,
@@ -29,6 +33,8 @@ const config = require('./config');
 
 const awaiting_moderation = [];
 
+const DEV_MODE = process.argv.includes('--dev') || config.get('dev');
+
 dbHandler
     .init()
     .then(db => run(db))
@@ -38,7 +44,7 @@ async function run(db) {
     app.use(
         cors({
             credentials: true,
-            origin: checkOrigin
+            origin: DEV_MODE ? '*' : checkOrigin
         })
     );
 
@@ -52,6 +58,10 @@ async function run(db) {
     auth.init(app, db, getSchnackDomain());
     // init push notification plugins
     notify.init(app, db, awaiting_moderation);
+
+    // serve static js files
+    app.use('/embed.js', sendFile(path.resolve(__dirname, '../build/embed.js'), false, DEV_MODE));
+    app.use('/client.js', sendFile(path.resolve(__dirname, '../build/client.js'), false, DEV_MODE));
 
     app.get('/comments/:slug', async (request, reply) => {
         const { slug } = request.params;
@@ -146,6 +156,25 @@ async function run(db) {
         </script>`);
     });
 
+    if (DEV_MODE) {
+        app.get('/', (request, reply) => {
+            const testPage = jst.compile(
+                fs.readFileSync(path.join(__dirname, '../test/index.html'), 'utf-8')
+            );
+            reply.send(
+                testPage({
+                    protocol: config.get('ssl') ? 'https' : 'http',
+                    port: config.get('port')
+                })
+            );
+        });
+        app.use(express.static('test'));
+    } else {
+        app.get('/', (request, reply) => {
+            reply.send({ test: 'ok' });
+        });
+    }
+
     app.get('/', (request, reply) => {
         reply.send({ test: 'ok' });
     });
@@ -195,7 +224,7 @@ async function run(db) {
         }
     });
 
-    if (config.get('dev')) {
+    if (DEV_MODE) {
         // create dev user for testing purposes
         await db.run(
             'INSERT OR IGNORE INTO user (id,name,blocked,trusted,created_at) VALUES (1,"dev",0,1,datetime())'
@@ -204,6 +233,13 @@ async function run(db) {
 
     const configSsl = config.get('ssl');
     let server;
+
+    function done() {
+        console.log(`server listening on ${server.address().port}`);
+        if (DEV_MODE) {
+            console.log(`you can now try out schnack at \x1b[37mhttp${configSsl ? 's' : ''}://localhost:${server.address().port}\x1b[0m\n`);
+        }
+    }
 
     if (configSsl && configSsl.certificate_path) {
         const https = require('https');
@@ -217,13 +253,11 @@ async function run(db) {
         };
 
         server = https.createServer(sslOptions, app);
-        server.listen(config.get('port'), () => {
-            console.log(`server listening on ${server.address().port}`);
-        });
+        server.listen(config.get('port'), done);
     } else {
         server = app.listen(config.get('port'), config.get('host'), err => {
             if (err) throw err;
-            console.log(`server listening on ${server.address().port}`);
+            done();
         });
     }
 }

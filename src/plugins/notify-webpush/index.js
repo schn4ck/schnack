@@ -1,7 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 const webpush = require('web-push');
-const { send_string, error } = require('../../helper');
+const { sendString, error } = require('../../helper');
 
 module.exports = ({ config, host, app, db, queries, events }) => {
     if (!config.vapid_public_key) {
@@ -48,7 +48,7 @@ module.exports = ({ config, host, app, db, queries, events }) => {
 
             app.use(
                 '/push.js',
-                send_string(
+                sendString(
                     fs
                         .readFileSync(path.resolve(__dirname, '../../embed/push.js'), 'utf-8')
                         .replace('%VAPID_PUBLIC_KEY%', config.vapid_public_key)
