@@ -11,7 +11,7 @@ const CWD = process.env.INIT_CWD || process.cwd();
 async function setup() {
     // load default config from github
     const res = await fetch(
-        'https://raw.githubusercontent.com/schn4ck/schnack/feature/plugins/schnack.tpl.json'
+        'https://raw.githubusercontent.com/schn4ck/schnack/master/schnack.tpl.json'
     );
     const defaultConfig = await res.json();
 
