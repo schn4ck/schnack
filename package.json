@@ -37,7 +37,8 @@
         "test-server": "node index.js --dev",
         "server": "NODE_ENV=development nodemon index.js",
         "import": "node src/importer.js",
-        "dev": "node index.js --dev & rollup -cw"
+        "dev": "node index.js --dev & rollup -cw",
+        "version": "conventional-changelog -p angular -i CHANGELOG.md -s && git add CHANGELOG.md"
     },
     "repository": "git@github.com:gka/schnack.git",
     "dependencies": {
@@ -63,6 +64,7 @@
         "@rollup/plugin-commonjs": "^17.0.0",
         "@rollup/plugin-node-resolve": "^11.1.0",
         "babel-eslint": "^10.1.0",
+        "conventional-changelog-cli": "^2.1.1",
         "healthier": "^2.0.0",
         "http-server": "^0.12.3",
         "jst": "0.0.13",
