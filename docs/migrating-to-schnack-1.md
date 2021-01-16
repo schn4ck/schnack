@@ -1,6 +1,6 @@
-### Migrating to Schnack 1.0
+# Migrating from Schnack 0.x to 1.x
 
-Two major things have changed in version 1.0: the way Schnack is being installed and the name and format of the config file.
+Two major things have changed in version 1.0: the way Schnack is being installed and the name and format of the config file. Also all the authentication and notification providers are now [plugins](https://github.com/schn4ck/schnack-plugins/)!
 
 -   Create a new folder for schnack
 -   Copy your old database files to the new folder (e.g., `comments.db` and `sessions.db`)

@@ -26,7 +26,7 @@ This is the fastest way to setup _schnack_.
 **Requirements**:
 
 -   Node.js (>= v8)
--   npm (>= v5)
+-   npm (>= v6)
 
 Create a new folder for schnack and change into it:
 
