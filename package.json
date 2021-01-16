@@ -38,7 +38,7 @@
         "server": "NODE_ENV=development nodemon index.js",
         "import": "node src/importer.js",
         "dev": "node index.js --dev & rollup -cw",
-        "version": "conventional-changelog -p angular -i CHANGELOG.md -s && git add CHANGELOG.md"
+        "version": "conventional-changelog -p conventionalcommits -i CHANGELOG.md -s && git add CHANGELOG.md"
     },
     "repository": "git@github.com:gka/schnack.git",
     "dependencies": {
