@@ -181,3 +181,5 @@ npm run dev
 ```
 
 We're veIf you want to contribute additional **plugins**, check out the source code for the existing plugins first. We happily accept pull requests on [schnack-plugins](https://github.com/schn4ck/schnack-plugins).
+
+This project used [Conventional Commits](https://www.conventionalcommits.org/).
