@@ -34,9 +34,9 @@ cd schnack
 npm init schnack
 ```
 
-Since no `schnack.json` has been found in your folder, the init script copied over the default config.
+if there is no `schnack.json` in this folder, the init script copied over the default config and ask you if you want to configure your server interactively.
 
-Now edit the config file according to [configuration](https://schnack.cool/#configuration) section:
+alternatively you can just edit the config file according to [configuration](https://schnack.cool/#configuration) section:
 
 ```bash
 vim schnack.json                 # or open with any editor of your choice

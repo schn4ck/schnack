@@ -12,7 +12,12 @@
         "test": "echo \"Error: no test specified\" && exit 1"
     },
     "dependencies": {
-        "find-up": "^3.0.0"
+        "chalk": "^4.1.0",
+        "find-up": "^3.0.0",
+        "nanoid": "^3.1.20",
+        "node-fetch": "^2.6.1",
+        "prompt-checkbox": "^2.2.0",
+        "prompt-choices": "^5.0.0"
     },
     "prettier": {
         "tabWidth": 4,
@@ -43,6 +48,7 @@
     },
     "devDependencies": {
         "babel-eslint": "^10.0.1",
+        "enquirer": "^2.3.6",
         "healthier": "^2.0.0",
         "prettier": "^1.16.4"
     }
