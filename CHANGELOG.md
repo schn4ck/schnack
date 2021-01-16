@@ -1,9 +1,19 @@
+## [1.2.0](https://github.com/gka/schnack/compare/v1.1.0...v1.2.0) (2021-01-16)
+
+### Features
+
+* simplified local development with `npm run dev` ([c0414f5](https://github.com/gka/schnack/commit/c0414f59aac1145fd3ebaa0a6df5e83077c30d10))
+
 ## [1.1.0](https://github.com/gka/schnack/compare/v0.2.3...v1.1.0) (2021-01-16)
 
-### [0.2.3](https://github.com/gka/schnack/compare/v0.2.2...v0.2.3) (2020-05-24)
+* add https support for testing on localhost (thx @danmenzies-jerram) ([9d90030](https://github.com/gka/schnack/commit/9d90030))
+* simple plugin system for schnack (#99) ([9c31858](https://github.com/gka/schnack/commit/9c31858)), closes [#99](https://github.com/gka/schnack/issues/99)
 
-### [0.2.2](https://github.com/gka/schnack/compare/v0.1.4...v0.2.2) (2019-03-05)
+## [0.2.3](https://github.com/gka/schnack/compare/v0.2.2...v0.2.3) (2020-05-24)
 
+* deprecated google api replacement ([6eb2eca](https://github.com/gka/schnack/commit/6eb2eca))
+
+## [0.2.2](https://github.com/gka/schnack/compare/v0.1.4...v0.2.2) (2019-03-05)
 
 ### Features
 
