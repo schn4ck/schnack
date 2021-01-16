@@ -1,11 +1,11 @@
 {
     "schnack_host": "https://schnack.example.com",
     "page_url": "https://blog.example.com/posts/%SLUG%",
+    "port": 3000,
     "database": {
         "comments": "comments.db",
         "sessions": "sessions.db"
     },
-    "port": 3000,
     "admins": [1],
     "plugins": {
         "auth-twitter": {
@@ -38,6 +38,10 @@
         },
         "notify-slack": {
             "webhook_url": "xxxxx"
+        },
+        "notify-sendmail": {
+            "to": "admin@blog.example.com",
+            "from": "schnack@blog.example.com"
         }
     },
     "oauth": {
