@@ -1,6 +1,6 @@
 {
     "name": "schnack",
-    "version": "1.0.0-9",
+    "version": "1.0.0",
     "description": "a simple node app for disqus-like drop-in commenting on static websites",
     "license": "LicenseRef-LICENSE",
     "author": "Gregor Aisch",
