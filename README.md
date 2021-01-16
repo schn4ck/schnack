@@ -19,6 +19,8 @@ Features:
 
 ### Quickstart
 
+*Note: If you are updating Schnack from a 0.x version check out the separate [upgrade instructions](docs/migrating-to-schnack-1.md).*
+
 This is the fastest way to setup _schnack_.
 
 **Requirements**:
