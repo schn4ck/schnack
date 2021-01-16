@@ -21,10 +21,14 @@
 </div>
 <% } else { %>
 <div class="schnack-signin">
+<% if (!data.auth.length) { %>
+<%= data.partials.NoAuthProviders %>
+<% } else { %>
 <%= data.partials.SignInVia %><br>
 <% data.auth.forEach((provider, i) => {  %>
     <%= i ? data.partials.Or : '' %><button class="schnack-signin-<%= provider.id %>"><i class="icon schnack-icon-<%= provider.id %>"></i> <%= provider.name %></button>
 <% }) %>
+<% } %>
 <% } %>
 </div>
 <%

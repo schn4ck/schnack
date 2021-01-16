@@ -1,0 +1,52 @@
+{
+    "name": "create-schnack",
+    "version": "0.3.2",
+    "description": "",
+    "license": "LicenseRef-LICENSE",
+    "author": "Gregor Aisch <gka@users.noreply.github.com>",
+    "main": "index.js",
+    "bin": "index.js",
+    "scripts": {
+        "format": "prettier '*.js' --write",
+        "lint": "prettier --check '*.{js,html}' && healthier '*.{js,html}'",
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "dependencies": {
+        "chalk": "^4.1.0",
+        "enquirer": "^2.3.6",
+        "nanoid": "^3.1.20",
+        "node-fetch": "^2.6.1"
+    },
+    "prettier": {
+        "tabWidth": 4,
+        "semi": true,
+        "printWidth": 100,
+        "singleQuote": true
+    },
+    "eslintConfig": {
+        "parser": "babel-eslint",
+        "rules": {
+            "no-console": [
+                "error",
+                {
+                    "allow": [
+                        "warn",
+                        "error"
+                    ]
+                }
+            ],
+            "camelcase": [
+                "warn",
+                {
+                    "ignoreDestructuring": true,
+                    "properties": "never"
+                }
+            ]
+        }
+    },
+    "devDependencies": {
+        "babel-eslint": "^10.0.1",
+        "healthier": "^2.0.0",
+        "prettier": "^1.16.4"
+    }
+}
