@@ -49,7 +49,7 @@
         "express-session": "^1.17.1",
         "insane": "^2.6.2",
         "lodash.countby": "^4.6.0",
-        "marked": "^1.2.7",
+        "marked": "^2.0.0",
         "moment": "^2.29.1",
         "nconf": "^0.11.1",
         "passport": "^0.4.1",
