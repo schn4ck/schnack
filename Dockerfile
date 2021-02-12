@@ -1,4 +1,4 @@
-FROM node:boron
+FROM node:lts-buster
 
 WORKDIR /usr/src/app
 COPY package.json package-lock.json ./
