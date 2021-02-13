@@ -1,5 +1,11 @@
 # schnack.js
 
+Forked from schn4ck/schnack, for detailed documentation, please refer there.
+
+This is a docker friendly version with their changes.
+
+I am trying to make it up-to-date as much as possible.
+
 [Schnack](https://dict.leo.org/englisch-deutsch/schnack) is a simple Disqus-like drop-in commenting system written in JavaScript.
 
 -   [Documentation](https://schnack.cool/)
