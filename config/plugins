@@ -1,0 +1,4 @@
+# Sample plugin file
+
+#npm install @schnack/plugin-auth-github
+#npm install @schnack/plugin-auth-twitter
