@@ -16,4 +16,3 @@ COPY . .
 
 EXPOSE 3000
 CMD ./init.sh
-#CMD [ "npm", "run", "server" ]

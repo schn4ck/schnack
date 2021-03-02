@@ -10,6 +10,13 @@ then
   echo "Done installing plugins"
 fi
 
+if [ "x$NODE_ENV" = "x" ]
+then
+	NODE_ENV=production
+fi
+
+export NODE_ENV
+
 if [ "x$PUID" = "x" ]
 then
   echo "Run server"
@@ -22,6 +29,6 @@ else
     echo "Cannot create user"
     exit 1
   else
-    su - appuser -c "cd /usr/src/app && npm run server"
+    export NODE_ENV && su - appuser -c "export NODE_ENV=$NODE_ENV && cd /usr/src/app && npm run server"
   fi
 fi
