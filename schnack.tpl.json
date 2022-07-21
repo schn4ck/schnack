@@ -3,8 +3,8 @@
     "page_url": "https://blog.example.com/posts/%SLUG%",
     "port": 3000,
     "database": {
-        "comments": "comments.db",
-        "sessions": "sessions.db"
+        "comments": "data/comments.db",
+        "sessions": "data/sessions.db"
     },
     "admins": [1],
     "plugins": {

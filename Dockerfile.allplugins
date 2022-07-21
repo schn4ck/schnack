@@ -1,0 +1,18 @@
+FROM node:lts-buster
+
+WORKDIR /usr/src/app
+COPY package.json package-lock.json ./
+RUN npm install
+RUN npm install @schnack/plugin-auth-github
+RUN npm install @schnack/plugin-auth-twitter
+RUN npm install @schnack/plugin-auth-google
+RUN npm install @schnack/plugin-auth-mastodon
+RUN npm install @schnack/plugin-auth-facebook
+RUN npm install @schnack/plugin-notify-pushover
+RUN npm install @schnack/plugin-notify-sendmail
+RUN npm install @schnack/plugin-notify-slack
+
+COPY . .
+
+EXPOSE 3000
+CMD ./init.sh
